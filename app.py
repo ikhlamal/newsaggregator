@@ -1,5 +1,6 @@
 import streamlit as st
 import feedparser
+import requests  # Tambahkan baris ini
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
