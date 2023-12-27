@@ -46,27 +46,50 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
+    # Cetak satu berita
+    entry = feed.entries[0]
+
+    # Dapatkan thumbnail URL dari halaman berita
+    thumbnail_url = get_news_thumbnail(entry.link)
+
     # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
     cols = st.columns(4)
 
-    for i, col in enumerate(cols):
-        entry = feed.entries[i]
-        summary = entry.summary
+    # Kolom pertama (berita utama)
+    if thumbnail_url:
+        cols[0].markdown(
+            f"""
+            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; height: auto; margin-bottom: 10px;">
+                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
+                <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-        # Dapatkan thumbnail URL dari halaman berita
-        thumbnail_url = get_news_thumbnail(entry.link)
+    # Kolom 2, 3, dan 4 (berita terkait)
+    if 'summary' in entry:
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')
+        for i, summary in enumerate(summaries[:3]):  # Ambil 3 berita terkait pertama
+            link = summary.get('href')
+            title = summary.get_text(strip=True)
+            source = summary.find_next('font').get_text(strip=True)
 
-        if thumbnail_url:
-            col.markdown(
-                f"""
-                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                    <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; height: auto; margin-bottom: 10px;">
-                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                    <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {entry.source.title}</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            thumbnail_url_related = get_news_thumbnail(link)
+
+            if thumbnail_url_related:
+                cols[i + 1].markdown(
+                    f"""
+                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 100px; height: auto; margin-bottom: 10px;">
+                        <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
 if __name__ == "__main__":
     main()
