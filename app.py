@@ -16,13 +16,8 @@ def get_news_thumbnail(url):
         return None
 
 def format_time_difference(published_time):
-    # Ubah waktu publikasi ke objek datetime
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
-
-    # Hitung perbedaan waktu antara waktu publikasi dan waktu saat ini
     time_difference = datetime.utcnow() - published_datetime
-
-    # Ubah perbedaan waktu ke format "n jam yang lalu"
     if time_difference < timedelta(minutes=60):
         return f"{int(time_difference.total_seconds() / 60)} menit yang lalu"
     elif time_difference < timedelta(hours=24):
@@ -42,18 +37,23 @@ def main():
     # Dapatkan thumbnail URL dari halaman berita
     thumbnail_url = get_news_thumbnail(entry.link)
 
-    # Tampilkan informasi berita dalam layout Streamlit
+    # Tampilkan informasi berita dalam layout Streamlit dengan border
     col1, col2 = st.columns([1, 2])
 
-    # Kolom pertama (thumbnail)
+    # Kolom pertama (thumbnail) dengan border
     if thumbnail_url:
-        col1.image(thumbnail_url, caption="", use_column_width=True)
+        col1.image(thumbnail_url, caption="", use_column_width=True, output_format="auto", channels="RGB", format="JPEG")
 
-    # Kolom kedua (judul, tanggal, dan link)
+    # Kolom kedua (judul, tanggal, dan link) dengan border
     with col2:
-        st.markdown(f"<h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>", unsafe_allow_html=True)
-        st.markdown(f"<p style='text-align: left;'>{format_time_difference(entry.published)}</p>", unsafe_allow_html=True)
-        st.text("Sumber: " + entry.source.title)
+        st.markdown(
+            f"<div style='border: 2px solid #ccc; padding: 10px; border-radius: 10px;'>"
+            f"<h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>"
+            f"<p style='text-align: left;'>{format_time_difference(entry.published)}</p>"
+            f"<p style='text-align: left;'>Sumber: {entry.source.title}</p>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
 
 if __name__ == "__main__":
     main()
