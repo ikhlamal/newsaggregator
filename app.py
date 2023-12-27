@@ -49,7 +49,7 @@ def main():
         if thumbnail_url:
             col.markdown(
                 f"""
-                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center; margin-bottom: 10px;">
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center; margin-bottom: 10px; margin-right: 10px;">
                     <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 80px; height: auto; margin-right: 10px;">
                     <div style="flex: 1;">
                         <h4 style='text-align: left; font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
