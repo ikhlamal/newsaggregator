@@ -2,6 +2,7 @@ import streamlit as st
 import feedparser
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
 
 def get_news_thumbnail(url):
     response = requests.get(url)
@@ -13,6 +14,21 @@ def get_news_thumbnail(url):
     else:
         print(f"Error: {response.status_code}")
         return None
+
+def format_time_difference(published_time):
+    # Ubah waktu publikasi ke objek datetime
+    published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
+
+    # Hitung perbedaan waktu antara waktu publikasi dan waktu saat ini
+    time_difference = datetime.utcnow() - published_datetime
+
+    # Ubah perbedaan waktu ke format "n jam yang lalu"
+    if time_difference < timedelta(minutes=60):
+        return f"{int(time_difference.total_seconds() / 60)} menit yang lalu"
+    elif time_difference < timedelta(hours=24):
+        return f"{int(time_difference.total_seconds() / 3600)} jam yang lalu"
+    else:
+        return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
 
 def main():
     st.title("Google News RSS Feed")
@@ -36,7 +52,7 @@ def main():
     # Kolom kedua (judul, tanggal, dan link)
     with col2:
         st.markdown(f"<h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>", unsafe_allow_html=True)
-        st.markdown(f"<p style='text-align: left;'>{entry.published}</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='text-align: left;'>{format_time_difference(entry.published)}</p>", unsafe_allow_html=True)
         st.text("Sumber: " + entry.source.title)
 
 if __name__ == "__main__":
