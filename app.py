@@ -41,8 +41,6 @@ def main():
         # Tambahkan hyperlink pada judul
         st.markdown(f"[Baca Berita]({entry.link})")
 
-        st.write(entry.summary)
-
         st.text("Sumber: " + entry.source.title)
 
 if __name__ == "__main__":
