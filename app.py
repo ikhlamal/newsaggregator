@@ -31,12 +31,12 @@ def format_time_difference(published_time):
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
 
 def main():
-    # Tambahkan CSS untuk memperlebar margin halaman
+    # Tambahkan CSS untuk memperlebar lebar konten
     st.markdown(
         """
         <style>
-            body {
-                margin: 20px;
+            .stApp {
+                max-width: 100%;
             }
         </style>
         """,
