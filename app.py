@@ -83,7 +83,7 @@ def main():
                 cols[i + 1].markdown(
                     f"""
                     <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 260px; height: auto; margin-bottom: 10px;">
+                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 260px; max-width: 260px; margin-bottom: 10px;">
                         <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
                         <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
                     </div>
