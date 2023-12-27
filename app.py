@@ -30,35 +30,34 @@ def format_time_difference(published_time):
     else:
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
 
-def display_news_entry(entry):
-    # Dapatkan thumbnail URL dari halaman berita
-    thumbnail_url = get_news_thumbnail(entry.link)
-
-    # Tampilkan informasi berita dalam layout Streamlit dengan border
-    if thumbnail_url:
-        st.markdown(
-            f"""
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center; margin-bottom: 10px;">
-                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 100px; height: auto; margin-right: 15px;">
-                <div>
-                    <h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                    <p style='text-align: left;'>{format_time_difference(entry.published)}</p>
-                    <p style='text-align: left;'>Sumber: {entry.source.title}</p>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
 def main():
     st.title("Google News RSS Feed")
 
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Cetak 4 berita pertama
-    for entry in feed.entries[:4]:
-        display_news_entry(entry)
+    # Cetak satu berita
+    entry = feed.entries[0]
+
+    # Dapatkan thumbnail URL dari halaman berita
+    thumbnail_url = get_news_thumbnail(entry.link)
+
+    # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
+    for _ in range(4):
+        if thumbnail_url:
+            st.markdown(
+                f"""
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center; margin-bottom: 10px;">
+                    <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 100px; height: auto; margin-right: 15px;">
+                    <div>
+                        <h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                        <p style='text-align: left;'>{format_time_difference(entry.published)}</p>
+                        <p style='text-align: left;'>Sumber: {entry.source.title}</p>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
 if __name__ == "__main__":
     main()
