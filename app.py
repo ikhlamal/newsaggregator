@@ -16,13 +16,9 @@ def get_news_thumbnail(url):
         return None
 
 def format_time_difference(published_time):
-    # Ubah waktu publikasi ke objek datetime
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
-
-    # Hitung perbedaan waktu antara waktu publikasi dan waktu saat ini
     time_difference = datetime.utcnow() - published_datetime
 
-    # Ubah perbedaan waktu ke format "n jam yang lalu"
     if time_difference < timedelta(minutes=60):
         return f"{int(time_difference.total_seconds() / 60)} menit yang lalu"
     elif time_difference < timedelta(hours=24):
@@ -31,37 +27,32 @@ def format_time_difference(published_time):
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
 
 def main():
-    # Tambahkan CSS untuk memperlebar lebar konten
-    st.markdown(
-        """
+    st.title("Google News RSS Feed")
+
+    # CSS untuk mengatur lebar aplikasi
+    st.markdown("""
         <style>
-            .stApp {
-                max-width: 100%;
+            .reportview-container {
+                width: 100%;
+                padding-right: 2rem;
+                padding-left: 2rem;
             }
         </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.title("Google News RSS Feed")
+    """, unsafe_allow_html=True)
 
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Cetak satu berita
     entry = feed.entries[0]
-
-    # Dapatkan thumbnail URL dari halaman berita
     thumbnail_url = get_news_thumbnail(entry.link)
 
-    # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
     cols = st.columns(4)
 
     for col in cols:
         if thumbnail_url:
             col.markdown(
                 f"""
-                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center; margin-bottom: 10px; margin-right: 10px;">
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center; margin-bottom: 10px;">
                     <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 80px; height: auto; margin-right: 10px;">
                     <div style="flex: 1;">
                         <h4 style='text-align: left; font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
