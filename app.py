@@ -35,12 +35,8 @@ def main():
 
     # Kolom kedua (judul, tanggal, dan link)
     with col2:
-        st.header(entry.title)
+        st.header(f"[{entry.title}]({entry.link})")
         st.subheader(entry.published)
-
-        # Tambahkan hyperlink pada judul
-        st.markdown(f"[Baca Berita]({entry.link})")
-
         st.text("Sumber: " + entry.source.title)
 
 if __name__ == "__main__":
