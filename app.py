@@ -1,10 +1,18 @@
 import streamlit as st
 import feedparser
+import requests
+from bs4 import BeautifulSoup
 
-def get_news_thumbnail(entry):
-    # Coba mencari thumbnail dalam entri berita
-    thumbnail_url = entry.get('media_thumbnail', [{}])[0].get('url')
-    return thumbnail_url
+def get_news_thumbnail(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        thumbnail_tag = soup.find('meta', property='og:image')
+        thumbnail_url = thumbnail_tag.get('content') if thumbnail_tag else None
+        return thumbnail_url
+    else:
+        print(f"Error: {response.status_code}")
+        return None
 
 def main():
     st.title("Google News RSS Feed")
@@ -15,8 +23,8 @@ def main():
     # Cetak hanya satu berita (entri pertama)
     entry = feed.entries[0]
 
-    # Dapatkan URL thumbnail berita
-    thumbnail_url = get_news_thumbnail(entry)
+    # Dapatkan thumbnail URL dari halaman berita
+    thumbnail_url = get_news_thumbnail(entry.link)
 
     # Tampilkan informasi berita dalam layout Streamlit
     if thumbnail_url:
