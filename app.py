@@ -1,8 +1,14 @@
 import streamlit as st
 import feedparser
-import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+
+def get_news_info(entry):
+    soup = BeautifulSoup(entry, 'html.parser')
+    link = soup.find('a').get('href')
+    judul = soup.find('a').get_text(strip=True)
+    sumber = soup.find('font', color="#6f6f6f").get_text(strip=True)
+    return link, judul, sumber
 
 def get_news_thumbnail(url):
     response = requests.get(url)
@@ -39,24 +45,23 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Cetak satu berita
-    entry = feed.entries[0]
-
-    # Dapatkan thumbnail URL dari halaman berita
-    thumbnail_url = get_news_thumbnail(entry.link)
-
     # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
     cols = st.columns(4)
 
-    for col in cols:
+    for i, col in enumerate(cols):
+        entry = feed.entries[i]
+        summary = entry.summary
+
+        # Dapatkan thumbnail URL dari halaman berita
+        thumbnail_url = get_news_thumbnail(entry.link)
+
         if thumbnail_url:
             col.markdown(
                 f"""
                 <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                     <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; height: auto; margin-bottom: 10px;">
                     <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                    <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {entry.source.title}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
