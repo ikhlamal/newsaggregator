@@ -47,7 +47,7 @@ def main():
         st.markdown(
             f"""
             <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center;">
-                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 100%; height: auto; margin-right: 15px;">
+                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 100px; height: auto; margin-right: 15px;">
                 <div>
                     <h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
                     <p style='text-align: left;'>{format_time_difference(entry.published)}</p>
