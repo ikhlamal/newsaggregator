@@ -31,7 +31,7 @@ def main():
 
     # Kolom pertama (thumbnail)
     if thumbnail_url:
-        col1.image(thumbnail_url, caption="", use_column_width=True, output_format='auto')
+        col1.image(thumbnail_url, caption="", use_column_width=True)
 
     # Kolom kedua (judul, tanggal, dan link)
     with col2:
