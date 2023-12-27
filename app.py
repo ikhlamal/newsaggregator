@@ -36,7 +36,7 @@ def main():
     # Kolom kedua (judul, tanggal, dan link)
     with col2:
         st.markdown(f"<h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>", unsafe_allow_html=True)
-        st.markdown(f"<h4 style='text-align: left;'>{entry.published}</h4>", unsafe_allow_html=True)
+        st.markdown(f"<p style='text-align: left;'>{entry.published}</p>", unsafe_allow_html=True)
         st.text("Sumber: " + entry.source.title)
 
 if __name__ == "__main__":
