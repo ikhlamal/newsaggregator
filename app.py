@@ -31,6 +31,18 @@ def format_time_difference(published_time):
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
 
 def main():
+    # Tambahkan CSS untuk memperlebar margin halaman
+    st.markdown(
+        """
+        <style>
+            body {
+                margin: 20px;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     st.title("Google News RSS Feed")
 
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
