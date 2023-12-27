@@ -36,27 +36,32 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Cetak hanya satu berita (entri pertama)
-    entry = feed.entries[0]
+    # Membuat 4 kolom
+    col1, col2, col3, col4 = st.columns(4)
 
-    # Dapatkan thumbnail URL dari halaman berita
-    thumbnail_url = get_news_thumbnail(entry.link)
+    # Iterasi melalui 4 berita pertama
+    for i in range(4):
+        entry = feed.entries[i]
 
-    # Tampilkan informasi berita dalam layout Streamlit dengan border
-    if thumbnail_url:
-        st.markdown(
-            f"""
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center;">
-                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 300px; height: auto; margin-right: 15px;">
-                <div>
-                    <h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                    <p style='text-align: left;'>{format_time_difference(entry.published)}</p>
-                    <p style='text-align: left;'>Sumber: {entry.source.title}</p>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Dapatkan thumbnail URL dari halaman berita
+        thumbnail_url = get_news_thumbnail(entry.link)
+
+        # Tampilkan informasi berita dalam layout Streamlit dengan border
+        with col1:
+            if thumbnail_url:
+                st.markdown(
+                    f"""
+                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center;">
+                        <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 300px; height: auto; margin-right: 15px;">
+                        <div>
+                            <h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                            <p style='text-align: left;'>{format_time_difference(entry.published)}</p>
+                            <p style='text-align: left;'>Sumber: {entry.source.title}</p>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
 if __name__ == "__main__":
     main()
