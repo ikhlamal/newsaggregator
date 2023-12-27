@@ -43,17 +43,16 @@ def main():
     thumbnail_url = get_news_thumbnail(entry.link)
 
     # Tampilkan informasi berita dalam layout Streamlit dengan border
-    col1, col2 = st.columns([1, 2])
-
-    # Kolom pertama (thumbnail dan judul dengan border)
     if thumbnail_url:
-        col1.markdown(
+        st.markdown(
             f"""
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
-                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 100%; height: auto;">
-                <h4 style='text-align: left; margin-top: 10px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                <p style='text-align: left;'>{format_time_difference(entry.published)}</p>
-                <p style='text-align: left;'>Sumber: {entry.source.title}</p>
+            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center;">
+                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 100%; height: auto; margin-right: 15px;">
+                <div>
+                    <h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                    <p style='text-align: left;'>{format_time_difference(entry.published)}</p>
+                    <p style='text-align: left;'>Sumber: {entry.source.title}</p>
+                </div>
             </div>
             """,
             unsafe_allow_html=True
