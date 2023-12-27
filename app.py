@@ -43,14 +43,11 @@ def main():
     thumbnail_url = get_news_thumbnail(entry.link)
 
     # Tampilkan informasi berita dalam layout Streamlit dengan border
-    col1, col2 = st.columns([1, 2])
+    col1, col2 = st.columns([1, 1])
 
-    # Kolom pertama (thumbnail)
-    if thumbnail_url:
-        col1.image(thumbnail_url, caption="", use_column_width=True)
-
-    # Kolom kedua (judul, tanggal, dan link) dengan border
-    with col2:
+    # Kolom pertama (thumbnail dan judul)
+    with col1:
+        # Diberi border
         st.markdown(
             f"""
             <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -61,6 +58,12 @@ def main():
             """,
             unsafe_allow_html=True
         )
+
+    # Kolom kedua (thumbnail)
+    with col2:
+        # Thumbnail di sini (tanpa border)
+        if thumbnail_url:
+            st.image(thumbnail_url, caption="", use_column_width=True)
 
 if __name__ == "__main__":
     main()
