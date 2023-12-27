@@ -55,9 +55,9 @@ def main():
                 <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center; margin-bottom: 10px;">
                     <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 80px; height: auto; margin-right: 10px;">
                     <div style="flex: 1;">
-                        <h4 style='text-align: left; font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                        <p style='text-align: left; font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                        <p style='text-align: left; font-size: 12px;'>Sumber: {entry.source.title}</p>
+                        <h4 style='text-align: left; font-size: 8px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                        <p style='text-align: left; font-size: 6px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
+                        <p style='text-align: left; font-size: 6px;'>Sumber: {entry.source.title}</p>
                     </div>
                 </div>
                 """,
