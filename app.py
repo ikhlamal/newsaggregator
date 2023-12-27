@@ -1,6 +1,11 @@
 import streamlit as st
 import feedparser
 
+def get_news_thumbnail(entry):
+    # Coba mencari thumbnail dalam entri berita
+    thumbnail_url = entry.get('media_thumbnail', [{}])[0].get('url')
+    return thumbnail_url
+
 def main():
     st.title("Google News RSS Feed")
 
@@ -10,12 +15,12 @@ def main():
     # Cetak hanya satu berita (entri pertama)
     entry = feed.entries[0]
 
-    # Mendapatkan tautan gambar dari entri berita
-    image_url = entry.links[0]['href'] if 'links' in entry and entry.links else None
+    # Dapatkan URL thumbnail berita
+    thumbnail_url = get_news_thumbnail(entry)
 
     # Tampilkan informasi berita dalam layout Streamlit
-    if image_url:
-        st.image(image_url, caption="Berita Terkini", use_column_width=True)
+    if thumbnail_url:
+        st.image(thumbnail_url, caption="Berita Terkini", use_column_width=True)
 
     st.header(entry.title)
     st.subheader(entry.published)
