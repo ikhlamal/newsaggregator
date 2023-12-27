@@ -71,8 +71,8 @@ def main():
 
     # Kolom 2, 3, dan 4 (berita terkait)
     if 'summary' in entry:
-        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')
-        for i, summary in enumerate(summaries[:3]):  # Ambil 3 berita terkait pertama
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
+        for i, summary in enumerate(summaries):
             link = summary.get('href')
             title = summary.get_text(strip=True)
             source = summary.find_next('font').get_text(strip=True)
