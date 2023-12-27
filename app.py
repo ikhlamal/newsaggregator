@@ -43,17 +43,17 @@ def main():
     thumbnail_url = get_news_thumbnail(entry.link)
 
     # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
-    for _ in range(4):
+    cols = st.columns(4)
+
+    for col in cols:
         if thumbnail_url:
-            st.markdown(
+            col.markdown(
                 f"""
-                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; align-items: center; margin-bottom: 10px;">
-                    <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 100px; height: auto; margin-right: 15px;">
-                    <div>
-                        <h4 style='text-align: left;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                        <p style='text-align: left;'>{format_time_difference(entry.published)}</p>
-                        <p style='text-align: left;'>Sumber: {entry.source.title}</p>
-                    </div>
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; margin-bottom: 10px;">
+                    <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 100px; height: auto; margin-bottom: 10px;">
+                    <h4 style='text-align: center;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                    <p style='text-align: center;'>{format_time_difference(entry.published)}</p>
+                    <p style='text-align: center;'>Sumber: {entry.source.title}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
