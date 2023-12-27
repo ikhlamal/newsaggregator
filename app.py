@@ -41,7 +41,7 @@ def main():
     # Set layout menjadi wide
     st.set_page_config(layout="wide")
 
-    st.title("Google News RSS Feed")
+    st.title("Contoh Aja")
 
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
