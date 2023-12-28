@@ -9,7 +9,7 @@ def get_news_thumbnail(url):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         thumbnail_tag = soup.find('meta', property='og:image')
-        thumbnail_url = thumbnail_tag.get('content') if thumbnail_tag else None
+        thumbnail_url = thumbnail_tag.get('p') if thumbnail_tag else None
         return thumbnail_url
     else:
         print(f"Error: {response.status_code}")
