@@ -9,26 +9,22 @@ def get_news_thumbnail(url):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Variasi tag untuk mencari thumbnail, tambahkan sesuai kebutuhan
-        thumbnail_tags = ['meta', 'img', 'figure', 'div']
+        # Coba cari thumbnail menggunakan tag 'meta'
+        thumbnail_tag = soup.find('meta', property='og:image')
+        if thumbnail_tag:
+            return thumbnail_tag.get('content')
 
-        for tag in thumbnail_tags:
-            thumbnail_tag = (
-                soup.find(tag, property='og:image') or
-                soup.find(tag, class_='imgfull') or
-                soup.find(tag, 'img') or
-                soup.find(tag, class_='detailsCover')  # Tambahkan tag 'detailsCover' di sini
-            )
-            if thumbnail_tag:
-                return thumbnail_tag.get('content') or thumbnail_tag.get('src')
+        # Jika tidak ditemukan, coba cari menggunakan tag 'img' dengan class 'imgfull'
+        thumbnail_tag = soup.find('img', class_='imgfull')
+        if thumbnail_tag:
+            return thumbnail_tag.get('src')
 
         # Tambahkan tag lain yang sesuai dengan struktur website tertentu
 
-        return None
     else:
         print(f"Error: {response.status_code}")
         return None
-
+        
 def get_news_article(url, min_text_length=100):
     response = requests.get(url)
     if response.status_code == 200:
