@@ -40,13 +40,11 @@ def main():
     feed = feedparser.parse(rss_url)
 
     # Tampilkan dropdown untuk memilih berita
-    selected_news_index = st.selectbox("Pilih Berita", range(4), format_func=lambda x: f"Berita terkait {x + 2}")
+    selected_news_index = st.selectbox("Pilih Berita", range(4), format_func=lambda x: f"Berita terkait {x + 1}")
 
     # Dapatkan data berita yang dipilih
-    if selected_news_index == 0:
-        entry = feed.entries[0]  # Berita utama
-    else:
-        entry = feed.entries[0]  # Berita utama
+    entry = feed.entries[0]  # Berita utama
+    if selected_news_index > 0:
         summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
         entry = summaries[selected_news_index - 1]
 
@@ -66,29 +64,6 @@ def main():
             """,
             unsafe_allow_html=True
         )
-
-    # Tampilkan berita terkait dari summary berita utama
-    if 'summary' in entry:
-        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
-        for i, summary in enumerate(summaries):
-            link = summary.get('href')
-            title = summary.get_text(strip=True)
-            source = summary.find_next('font').get_text(strip=True)
-
-            thumbnail_url_related = get_news_thumbnail(link)
-
-            if thumbnail_url_related:
-                st.markdown(
-                    f"""
-                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
-                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
 
 if __name__ == "__main__":
     main()
