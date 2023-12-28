@@ -40,7 +40,7 @@ def main():
     feed = feedparser.parse(rss_url)
 
     # Tampilkan dropdown untuk memilih berita
-    selected_news_index = st.selectbox("Pilih Berita Utama", range(len(feed.entries)))
+    selected_news_index = st.selectbox("Pilih Berita Utama", range(len(feed.entries)), format_func=lambda x: f"Berita {x+1}")
 
     # Cetak berita utama
     entry = feed.entries[selected_news_index]
