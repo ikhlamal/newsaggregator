@@ -36,8 +36,14 @@ def get_news_article(url):
         for tag in article_tags:
             article_content = soup.find(tag)
             if article_content:
-                return article_content.get_text(separator='\n')
-        
+                # Tambahkan filter berdasarkan panjang teks atau kata kunci
+                article_text = article_content.get_text(separator='\n')
+                min_text_length = 200  # Ganti dengan panjang minimum yang diinginkan
+                keyword = "baca juga"  # Ganti dengan kata kunci yang menandakan akhir artikel
+
+                if len(article_text) > min_text_length and keyword not in article_text.lower():
+                    return article_text
+
         # Tambahkan tag lain yang sesuai dengan struktur website tertentu
 
         return None
