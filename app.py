@@ -21,6 +21,9 @@ def get_news_thumbnail(url):
 
         # Tambahkan tag lain yang sesuai dengan struktur website tertentu
 
+        # Print hasil pencarian untuk debugging
+        print("No thumbnail found. Check additional tags.")
+
         return None
     else:
         print(f"Error: {response.status_code}")
