@@ -35,7 +35,7 @@ def get_news_article(url, min_sentence_length=15):
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # Cari elemen-elemen yang berisi teks artikel
-        article_elements = soup.find_all('p')
+        article_elements = soup.find_all(['p', 'div'])
 
         # Filter elemen-elemen berdasarkan panjang kalimat
         filtered_elements = [element for element in article_elements if len(element.get_text().split()) >= min_sentence_length]
