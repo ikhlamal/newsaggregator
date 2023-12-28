@@ -24,10 +24,19 @@ def get_news_thumbnail(url):
                 if thumbnail_tag:
                     return thumbnail_tag.get('src')
             # Cek tag 'img' tanpa class
-            else:
-                thumbnail_tag = soup.find(tag)
-                if thumbnail_tag and 'img' in thumbnail_tag.name:
-                    return thumbnail_tag.get('src')
+            elif tag == 'div':
+                thumbnail_tag = soup.find(tag, class_='imgfull')
+                if thumbnail_tag:
+                    img_tag = thumbnail_tag.find('img')
+                    if img_tag:
+                        return img_tag.get('src')
+            # Cek tag 'figure' dengan class 'imgfull'
+            elif tag == 'figure':
+                thumbnail_tag = soup.find(tag, class_='imgfull')
+                if thumbnail_tag:
+                    img_tag = thumbnail_tag.find('img')
+                    if img_tag:
+                        return img_tag.get('src')
 
         # Tambahkan tag lain yang sesuai dengan struktur website tertentu
 
