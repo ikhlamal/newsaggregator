@@ -13,7 +13,12 @@ def get_news_thumbnail(url):
         thumbnail_tags = ['meta', 'img', 'figure', 'div']
 
         for tag in thumbnail_tags:
-            thumbnail_tag = soup.find(tag, property='og:image') or soup.find(tag, class_='imgfull') or soup.find(tag, 'img')
+            thumbnail_tag = (
+                soup.find(tag, property='og:image') or
+                soup.find(tag, class_='imgfull') or
+                soup.find(tag, 'img') or
+                soup.find(tag, class_='detailsCover')  # Tambahkan tag 'detailsCover' di sini
+            )
             if thumbnail_tag:
                 return thumbnail_tag.get('content') or thumbnail_tag.get('src')
 
