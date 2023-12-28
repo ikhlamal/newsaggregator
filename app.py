@@ -62,7 +62,7 @@ def main():
     st.set_page_config(layout="wide")
     st.title("Contoh Aja")
 
-    rss_url = 'https://news.google.com/rss/search?hl=id&gl=ID&ceid=ID%3Aid&oc=11&q=antara'
+    rss_url = 'https://news.google.com/rss/search?hl=id&gl=ID&ceid=ID%3Aid&oc=11&q=antara%20news'
     feed = feedparser.parse(rss_url)
 
     # Sidebar untuk dropdown
