@@ -39,18 +39,18 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Cetak satu berita
-    entry = feed.entries[0]
+    # Pilihan berita utama
+    selected_main_news = st.selectbox("Pilih Berita Utama", [entry.title for entry in feed.entries])
+
+    # Cari objek berita utama berdasarkan judul
+    entry = next(entry for entry in feed.entries if entry.title == selected_main_news)
 
     # Dapatkan thumbnail URL dari halaman berita
     thumbnail_url = get_news_thumbnail(entry.link)
 
-    # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
-    cols = st.columns(4)
-
-    # Kolom pertama (berita utama)
+    # Tampilkan informasi berita utama dalam layout Streamlit
     if thumbnail_url:
-        cols[0].markdown(
+        st.markdown(
             f"""
             <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                 <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
@@ -62,7 +62,7 @@ def main():
             unsafe_allow_html=True
         )
 
-    # Kolom 2, 3, dan 4 (berita terkait)
+    # Kolom 2, 3, dan 4 (berita terkait dari summary)
     if 'summary' in entry:
         summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
         for i, summary in enumerate(summaries):
@@ -73,7 +73,7 @@ def main():
             thumbnail_url_related = get_news_thumbnail(link)
 
             if thumbnail_url_related:
-                cols[i + 1].markdown(
+                st.markdown(
                     f"""
                     <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                         <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
