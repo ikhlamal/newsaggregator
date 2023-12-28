@@ -39,27 +39,35 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Dropdown untuk memilih berita utama
-    selected_news_index = st.selectbox("Pilih Berita Utama", range(4), index=0)
+    # Tampilkan dropdown untuk memilih berita
+    selected_news_index = st.selectbox("Pilih Berita", range(4), format_func=lambda x: f"Berita {x + 1}")
 
-    # Cetak satu berita utama
-    entry = feed.entries[selected_news_index]
+    # Dapatkan data berita yang dipilih
+    if selected_news_index == 0:
+        entry = feed.entries[0]  # Berita utama
+    else:
+        entry = feed.entries[0]  # Berita utama
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
+        entry = feed.entries[selected_news_index] if selected_news_index < 4 else summaries[selected_news_index - 1]
+
+    # Dapatkan thumbnail URL dari halaman berita
     thumbnail_url = get_news_thumbnail(entry.link)
 
-    # Tampilkan informasi berita utama dalam layout Streamlit
-    st.markdown(
-        f"""
-        <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-            <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
-            <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-            <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-            <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    # Tampilkan informasi berita
+    if thumbnail_url:
+        st.markdown(
+            f"""
+            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
+                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
+                <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-    # Kolom 2, 3, dan 4 (berita terkait)
+    # Tampilkan berita terkait dari summary berita utama
     if 'summary' in entry:
         summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
         for i, summary in enumerate(summaries):
