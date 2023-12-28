@@ -4,13 +4,6 @@ import requests  # Tambahkan baris ini
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
-def get_news_info(entry):
-    soup = BeautifulSoup(entry, 'html.parser')
-    link = soup.find('a').get('href')
-    judul = soup.find('a').get_text(strip=True)
-    sumber = soup.find('font', color="#6f6f6f").get_text(strip=True)
-    return link, judul, sumber
-
 def get_news_thumbnail(url):
     response = requests.get(url)
     if response.status_code == 200:
