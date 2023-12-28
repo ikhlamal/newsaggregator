@@ -29,7 +29,7 @@ def get_news_thumbnail(url):
         print(f"Error: {response.status_code}")
         return None
         
-def get_news_article(url):
+def get_news_article(url, min_sentence_length=20):
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -37,8 +37,11 @@ def get_news_article(url):
         # Cari elemen-elemen yang berisi teks artikel
         article_elements = soup.find_all(['p', 'div'])
 
-        # Gabungkan teks dari elemen-elemen tersebut
-        article_text = ' '.join(element.get_text() for element in article_elements)
+        # Filter elemen-elemen berdasarkan panjang kalimat
+        filtered_elements = [element for element in article_elements if len(element.get_text().split()) >= min_sentence_length]
+
+        # Gabungkan teks dari elemen-elemen yang telah difilter
+        article_text = ' '.join(element.get_text() for element in filtered_elements)
 
         return article_text
     else:
