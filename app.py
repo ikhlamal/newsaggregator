@@ -48,7 +48,7 @@ def main():
 
     # Dapatkan data berita yang dipilih
     entry = feed.entries[0]  # Berita utama
-    summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
+    summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:5]  # Ambil 3 berita terkait ke-2 hingga ke-4
     entry = summaries[selected_news_index] if selected_news_index < 3 else entry
 
     # Dapatkan thumbnail URL dari halaman berita
