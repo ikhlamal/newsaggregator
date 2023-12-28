@@ -20,8 +20,8 @@ def get_article_text(url):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Identifikasi tag dan kelas yang mengandung teks artikel
-        article_elements = soup.find_all('div', class_='body')  # Ganti dengan tag dan kelas yang sesuai
+        # Cari elemen-elemen yang berisi teks artikel
+        article_elements = soup.find_all(['p'])
 
         # Gabungkan teks dari elemen-elemen tersebut
         article_text = ' '.join(element.get_text() for element in article_elements)
