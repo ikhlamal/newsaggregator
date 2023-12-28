@@ -34,7 +34,7 @@ def main():
 
     # Dropdown untuk memilih berita
     options = ["Berita Utama", "Berita Terkait 1", "Berita Terkait 2", "Berita Terkait 3"]
-    selected_option = st.selectbox("Pilih Berita:", options, index=0)
+    selected_option = st.selectbox("Pilih Berita:", options, index=-1)
 
     # Tampilkan berita yang dipilih
     if 'Berita Utama' in selected_option:
