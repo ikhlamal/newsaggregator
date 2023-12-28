@@ -16,6 +16,9 @@ def get_news_thumbnail(url):
         return None
 
 def format_time_difference(published_time):
+    if published_time is None:
+        return "Waktu publikasi tidak tersedia"
+
     # Ubah waktu publikasi ke objek datetime
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
 
@@ -29,6 +32,7 @@ def format_time_difference(published_time):
         return f"{int(time_difference.total_seconds() / 3600)} jam yang lalu"
     else:
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
+
 
 def main():
     # Set layout menjadi wide
