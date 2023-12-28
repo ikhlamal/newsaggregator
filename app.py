@@ -29,22 +29,18 @@ def get_news_thumbnail(url):
         print(f"Error: {response.status_code}")
         return None
         
-def get_news_article(url):
+def get_article_text(url):
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Variasi tag untuk mencari teks artikel, tambahkan sesuai kebutuhan
-        article_tags = ['p']
+        # Cari elemen-elemen yang berisi teks artikel
+        article_elements = soup.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li'])
 
-        for tag in article_tags:
-            article_content = soup.find(tag)
-            if article_content:
-                return article_content.get_text(separator='\n')
-        
-        # Tambahkan tag lain yang sesuai dengan struktur website tertentu
+        # Gabungkan teks dari elemen-elemen tersebut
+        article_text = ' '.join(element.get_text() for element in article_elements)
 
-        return None
+        return article_text
     else:
         print(f"Error: {response.status_code}")
         return None
