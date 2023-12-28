@@ -8,11 +8,16 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_news_thumbnail(url):
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
-    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+    }
+
     try:
         response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()  # Raises HTTPError for bad responses
+        response.raise_for_status()
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
         return None
@@ -36,7 +41,6 @@ def get_news_thumbnail(url):
     else:
         print(f"Error: {response.status_code}")
         return None
-
         
 def get_news_article(url):
     response = requests.get(url)
