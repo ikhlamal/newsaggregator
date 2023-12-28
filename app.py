@@ -5,14 +5,15 @@ import requests
 from datetime import datetime, timedelta
 
 def get_news_thumbnail(url):
-    response = requests.get(url)
-    if response.status_code == 200:
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Tingkatkan kesalahan jika respons tidak berhasil
         soup = BeautifulSoup(response.text, 'html.parser')
         thumbnail_tag = soup.find('meta', property='og:image')
         thumbnail_url = thumbnail_tag.get('content') if thumbnail_tag else None
         return thumbnail_url
-    else:
-        print(f"Error: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
         return None
 
 def format_time_difference(published_time):
