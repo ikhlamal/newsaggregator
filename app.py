@@ -12,15 +12,45 @@ def get_news_thumbnail(url):
         # Coba cari thumbnail menggunakan tag 'meta'
         thumbnail_tag = soup.find('meta', property='og:image')
         if thumbnail_tag:
-            return thumbnail_tag.get('content')
+            thumbnail_url = thumbnail_tag.get('content')
+
+            # Coba ambil teks artikel
+            article_content = get_news_article(url)
+
+            return thumbnail_url, article_content
 
         # Jika tidak ditemukan, coba cari menggunakan tag 'img' dengan class 'imgfull'
         thumbnail_tag = soup.find('img', class_='imgfull')
         if thumbnail_tag:
-            return thumbnail_tag.get('src')
+            thumbnail_url = thumbnail_tag.get('src')
+
+            # Coba ambil teks artikel
+            article_content = get_news_article(url)
+
+            return thumbnail_url, article_content
 
         # Tambahkan tag lain yang sesuai dengan struktur website tertentu
 
+    else:
+        print(f"Error: {response.status_code}")
+        return None, None
+
+def get_news_article(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Variasi tag untuk mencari teks artikel, tambahkan sesuai kebutuhan
+        article_tags = ['article', 'div', 'section', 'main']
+
+        for tag in article_tags:
+            article_content = soup.find(tag)
+            if article_content:
+                return article_content.get_text(separator='\n')
+        
+        # Tambahkan tag lain yang sesuai dengan struktur website tertentu
+
+        return None
     else:
         print(f"Error: {response.status_code}")
         return None
@@ -48,7 +78,7 @@ def main():
     # Tampilkan berita yang dipilih
     if 'Berita Utama' in selected_option and feed.entries:
         entry = feed.entries[0]
-        thumbnail_url = get_news_thumbnail(entry.link)
+        thumbnail_url, article_content = get_news_thumbnail(entry.link)
         if thumbnail_url:
             st.markdown(
                 f"""
@@ -61,6 +91,17 @@ def main():
                 """,
                 unsafe_allow_html=True
             )
+
+            # Tampilkan teks artikel
+            if article_content:
+                st.markdown(
+                    f"""
+                    <div style="margin-top: 20px;">
+                        <h3>Teks Artikel:</h3>
+                        <p>{article_content}</p>
+                    </div>
+                    """
+                )
     elif 'Berita Terkait' in selected_option and len(feed.entries) > 1:
         # Ambil berita terkait yang dipilih
         entry = feed.entries[0]
@@ -72,7 +113,7 @@ def main():
             title = selected_summary.get_text(strip=True)
             source = selected_summary.find_next('font').get_text(strip=True)
 
-            thumbnail_url_related = get_news_thumbnail(link)
+            thumbnail_url_related, article_content_related = get_news_thumbnail(link)
 
             if thumbnail_url_related:
                 st.markdown(
@@ -86,6 +127,17 @@ def main():
                     """,
                     unsafe_allow_html=True
                 )
+
+                # Tampilkan teks artikel
+                if article_content_related:
+                    st.markdown(
+                        f"""
+                        <div style="margin-top: 20px;">
+                            <h3>Teks Artikel:</h3>
+                            <p>{article_content_related}</p>
+                        </div>
+                        """
+                    )
             else:
                 st.warning("Thumbnail berita terkait tidak dapat ditemukan.")
         else:
