@@ -99,6 +99,20 @@ def main():
                 """,
                 unsafe_allow_html=True
             )
+        else:
+            # Jika thumbnail tidak ditemukan, tampilkan berita tanpa thumbnail
+            st.markdown(
+                f"""
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
+                    <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                    <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                    <p style='font-size: 12px;'>{article_text}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
     elif 'Berita Terkait' in selected_option and len(feed.entries) > 1:
         # Ambil berita terkait yang dipilih
         entry = feed.entries[0]
@@ -128,9 +142,25 @@ def main():
                     unsafe_allow_html=True
                 )
             else:
-                st.warning("Thumbnail berita terkait tidak dapat ditemukan.")
+                # Jika thumbnail tidak ditemukan, tampilkan berita terkait tanpa thumbnail
+                st.markdown(
+                    f"""
+                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
+                        <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                        <p style='font-size: 12px;'>{article_text_related}</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
         else:
             st.warning("Berita terkait tidak ditemukan.")
+
+if __name__ == "__main__":
+    main()
+
 
 if __name__ == "__main__":
     main()
