@@ -29,7 +29,7 @@ def get_news_thumbnail(url):
         print(f"Error: {response.status_code}")
         return None
         
-def get_news_article(url, min_sentence_length=15):
+def get_news_article(url, min_sentence_length=18):
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
