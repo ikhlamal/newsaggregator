@@ -48,24 +48,42 @@ def main():
     # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
     cols = st.columns(4)
 
-    # Tambahkan tombol thumbnail untuk berita terkait
-    for i in range(4):
-        thumbnail_url_related = get_news_thumbnail(feed.entries[i].link)
-        button_col = cols[i].button if thumbnail_url_related else cols[i].empty
+    # Kolom pertama (berita utama)
+    if thumbnail_url:
+        cols[0].markdown(
+            f"""
+            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
+                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
+                <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-        # Jika tombol ditekan, tampilkan berita terkait di atas
-        if button_col(f"Berita {i+1}", key=f"button_{i+1}"):
-            st.markdown(
-                f"""
-                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                    <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 400px; max-height: 250px; margin-bottom: 10px;">
-                    <h4 style='font-size: 20px; margin-bottom: 10px;'><a href='{feed.entries[i].link}' target='_blank'>{feed.entries[i].title}</a></h4>
-                    <p style='font-size: 14px; margin-bottom: 10px;'>{format_time_difference(feed.entries[i].published)}</p>
-                    <p style='font-size: 14px;'>Sumber: {feed.entries[i].source.title}</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+    # Kolom 2, 3, dan 4 (berita terkait)
+    if 'summary' in entry:
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
+        for i, summary in enumerate(summaries):
+            link = summary.get('href')
+            title = summary.get_text(strip=True)
+            source = summary.find_next('font').get_text(strip=True)
+
+            thumbnail_url_related = get_news_thumbnail(link)
+
+            if thumbnail_url_related:
+                cols[i + 1].markdown(
+                    f"""
+                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
+                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
 if __name__ == "__main__":
     main()
