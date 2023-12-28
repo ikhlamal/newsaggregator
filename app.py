@@ -1,7 +1,7 @@
 import streamlit as st
 import feedparser
-import requests
 from bs4 import BeautifulSoup
+import requests
 from datetime import datetime, timedelta
 
 def get_news_thumbnail(url):
@@ -16,9 +16,13 @@ def get_news_thumbnail(url):
         return None
 
 def format_time_difference(published_time):
+    # Ubah waktu publikasi ke objek datetime
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
+
+    # Hitung perbedaan waktu antara waktu publikasi dan waktu saat ini
     time_difference = datetime.utcnow() - published_datetime
 
+    # Ubah perbedaan waktu ke format "n jam yang lalu"
     if time_difference < timedelta(minutes=60):
         return f"{int(time_difference.total_seconds() / 60)} menit yang lalu"
     elif time_difference < timedelta(hours=24):
@@ -27,6 +31,7 @@ def format_time_difference(published_time):
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
 
 def main():
+    # Set layout menjadi wide
     st.set_page_config(layout="wide")
 
     st.title("Contoh Aja")
@@ -40,43 +45,27 @@ def main():
     # Dapatkan thumbnail URL dari halaman berita
     thumbnail_url = get_news_thumbnail(entry.link)
 
-    # Cetak thumbnail dan judul berita utama
-    if thumbnail_url:
-        st.markdown(
-            f"""
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
-                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+    # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
+    cols = st.columns(4)
 
-    # Membuat tombol untuk memilih berita
-    selected_news = st.radio("Pilih Berita:", [f"{i + 1}. Berita {i + 1}" for i in range(4)])
+    # Tambahkan tombol thumbnail untuk berita terkait
+    for i in range(4):
+        thumbnail_url_related = get_news_thumbnail(feed.entries[i].link)
+        button_col = cols[i].button if thumbnail_url_related else cols[i].empty
 
-    # Cetak konten berita terpilih
-    selected_index = int(selected_news.split(".")[0]) - 1
-    selected_entry = feed.entries[selected_index]
-
-    # Dapatkan thumbnail URL dari halaman berita terpilih
-    selected_thumbnail_url = get_news_thumbnail(selected_entry.link)
-
-    # Cetak konten berita terpilih
-    if selected_thumbnail_url:
-        st.markdown(
-            f"""
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                <img src="{selected_thumbnail_url}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
-                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{selected_entry.link}' target='_blank'>{selected_entry.title}</a></h4>
-                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
-                <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Jika tombol ditekan, tampilkan berita terkait di atas
+        if button_col(f"Berita {i+1}", key=f"button_{i+1}"):
+            st.markdown(
+                f"""
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                    <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 400px; max-height: 250px; margin-bottom: 10px;">
+                    <h4 style='font-size: 20px; margin-bottom: 10px;'><a href='{feed.entries[i].link}' target='_blank'>{feed.entries[i].title}</a></h4>
+                    <p style='font-size: 14px; margin-bottom: 10px;'>{format_time_difference(feed.entries[i].published)}</p>
+                    <p style='font-size: 14px;'>Sumber: {feed.entries[i].source.title}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
 if __name__ == "__main__":
     main()
