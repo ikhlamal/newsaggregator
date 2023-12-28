@@ -9,34 +9,15 @@ def get_news_thumbnail(url):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Variasi tag untuk mencari thumbnail, tambahkan sesuai kebutuhan
-        thumbnail_tags = ['meta', 'img', 'div', 'figure']
+        # Coba cari thumbnail menggunakan tag 'meta'
+        thumbnail_tag = soup.find('meta', property='og:image')
+        if thumbnail_tag:
+            return thumbnail_tag.get('content')
 
-        for tag in thumbnail_tags:
-            # Cek tag 'meta' dengan property 'og:image'
-            if tag == 'meta':
-                thumbnail_tag = soup.find(tag, property='og:image')
-                if thumbnail_tag:
-                    return thumbnail_tag.get('content')
-            # Cek tag 'img' dengan class 'imgfull'
-            elif tag == 'img':
-                thumbnail_tag = soup.find(tag, class_='imgfull')
-                if thumbnail_tag:
-                    return thumbnail_tag.get('src')
-            # Cek tag 'img' tanpa class
-            elif tag == 'div':
-                thumbnail_tag = soup.find(tag, class_='imgfull')
-                if thumbnail_tag:
-                    img_tag = thumbnail_tag.find('img')
-                    if img_tag:
-                        return img_tag.get('src')
-            # Cek tag 'figure' dengan class 'imgfull'
-            elif tag == 'figure':
-                thumbnail_tag = soup.find(tag, class_='imgfull')
-                if thumbnail_tag:
-                    img_tag = thumbnail_tag.find('img')
-                    if img_tag:
-                        return img_tag.get('src')
+        # Jika tidak ditemukan, coba cari menggunakan tag 'img' dengan class 'imgfull'
+        thumbnail_tag = soup.find('img', class_='imgfull')
+        if thumbnail_tag:
+            return thumbnail_tag.get('src')
 
         # Tambahkan tag lain yang sesuai dengan struktur website tertentu
 
