@@ -18,7 +18,6 @@ def get_news_thumbnail(url):
 def format_time_difference(published_time):
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
     time_difference = datetime.utcnow() - published_datetime
-
     if time_difference < timedelta(minutes=60):
         return f"{int(time_difference.total_seconds() / 60)} menit yang lalu"
     elif time_difference < timedelta(hours=24):
@@ -32,25 +31,15 @@ def main():
 
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
-    
-    # Tambahkan variabel global untuk menyimpan indeks berita terpilih
-    selected_news_index = st.radio("Pilih berita:", range(4), index=0)
-
-    # Cetak satu berita
-    entry = feed.entries[0]
-
-    # Dapatkan thumbnail URL dari halaman berita
-    thumbnail_url = get_news_thumbnail(entry.link)
-
-    # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
-    cols = st.columns(4)
 
     # Kolom pertama (berita utama)
+    entry = feed.entries[0]
+    thumbnail_url = get_news_thumbnail(entry.link)
     if thumbnail_url:
-        cols[0].markdown(
+        st.markdown(
             f"""
             <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
+                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
                 <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
                 <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
                 <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
@@ -59,36 +48,31 @@ def main():
             unsafe_allow_html=True
         )
 
+    # Pilihan untuk berita terkait
+    selected_news = st.radio("Pilih Berita Terkait:", [i + 1 for i in range(3)], index=0)
+
     # Kolom 2, 3, dan 4 (berita terkait)
     if 'summary' in entry:
-        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]
-        for i, summary in enumerate(summaries):
-            link = summary.get('href')
-            title = summary.get_text(strip=True)
-            source = summary.find_next('font').get_text(strip=True)
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
+        selected_summary = summaries[selected_news - 1]
+        link = selected_summary.get('href')
+        title = selected_summary.get_text(strip=True)
+        source = selected_summary.find_next('font').get_text(strip=True)
 
-            thumbnail_url_related = get_news_thumbnail(link)
+        thumbnail_url_related = get_news_thumbnail(link)
 
-            # Tampilkan checkbox untuk setiap berita terkait
-            selected = st.checkbox(
-                label=title,
-                key=f"news_selector_{i}",
-                value=selected_news_index == i + 1
+        if thumbnail_url_related:
+            st.markdown(
+                f"""
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                    <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
             )
-
-            # Atur tampilan berita besar berdasarkan berita terpilih
-            if selected and thumbnail_url_related:
-                cols[0].markdown(
-                    f"""
-                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
-                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
 
 if __name__ == "__main__":
     main()
