@@ -76,6 +76,10 @@ def main():
                     """,
                     unsafe_allow_html=True
                 )
+            else:
+                st.warning("Thumbnail berita terkait tidak dapat ditemukan.")
+        else:
+            st.warning("Berita terkait tidak ditemukan.")
 
 if __name__ == "__main__":
     main()
