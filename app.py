@@ -40,7 +40,7 @@ def main():
     feed = feedparser.parse(rss_url)
 
     # Tampilkan dropdown untuk memilih berita
-    selected_news_index = st.selectbox("Pilih Berita", range(4), format_func=lambda x: f"Berita {x + 1}")
+    selected_news_index = st.selectbox("Pilih Berita", range(4), format_func=lambda x: f"Berita terkait {x + 2}")
 
     # Dapatkan data berita yang dipilih
     if selected_news_index == 0:
@@ -48,7 +48,7 @@ def main():
     else:
         entry = feed.entries[0]  # Berita utama
         summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
-        entry = summaries[selected_news_index - 1] if selected_news_index < 4 else feed.entries[selected_news_index]
+        entry = summaries[selected_news_index - 1]
 
     # Dapatkan thumbnail URL dari halaman berita
     thumbnail_url = get_news_thumbnail(entry.link)
