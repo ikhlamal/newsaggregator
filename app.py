@@ -39,34 +39,51 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Cetak satu berita
-    entry = feed.entries[0]
+    # Tampilkan dropdown untuk memilih berita
+    selected_news_index = st.selectbox("Pilih Berita Utama", range(len(feed.entries)))
 
-    # Dapatkan thumbnail URL dari halaman berita
+    # Cetak berita utama
+    entry = feed.entries[selected_news_index]
+
+    # Dapatkan thumbnail URL dari halaman berita utama
     thumbnail_url = get_news_thumbnail(entry.link)
 
-    # Tampilkan informasi berita dalam layout Streamlit dengan 4 kolom yang sama
-    cols = st.columns(4)
+    # Tampilkan informasi berita utama di kolom pertama
+    if thumbnail_url:
+        st.markdown(
+            f"""
+            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
+                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
+                <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-    # Tambahkan tombol thumbnail untuk berita terkait
-    for i in range(1, 5):  # Mulai dari berita ke-2, karena berita ke-1 adalah utama
-        related_entry = feed.entries[i]
-        thumbnail_url_related = get_news_thumbnail(related_entry.link)
-        button_col = cols[i - 1].button if thumbnail_url_related else cols[i - 1].empty
+    # Tampilkan berita terkait di kolom 2, 3, dan 4
+    if 'summary' in entry:
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
+        for i, summary in enumerate(summaries):
+            link = summary.get('href')
+            title = summary.get_text(strip=True)
+            source = summary.find_next('font').get_text(strip=True)
 
-        # Jika tombol ditekan, tampilkan berita terkait di atas
-        if button_col(f"Berita {i}", key=f"button_{i}"):
-            st.markdown(
-                f"""
-                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                    <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 400px; max-height: 250px; margin-bottom: 10px;">
-                    <h4 style='font-size: 20px; margin-bottom: 10px;'><a href='{related_entry.link}' target='_blank'>{related_entry.title}</a></h4>
-                    <p style='font-size: 14px; margin-bottom: 10px;'>{format_time_difference(related_entry.published)}</p>
-                    <p style='font-size: 14px;'>Sumber: {related_entry.source.title}</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            thumbnail_url_related = get_news_thumbnail(link)
+
+            if thumbnail_url_related:
+                st.markdown(
+                    f"""
+                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
+                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
 if __name__ == "__main__":
     main()
