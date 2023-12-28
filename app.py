@@ -32,9 +32,10 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Dropdown untuk memilih berita
-    options = ["Berita Utama", "Berita Terkait 1", "Berita Terkait 2", "Berita Terkait 3"]
-    selected_option = st.selectbox("Pilih Berita:", options, index=-1)
+    with st.expander("Pilih Berita:"):
+        # Dropdown untuk memilih berita
+        options = ["Berita Utama", "Berita Terkait 1", "Berita Terkait 2", "Berita Terkait 3"]
+        selected_option = st.selectbox("Pilih Berita:", options, index=0)
 
     # Tampilkan berita yang dipilih
     if 'Berita Utama' in selected_option:
