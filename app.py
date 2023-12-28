@@ -58,8 +58,13 @@ def main():
         else:
             summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
             selected_summary = summaries[int(selected_news.split()[-1]) - 1]
-            link = selected_summary.get('href')
-            selected_entry = feedparser.parse(link).entries[0]
+            
+            try:
+                link = selected_summary.get('href')
+                selected_entry = feedparser.parse(link).entries[0]
+            except IndexError:
+                st.error("Tidak dapat mengambil berita terkait. Coba pilih berita utama.")
+                return
 
         thumbnail_url_related = get_news_thumbnail(selected_entry.link)
 
