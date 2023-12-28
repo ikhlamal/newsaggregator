@@ -36,15 +36,12 @@ def main():
     options = ["Berita Utama", "Berita Terkait 1", "Berita Terkait 2", "Berita Terkait 3"]
     selected_option = st.selectbox("Pilih Berita:", options, index=0)
 
-    # Placeholder untuk menampilkan hasil berita
-    result_placeholder = st.empty()
-
     # Tampilkan berita yang dipilih
     if 'Berita Utama' in selected_option:
         entry = feed.entries[0]
         thumbnail_url = get_news_thumbnail(entry.link)
         if thumbnail_url:
-            result_placeholder.markdown(
+            st.markdown(
                 f"""
                 <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                     <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
@@ -67,7 +64,7 @@ def main():
         thumbnail_url_related = get_news_thumbnail(link)
 
         if thumbnail_url_related:
-            result_placeholder.markdown(
+            st.markdown(
                 f"""
                 <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                     <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
