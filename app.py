@@ -14,15 +14,12 @@ def get_news_thumbnail(url):
         if thumbnail_tag:
             return thumbnail_tag.get('content')
 
-        # Jika tidak ditemukan, coba cari menggunakan tag 'img' dengan class 'imgfull'
-        thumbnail_tag = soup.find('img', class_='imgfull')
+        # Jika tidak ditemukan, coba cari menggunakan tag dan class lain
+        thumbnail_tag = soup.find('img', class_='imgfull') or soup.find('img', class_='your-other-class')
         if thumbnail_tag:
             return thumbnail_tag.get('src')
 
-        # Tambahkan tag lain yang sesuai dengan struktur website tertentu
-
-        # Print hasil pencarian untuk debugging
-        print("No thumbnail found. Check additional tags.")
+        # Tambahkan tag atau class lain yang sesuai dengan struktur website tertentu
 
         return None
     else:
