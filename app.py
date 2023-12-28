@@ -9,20 +9,22 @@ def get_news_thumbnail(url):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Coba cari tag gambar dengan property 'og:image'
+        # Coba cari tag 'meta' dengan property 'og:image'
         thumbnail_tag = soup.find('meta', property='og:image')
 
-        # Jika tidak ditemukan, coba cari tag gambar lainnya (img)
+        # Jika tidak ditemukan, coba cari tag 'link' dengan rel 'image_src'
+        if not thumbnail_tag:
+            thumbnail_tag = soup.find('link', rel='image_src')
+
+        # Jika masih tidak ditemukan, coba cari tag 'img'
         if not thumbnail_tag:
             thumbnail_tag = soup.find('img')
 
-        # Jika masih tidak ditemukan, kembalikan None
-        if thumbnail_tag:
-            thumbnail_url = thumbnail_tag.get('src')
-            return thumbnail_url
-
-    print(f"Error: Unable to find thumbnail for {url}")
-    return None
+        thumbnail_url = thumbnail_tag.get('content') if thumbnail_tag else None
+        return thumbnail_url
+    else:
+        print(f"Error: {response.status_code}")
+        return None
 
 def format_time_difference(published_time):
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
