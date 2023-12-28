@@ -25,7 +25,7 @@ def get_news_thumbnail(url):
         print(f"Error: {response.status_code}")
         return None
 
-def get_news_article(url):
+def get_news_article(url, min_text_length=100):
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -36,21 +36,19 @@ def get_news_article(url):
         for tag in article_tags:
             article_content = soup.find(tag)
             if article_content:
-                # Tambahkan filter berdasarkan panjang teks atau kata kunci
                 article_text = article_content.get_text(separator='\n')
-                min_text_length = 200  # Ganti dengan panjang minimum yang diinginkan
-                keyword = "baca juga"  # Ganti dengan kata kunci yang menandakan akhir artikel
 
-                if len(article_text) > min_text_length and keyword not in article_text.lower():
+                # Filter teks artikel berdasarkan panjang teks
+                if len(article_text) >= min_text_length:
                     return article_text
-
+        
         # Tambahkan tag lain yang sesuai dengan struktur website tertentu
 
         return None
     else:
         print(f"Error: {response.status_code}")
         return None
-
+        
 def format_time_difference(published_time):
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
     time_difference = datetime.utcnow() - published_datetime
