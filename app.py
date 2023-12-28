@@ -69,13 +69,11 @@ def main():
 
             thumbnail_url_related = get_news_thumbnail(link)
 
-            # Tampilkan tombol atau radio button untuk setiap berita terkait
-            selected = selected_news_index == i + 1
-            cols[i + 1].radio(
-                "",
+            # Tampilkan checkbox untuk setiap berita terkait
+            selected = st.checkbox(
+                label=title,
                 key=f"news_selector_{i}",
-                value=selected,
-                format_func=lambda x: title if x else None
+                value=selected_news_index == i + 1
             )
 
             # Atur tampilan berita besar berdasarkan berita terpilih
