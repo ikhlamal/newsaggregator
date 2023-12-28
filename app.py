@@ -35,7 +35,7 @@ def get_news_article(url):
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # Cari elemen-elemen yang berisi teks artikel
-        article_elements = soup.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li'])
+        article_elements = soup.find_all(['p'])
 
         # Gabungkan teks dari elemen-elemen tersebut
         article_text = ' '.join(element.get_text() for element in article_elements)
