@@ -40,7 +40,7 @@ def get_news_article(url, min_sentence_length=20):
         div_elements = soup.find_all('div', class_='wrap__article-detail-content post-content')
 
         # Cari elemen-elemen yang berisi teks artikel dari tag <div> dengan id="contentx"
-        contentx_elements = soup.find_all('div', id='contentx')
+        contentx_elements = soup.find_all('div', id='cke_pastebin')
 
         # Gabungkan elemen-elemen tersebut
         all_elements = p_elements + div_elements + contentx_elements
