@@ -34,11 +34,16 @@ def get_news_article(url, min_sentence_length=20):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Cari elemen-elemen yang berisi teks artikel
-        article_elements = soup.find_all('div', class_='wrap__article-detail-content post-content')
+        # Cari elemen-elemen yang berisi teks artikel dari tag <p>
+        p_elements = soup.find_all('p')
+        # Cari elemen-elemen yang berisi teks artikel dari tag <div>
+        div_elements = soup.find_all('div', class_='wrap__article-detail-content post-content')
+
+        # Gabungkan elemen-elemen tersebut
+        all_elements = p_elements + div_elements
 
         # Filter elemen-elemen berdasarkan panjang kalimat
-        filtered_elements = [element for element in article_elements if len(element.get_text().split()) >= min_sentence_length]
+        filtered_elements = [element for element in all_elements if len(element.get_text().split()) >= min_sentence_length]
 
         # Gabungkan teks dari elemen-elemen yang telah difilter
         article_text = ' '.join(element.get_text() for element in filtered_elements)
