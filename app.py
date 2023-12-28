@@ -32,28 +32,29 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Kolom pertama (berita utama)
-    entry = feed.entries[0]
-    thumbnail_url = get_news_thumbnail(entry.link)
-    if thumbnail_url:
-        st.markdown(
-            f"""
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
-                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
     # Dropdown untuk memilih berita
     options = ["Berita Utama", "Berita Terkait 1", "Berita Terkait 2", "Berita Terkait 3"]
     selected_option = st.selectbox("Pilih Berita:", options, index=0)
 
-    # Tampilkan berita terkait yang dipilih
-    if 'Berita Terkait' in selected_option:
+    # Tampilkan berita yang dipilih
+    if 'Berita Utama' in selected_option:
+        entry = feed.entries[0]
+        thumbnail_url = get_news_thumbnail(entry.link)
+        if thumbnail_url:
+            st.markdown(
+                f"""
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                    <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
+                    <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    elif 'Berita Terkait' in selected_option:
+        # Ambil berita terkait yang dipilih
+        entry = feed.entries[0]
         summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]
         selected_summary = summaries[int(selected_option[-1]) - 1]
         link = selected_summary.get('href')
