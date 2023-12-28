@@ -9,7 +9,7 @@ def get_news_thumbnail(url):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         thumbnail_tag = soup.find('meta', property='og:image')
-        thumbnail_url = thumbnail_tag.get('detail-wrap') if thumbnail_tag else None
+        thumbnail_url = thumbnail_tag.get('content') if thumbnail_tag else None
         return thumbnail_url
     else:
         print(f"Error: {response.status_code}")
@@ -21,7 +21,7 @@ def get_article_text(url):
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # Cari elemen-elemen yang berisi teks artikel
-        article_elements = soup.find_all(['detail_text'])
+        article_elements = soup.find_all(['detail-wrap'])
 
         # Gabungkan teks dari elemen-elemen tersebut
         article_text = ' '.join(element.get_text() for element in article_elements)
