@@ -41,7 +41,7 @@ def get_news_article(url):
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # Variasi tag untuk mencari teks artikel, tambahkan sesuai kebutuhan
-        article_tags = ['article', 'div', 'section', 'main']
+        article_tags = ['div', 'section', 'main']
 
         for tag in article_tags:
             article_content = soup.find(tag)
