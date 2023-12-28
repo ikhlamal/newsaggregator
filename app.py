@@ -15,6 +15,22 @@ def get_news_thumbnail(url):
         print(f"Error: {response.status_code}")
         return None
 
+def get_article_text(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Cari elemen-elemen yang berisi teks artikel
+        article_elements = soup.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li'])
+
+        # Gabungkan teks dari elemen-elemen tersebut
+        article_text = ' '.join(element.get_text() for element in article_elements)
+
+        return article_text
+    else:
+        print(f"Error: {response.status_code}")
+        return None
+
 def format_time_difference(published_time):
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
     time_difference = datetime.utcnow() - published_datetime
@@ -39,6 +55,7 @@ def main():
     if 'Berita Utama' in selected_option:
         entry = feed.entries[0]
         thumbnail_url = get_news_thumbnail(entry.link)
+        article_text = get_article_text(entry.link)
         if thumbnail_url:
             st.markdown(
                 f"""
@@ -47,6 +64,7 @@ def main():
                     <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
                     <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
                     <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                    <p style='font-size: 14px;'>{article_text}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -61,6 +79,7 @@ def main():
         source = selected_summary.find_next('font').get_text(strip=True)
 
         thumbnail_url_related = get_news_thumbnail(link)
+        article_text_related = get_article_text(link)
 
         if thumbnail_url_related:
             st.markdown(
@@ -70,6 +89,7 @@ def main():
                     <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
                     <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
                     <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
+                    <p style='font-size: 14px;'>{article_text_related}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
