@@ -29,7 +29,7 @@ def get_news_thumbnail(url):
         print(f"Error: {response.status_code}")
         return None
         
-def get_news_article(url, min_text_length=100):
+def get_news_article(url):
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -40,11 +40,7 @@ def get_news_article(url, min_text_length=100):
         for tag in article_tags:
             article_content = soup.find(tag)
             if article_content:
-                article_text = article_content.get_text(separator='\n')
-
-                # Filter teks artikel berdasarkan panjang teks
-                if len(article_text) >= min_text_length:
-                    return article_text
+                return article_content.get_text(separator='\n')
         
         # Tambahkan tag lain yang sesuai dengan struktur website tertentu
 
