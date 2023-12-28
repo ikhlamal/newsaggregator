@@ -44,12 +44,11 @@ def main():
 
     # Dapatkan data berita yang dipilih
     entry = feed.entries[0]  # Berita utama
-    if selected_news_index > 0:
-        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
-        entry = summaries[selected_news_index - 1]
+    summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]  # Ambil 3 berita terkait ke-2 hingga ke-4
+    entry = summaries[selected_news_index] if selected_news_index < 3 else entry
 
     # Dapatkan thumbnail URL dari halaman berita
-    thumbnail_url = get_news_thumbnail(entry.link)
+    thumbnail_url = get_news_thumbnail(entry.get('href'))
 
     # Tampilkan informasi berita
     if thumbnail_url:
@@ -57,9 +56,9 @@ def main():
             f"""
             <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                 <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 260px; max-height: 150px; margin-bottom: 10px;">
-                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.get('href')}' target='_blank'>{entry.get_text(strip=True)}</a></h4>
                 <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                <p style='font-size: 12px;'>Sumber: {entry.find_next('font').get_text(strip=True)}</p>
             </div>
             """,
             unsafe_allow_html=True
