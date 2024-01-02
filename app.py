@@ -34,9 +34,7 @@ def get_news_article(url):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Cari elemen-elemen yang berisi teks artikel dari tag <p>
-        # p_elements = soup.find_all('p')
-        # Cari elemen-elemen yang berisi teks artikel dari tag <div>
+        # Cari elemen-elemen yang berisi teks artikel
         div_elements = soup.find_all('div', class_='wrap__article-detail-content post-content')
         contentx_elements = soup.find_all('div', id='cke_pastebin')
         cnn = soup.find_all('div', class_='detail-text')
@@ -44,11 +42,17 @@ def get_news_article(url):
         cnbc = soup.find_all('div', class_='detail_text')
         republika = soup.find_all('article')
 
-        # Gabungkan elemen-elemen tersebut
-        all_elements = div_elements + contentx_elements + cnn + detik + cnbc + republika
+        # Gabungkan teks dari elemen-elemen tersebut
+        all_texts = []
 
-        # Gabungkan teks dari elemen-elemen yang telah difilter
-        article_text = ' '.join(element.get_text() for element in all_elements)
+        for element in div_elements + contentx_elements + cnn + detik + cnbc + republika:
+            # Dapatkan teks dari elemen dan tambahkan ke dalam list
+            text = element.get_text(strip=True)
+            if text:
+                all_texts.append(text)
+
+        # Gabungkan teks dari list
+        article_text = ' '.join(all_texts)
 
         return article_text
     else:
