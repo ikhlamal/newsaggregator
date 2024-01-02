@@ -68,22 +68,25 @@ def format_time_difference(published_time):
 
 def main():
     st.set_page_config(layout="wide")
-    st.title("Berita Utama")
+    st.title("Contoh Aja")
 
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Menampilkan berita utama
-    for entry in feed.entries:
+    # Sidebar untuk dropdown
+    selected_option = st.sidebar.selectbox("Pilih Berita:", ["Berita Utama", "Berita Terkait 1", "Berita Terkait 2", "Berita Terkait 3"])
+
+    # Tampilkan berita yang dipilih
+    if 'Berita Utama' in selected_option and feed.entries:
+        entry = feed.entries[0]
         thumbnail_url = get_news_thumbnail(entry.link)
         article_text = get_news_article(entry.link)
-        
         if thumbnail_url:
             st.markdown(
                 f"""
                 <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                     <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
-                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='/detail/{entry.link}' target='_blank'>{entry.title}</a></h4>
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
                     <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
                     <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
                     <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
@@ -97,7 +100,7 @@ def main():
             st.markdown(
                 f"""
                 <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='/detail/{entry.link}' target='_blank'>{entry.title}</a></h4>
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
                     <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
                     <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
                     <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
@@ -106,28 +109,30 @@ def main():
                 """,
                 unsafe_allow_html=True
             )
+    elif 'Berita Terkait' in selected_option and len(feed.entries) > 1:
+        # Ambil berita terkait yang dipilih
+        entry = feed.entries[0]
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]
+        selected_summary = summaries[int(selected_option[-1]) - 1] if len(summaries) >= int(selected_option[-1]) else None
 
-    # Menambahkan pemisah antara berita utama dan berita terkait
-    st.markdown("---")
+        if selected_summary:
+            link = selected_summary.get('href')
+            title = selected_summary.get_text(strip=True)
+            source = selected_summary.find_next('font').get_text(strip=True)
 
-    # Menampilkan berita terkait
-    selected_option = st.selectbox("Pilih Berita Terkait:", [entry.title for entry in feed.entries])
-    
-    for entry in feed.entries:
-        if entry.title == selected_option:
-            thumbnail_url = get_news_thumbnail(entry.link)
-            article_text = get_news_article(entry.link)
-            
-            if thumbnail_url:
+            thumbnail_url_related = get_news_thumbnail(link)
+            article_text_related = get_news_article(link)
+
+            if thumbnail_url_related:
                 st.markdown(
                     f"""
                     <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                        <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
-                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                        <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
+                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
                         <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                        <p style='font-size: 12px;'>{article_text}</p>
+                        <p style='font-size: 12px;'>{article_text_related}</p>
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -137,15 +142,17 @@ def main():
                 st.markdown(
                     f"""
                     <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                        <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
                         <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                        <p style='font-size: 12px;'>{article_text}</p>
+                        <p style='font-size: 12px;'>{article_text_related}</p>
                     </div>
                     """,
                     unsafe_allow_html=True
                 )
+        else:
+            st.warning("Berita terkait tidak ditemukan.")
 
 if __name__ == "__main__":
     main()
