@@ -72,7 +72,7 @@ def get_article_date(url):
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # Cari elemen yang berisi informasi tanggal, contoh: <time>...</time>
-        date_element = soup.find('datetime')
+        date_element = soup.find('date')
         if date_element:
             return date_element.get_text()
 
