@@ -33,9 +33,6 @@ def get_news_article(url):
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-
-        # Cari elemen-elemen yang berisi teks artikel dari tag <p>
-        # p_elements = soup.find_all('p')
         # Cari elemen-elemen yang berisi teks artikel dari tag <div>
         div_elements = soup.find_all('div', class_='wrap__article-detail-content post-content')
         contentx_elements = soup.find_all('div', id='cke_pastebin')
