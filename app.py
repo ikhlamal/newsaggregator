@@ -158,7 +158,7 @@ def main():
                     <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                         <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
                         <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>{article_date_related}</p>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(article_date_related)}</p>
                         <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
                         <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
                         <p style='font-size: 12px;'>{article_text_related}</p>
