@@ -65,22 +65,6 @@ def format_time_difference(published_time):
         return f"{int(time_difference.total_seconds() / 3600)} jam yang lalu"
     else:
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
-
-def get_article_date(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        # Cari elemen yang berisi informasi tanggal, contoh: <time>...</time>
-        date_element = soup.find('date')
-        if date_element:
-            return date_element.get_text()
-
-        # Jika tidak ditemukan, tambahkan logika atau tag HTML lainnya yang sesuai dengan struktur website tertentu
-        return None
-    else:
-        print(f"Error: {response.status_code}")
-        return None
         
 def main():
     st.set_page_config(layout="wide")
@@ -128,7 +112,7 @@ def main():
     elif 'Berita Terkait' in selected_option and len(feed.entries) > 1:
         # Ambil berita terkait yang dipilih
         entry = feed.entries[0]
-        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:5]
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:5]  # Menambahkan satu berita terkait lebih
         selected_summary = summaries[int(selected_option[-1]) - 1] if len(summaries) >= int(selected_option[-1]) else None
 
         if selected_summary:
@@ -138,7 +122,6 @@ def main():
 
             thumbnail_url_related = get_news_thumbnail(link)
             article_text_related = get_news_article(link)
-            article_date_related = get_article_date(link)  # Tambahkan tanggal dari link berita terkait
 
             # Tambahkan pengulangan untuk memeriksa thumbnail
             while not thumbnail_url_related and summaries:
@@ -150,7 +133,6 @@ def main():
                     source = selected_summary.find_next('font').get_text(strip=True)
                     thumbnail_url_related = get_news_thumbnail(link)
                     article_text_related = get_news_article(link)
-                    article_date_related = get_article_date(link)
 
             if thumbnail_url_related:
                 st.markdown(
@@ -158,7 +140,7 @@ def main():
                     <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                         <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
                         <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>{article_date_related}</p>
+                        <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
                         <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
                         <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
                         <p style='font-size: 12px;'>{article_text_related}</p>
