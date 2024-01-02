@@ -112,7 +112,7 @@ def main():
     elif 'Berita Terkait' in selected_option and len(feed.entries) > 1:
         # Ambil berita terkait yang dipilih
         entry = feed.entries[0]
-        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:5]  # Menambahkan satu berita terkait lebih
         selected_summary = summaries[int(selected_option[-1]) - 1] if len(summaries) >= int(selected_option[-1]) else None
 
         if selected_summary:
@@ -122,6 +122,17 @@ def main():
 
             thumbnail_url_related = get_news_thumbnail(link)
             article_text_related = get_news_article(link)
+
+            # Tambahkan pengulangan untuk memeriksa thumbnail
+            while not thumbnail_url_related and summaries:
+                summaries = summaries[1:]  # Hapus berita terkait pertama
+                if summaries:
+                    selected_summary = summaries[0]
+                    link = selected_summary.get('href')
+                    title = selected_summary.get_text(strip=True)
+                    source = selected_summary.find_next('font').get_text(strip=True)
+                    thumbnail_url_related = get_news_thumbnail(link)
+                    article_text_related = get_news_article(link)
 
             if thumbnail_url_related:
                 st.markdown(
@@ -138,19 +149,7 @@ def main():
                     unsafe_allow_html=True
                 )
             else:
-                # Jika thumbnail tidak ditemukan, tampilkan berita terkait tanpa thumbnail
-                st.markdown(
-                    f"""
-                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                        <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>x jam yang lalu</p>
-                        <p style='font-size: 12px; margin-bottom: 5px;'>Sumber: {source}</p>
-                        <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                        <p style='font-size: 12px;'>{article_text_related}</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                st.warning("Semua berita terkait tidak memiliki thumbnail.")
         else:
             st.warning("Berita terkait tidak ditemukan.")
 
