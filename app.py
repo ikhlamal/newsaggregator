@@ -38,15 +38,13 @@ def get_news_article(url):
         # p_elements = soup.find_all('p')
         # Cari elemen-elemen yang berisi teks artikel dari tag <div>
         div_elements = soup.find_all('div', class_='wrap__article-detail-content post-content')
-
-        # Cari elemen-elemen yang berisi teks artikel dari tag <div> dengan id="contentx"
         contentx_elements = soup.find_all('div', id='cke_pastebin')
         cnn = soup.find_all('div', class_='detail-text')
         detik = soup.find_all('div', class_='detail__body')
         cnbc = soup.find_all('div', class_='detail_text')
 
         # Gabungkan elemen-elemen tersebut
-        all_elements = div_elements + contentx_elements + cnn + detik
+        all_elements = div_elements + contentx_elements + cnn + detik + cnbc
 
         # Gabungkan teks dari elemen-elemen yang telah difilter
         article_text = ' '.join(element.get_text() for element in all_elements)
