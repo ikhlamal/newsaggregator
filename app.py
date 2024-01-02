@@ -41,7 +41,7 @@ def get_news_article(url):
         cnbc = soup.find_all('div', class_='detail_text')
         republika = soup.find_all('div', class_='article-content')
         liputan6 = soup.find_all('div', class_='read-page--content')
-        tbnews = soup.find_all('div', class_='data-editor-message')
+        tbnews = soup.find_all('div', class_='mt-3')
         kompas = soup.find_all('div', class_='read__content')
 
         # Gabungkan elemen-elemen tersebut
