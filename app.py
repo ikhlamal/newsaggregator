@@ -43,6 +43,7 @@ def get_news_article(url):
         contentx_elements = soup.find_all('div', id='cke_pastebin')
         cnn = soup.find_all('div', class_='detail-text')
         detik = soup.find_all('div', class_='detail__body')
+        cnbc = soup.find_all('div', class_='detail_text')
 
         # Gabungkan elemen-elemen tersebut
         all_elements = div_elements + contentx_elements + cnn + detik
