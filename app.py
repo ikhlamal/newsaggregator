@@ -42,7 +42,7 @@ def get_news_article(url):
         cnn = soup.find_all('div', class_='detail-text')
         detik = soup.find_all('div', class_='detail__body')
         cnbc = soup.find_all('div', class_='detail_text')
-        republika = soup.find_all('article')
+        republika = soup.find_all('div', class_='article-content')
 
         # Gabungkan elemen-elemen tersebut
         all_elements = div_elements + contentx_elements + cnn + detik + cnbc + republika
