@@ -54,43 +54,6 @@ def format_time_difference(published_time):
     else:
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
 
-def tampilkan_berita_terkait(berita_utama):
-    st.markdown(
-        f"""
-        <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-            <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{berita_utama["link"]}' target='_blank'>{berita_utama["title"]}</a></h4>
-            <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(berita_utama["published_time"])}</p>
-            <p style='font-size: 12px;'>Sumber: {berita_utama["source_title"]}</p>
-            <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-            <p style='font-size: 12px;'>{berita_utama["article_text"]}</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.markdown("<h3>Berita Terkait:</h3>", unsafe_allow_html=True)
-
-    # Ambil berita terkait dari sumber lain, misalnya dengan feedparser lagi
-    rss_url_related = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
-    feed_related = feedparser.parse(rss_url_related)
-
-    for entry_related in feed_related.entries:
-        thumbnail_url_related = get_news_thumbnail(entry_related.link)
-        article_text_related = get_news_article(entry_related.link)
-
-        st.markdown(
-            f"""
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry_related.link}' target='_blank'>{entry_related.title}</a></h4>
-                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry_related.published)}</p>
-                <p style='font-size: 12px;'>Sumber: {entry_related.source.title}</p>
-                <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                <p style='font-size: 12px;'>{article_text_related}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
 def main():
     st.set_page_config(layout="wide")
     st.title("Contoh Aja")
@@ -115,7 +78,19 @@ def main():
 
     for berita in list_berita_utama:
         if st.button(berita["title"]):
-            tampilkan_berita_terkait(berita)
+            st.markdown(
+                f"""
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                    <img src="{berita['thumbnail_url']}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{berita['link']}' target='_blank'>{berita['title']}</a></h4>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(berita['published_time'])}</p>
+                    <p style='font-size: 12px;'>Sumber: {berita['source_title']}</p>
+                    <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                    <p style='font-size: 12px;'>{berita['article_text']}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
 if __name__ == "__main__":
     main()
