@@ -67,7 +67,7 @@ def format_time_difference(published_time):
         
 def main():
     st.set_page_config(layout="wide")
-    st.title("Contoh Aja")
+    st.title("Headline")
 
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
@@ -110,6 +110,7 @@ def main():
         st.warning("Berita tidak ditemukan.")
 
     # Tampilkan berita terkait di bawah berita utama
+    st.title("Berita terkait")
     if selected_entry:
         summaries = BeautifulSoup(selected_entry.summary, 'html.parser').find_all('a')[1:5]
         for i, summary in enumerate(summaries):
