@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_news_thumbnail(url):
-    response = requests.get(url)
+    response = requests.get(url, verify=False)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
