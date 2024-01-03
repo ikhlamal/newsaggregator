@@ -94,18 +94,8 @@ def main():
                 unsafe_allow_html=True
             )
         else:
-            # Jika thumbnail tidak ditemukan, tampilkan berita tanpa thumbnail
-            st.markdown(
-                f"""
-                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{selected_entry.link}' target='_blank'>{selected_entry.title}</a></h4>
-                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
-                    <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
-                    <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            # Jika thumbnail tidak ditemukan
+            selected_entry = next((entry for entry in feed.entries if entry.title != selected_option), None)
     else:
         st.warning("Berita tidak ditemukan.")
 
@@ -140,18 +130,8 @@ def main():
                     unsafe_allow_html=True
                 )
             else:
-                # Jika thumbnail tidak ditemukan, tampilkan berita terkait tanpa thumbnail
-                st.markdown(
-                    f"""
-                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                        <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
-                        <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
-                        <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
-                        <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                # Jika thumbnail tidak ditemukan
+                continue
 
 if __name__ == "__main__":
     main()
