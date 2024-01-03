@@ -89,7 +89,7 @@ def main():
                     <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
                     <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
                     <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                    <p style='font-size: 12px;'>{article_text}</p>
+                    <a href='data:text/plain;charset=utf-8,{article_text}' download='teks_artikel.txt'>Download Teks Artikel</a>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -103,7 +103,7 @@ def main():
                     <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
                     <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
                     <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                    <p style='font-size: 12px;'>{article_text}</p>
+                    <a href='data:text/plain;charset=utf-8,{article_text}' download='teks_artikel.txt'>Download Teks Artikel</a>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -131,7 +131,7 @@ def main():
                         <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
                         <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
                         <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                        <p style='font-size: 10px;'>{article_text_related}</p>
+                        <a href='data:text/plain;charset=utf-8,{article_text_related}' download='teks_artikel_related_{i}.txt'>Download Teks Artikel Terkait {i + 1}</a>
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -145,7 +145,7 @@ def main():
                         <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
                         <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
                         <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                        <p style='font-size: 10px;'>{article_text_related}</p>
+                        <a href='data:text/plain;charset=utf-8,{article_text_related}' download='teks_artikel_related_{i}.txt'>Download Teks Artikel Terkait {i + 1}</a>
                     </div>
                     """,
                     unsafe_allow_html=True
