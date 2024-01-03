@@ -3,64 +3,58 @@ import feedparser
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import requests
-from multiprocessing import Pool
+
+import requests
+from bs4 import BeautifulSoup
 
 def get_news_thumbnail(url):
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-            # Coba cari thumbnail menggunakan tag 'meta'
-            thumbnail_tag = soup.find('meta', property='og:image')
-            if thumbnail_tag:
-                return thumbnail_tag.get('content')
+        # Coba cari thumbnail menggunakan tag 'meta'
+        thumbnail_tag = soup.find('meta', property='og:image')
+        if thumbnail_tag:
+            return thumbnail_tag.get('content')
 
-            # Jika tidak ditemukan, coba cari menggunakan tag dan class lain
-            thumbnail_tag = soup.find('img', class_='imgfull') or soup.find('img', class_='your-other-class')
-            if thumbnail_tag:
-                return thumbnail_tag.get('src')
+        # Jika tidak ditemukan, coba cari menggunakan tag dan class lain
+        thumbnail_tag = soup.find('img', class_='imgfull') or soup.find('img', class_='your-other-class')
+        if thumbnail_tag:
+            return thumbnail_tag.get('src')
 
-            # Tambahkan tag atau class lain yang sesuai dengan struktur website tertentu
+        # Tambahkan tag atau class lain yang sesuai dengan struktur website tertentu
 
-            return None
-        else:
-            print(f"Error: {response.status_code}")
-            return None
-    except Exception as e:
-        print(f"Error fetching thumbnail: {e}")
         return None
-
+    else:
+        print(f"Error: {response.status_code}")
+        return None
+        
 def get_news_article(url):
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            # Cari elemen-elemen yang berisi teks artikel dari tag <div>
-            div_elements = soup.find_all('div', class_='wrap__article-detail-content post-content')
-            contentx_elements = soup.find_all('div', id='cke_pastebin')
-            cnn = soup.find_all('div', class_='detail-text')
-            detik = soup.find_all('div', class_='detail__body')
-            cnbc = soup.find_all('div', class_='detail_text')
-            republika = soup.find_all('div', class_='article-content')
-            liputan6 = soup.find_all('div', class_='read-page--content')
-            tbnews = soup.find_all('div', class_='mt-3')
-            kompas = soup.find_all('div', class_='read__content')
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        # Cari elemen-elemen yang berisi teks artikel dari tag <div>
+        div_elements = soup.find_all('div', class_='wrap__article-detail-content post-content')
+        contentx_elements = soup.find_all('div', id='cke_pastebin')
+        cnn = soup.find_all('div', class_='detail-text')
+        detik = soup.find_all('div', class_='detail__body')
+        cnbc = soup.find_all('div', class_='detail_text')
+        republika = soup.find_all('div', class_='article-content')
+        liputan6 = soup.find_all('div', class_='read-page--content')
+        tbnews = soup.find_all('div', class_='mt-3')
+        kompas = soup.find_all('div', class_='read__content')
 
-            # Gabungkan elemen-elemen tersebut
-            all_elements = div_elements + contentx_elements + cnn + detik + cnbc + republika + liputan6 + tbnews + kompas
+        # Gabungkan elemen-elemen tersebut
+        all_elements = div_elements + contentx_elements + cnn + detik + cnbc + republika + liputan6 + tbnews + kompas
 
-            # Gabungkan teks dari elemen-elemen yang telah difilter
-            article_text = ' '.join(element.get_text() for element in all_elements)
+        # Gabungkan teks dari elemen-elemen yang telah difilter
+        article_text = ' '.join(element.get_text() for element in all_elements)
 
-            return article_text
-        else:
-            print(f"Error: {response.status_code}")
-            return None
-    except Exception as e:
-        print(f"Error fetching article: {e}")
+        return article_text
+    else:
+        print(f"Error: {response.status_code}")
         return None
-
+        
 def format_time_difference(published_time):
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
     time_difference = datetime.utcnow() - published_datetime
@@ -70,23 +64,7 @@ def format_time_difference(published_time):
         return f"{int(time_difference.total_seconds() / 3600)} jam yang lalu"
     else:
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
-
-def get_related_news_info(summary_entry):
-    link = summary_entry.get('href')
-    title = summary_entry.get_text(strip=True)
-    source = summary_entry.find_next('font').get_text(strip=True)
-
-    thumbnail_url_related = get_news_thumbnail(link)
-    article_text_related = get_news_article(link)
-
-    return {
-        "link": link,
-        "title": title,
-        "source": source,
-        "thumbnail_url_related": thumbnail_url_related,
-        "article_text_related": article_text_related
-    }
-
+        
 def main():
     st.set_page_config(layout="wide")
     st.title("Headline")
@@ -94,14 +72,11 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Filter berita utama yang memiliki thumbnail
-    entries_with_thumbnail = [entry for entry in feed.entries if get_news_thumbnail(entry.link)]
-
     # Sidebar untuk dropdown
-    selected_option = st.sidebar.selectbox("Pilih Berita Utama:", [entry.title for entry in entries_with_thumbnail])
+    selected_option = st.sidebar.selectbox("Pilih Berita Utama:", [entry.title for entry in feed.entries])
 
     # Tampilkan berita yang dipilih
-    selected_entry = next((entry for entry in entries_with_thumbnail if entry.title == selected_option), None)
+    selected_entry = next((entry for entry in feed.entries if entry.title == selected_option), None)
     if selected_entry:
         thumbnail_url = get_news_thumbnail(selected_entry.link)
         article_text = get_news_article(selected_entry.link)
@@ -119,8 +94,8 @@ def main():
                 unsafe_allow_html=True
             )
         else:
-            # Jika thumbnail tidak ditemukan, tampilkan pesan
-            st.warning("Thumbnail tidak ditemukan.")
+            # Jika thumbnail tidak ditemukan
+            selected_entry = next((entry for entry in feed.entries if entry.title != selected_option), None)
     else:
         st.warning("Berita tidak ditemukan.")
 
@@ -129,28 +104,34 @@ def main():
     if selected_entry:
         summaries = BeautifulSoup(selected_entry.summary, 'html.parser').find_all('a')[1:5]
 
-        # Menggunakan multiprocessing untuk mempercepat pengambilan thumbnail dan artikel
-        with Pool() as pool:
-            related_news_info_list = pool.map(get_related_news_info, summaries)
+        for i, summary in enumerate(summaries):
+            link = summary.get('href')
+            title = summary.get_text(strip=True)
+            source = summary.find_next('font').get_text(strip=True)
 
-        for related_news_info in related_news_info_list:
-            thumbnail_url_related = related_news_info["thumbnail_url_related"]
+            try:
+                thumbnail_url_related = get_news_thumbnail(link)
+                article_text_related = get_news_article(link)
+            except requests.exceptions.SSLError as ssl_error:
+                print(f"Error accessing related news {link}: {ssl_error}")
+                continue  # Skip to the next iteration if an error occurs
+
             if thumbnail_url_related:
                 st.markdown(
                     f"""
                     <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                         <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 300px; max-height: 200px; margin-bottom: 10px;">
-                        <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{related_news_info["link"]}' target='_blank'>{related_news_info["title"]}</a></h4>
+                        <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
                         <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
-                        <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {related_news_info["source"]}</p>
+                        <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
                         <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
                     </div>
                     """,
                     unsafe_allow_html=True
                 )
             else:
-                # Jika thumbnail tidak ditemukan, tampilkan pesan
-                st.warning("Thumbnail tidak ditemukan.")
+                # Jika thumbnail tidak ditemukan
+                continue
 
 if __name__ == "__main__":
     main()
