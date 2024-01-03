@@ -95,25 +95,11 @@ def main():
                 unsafe_allow_html=True
             )
         else:
-            # Jika thumbnail tidak ditemukan, tampilkan berita tanpa thumbnail
-            st.markdown(
-                f"""
-                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{selected_entry.link}' target='_blank'>{selected_entry.title}</a></h4>
-                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
-                    <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
-                    <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                    <p style='font-size: 12px;'>{article_text}</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-    else:
-        st.warning("Berita tidak ditemukan.")
+            selected_entry = next((entry for entry in feed.entries if entry.title != selected_option), None)
 
-    # Tampilkan berita terkait di bawah berita utama
-    st.title("Berita terkait")
     if selected_entry:
+        # Tampilkan berita terkait di bawah berita utama
+        st.title("Berita terkait")
         summaries = BeautifulSoup(selected_entry.summary, 'html.parser').find_all('a')[1:5]
         for i, summary in enumerate(summaries):
             link = summary.get('href')
@@ -139,7 +125,6 @@ def main():
                     unsafe_allow_html=True
                 )
             else:
-                # Jika thumbnail tidak ditemukan, lanjutkan ke berita terkait berikutnya
                 continue
     else:
         st.warning("Berita tidak ditemukan.")
