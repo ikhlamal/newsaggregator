@@ -4,9 +4,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import requests
 
-import requests
-from bs4 import BeautifulSoup
-
 def get_news_thumbnail(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -72,16 +69,8 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Membuat daftar judul berita utama yang memiliki thumbnail
-    
-    try:
-        news_with_thumbnail = [entry.title for entry in feed.entries if get_news_thumbnail(entry.link)]
-    except requests.exceptions.SSLError as ssl_error:
-        print(f"Error accessing related news {link}: {ssl_error}")
-        continue  # Skip to the next iteration if an error occurs
-
-    # Sidebar untuk dropdown hanya menampilkan berita utama dengan thumbnail
-    selected_option = st.sidebar.selectbox("Pilih Berita Utama:", news_with_thumbnail)
+    # Sidebar untuk dropdown
+    selected_option = st.sidebar.selectbox("Pilih Berita Utama:", [entry.title for entry in feed.entries])
 
     # Tampilkan berita yang dipilih
     selected_entry = next((entry for entry in feed.entries if entry.title == selected_option), None)
@@ -102,7 +91,10 @@ def main():
                 unsafe_allow_html=True
             )
         else:
-            st.warning("Berita tidak memiliki thumbnail.")
+            # Jika thumbnail tidak ditemukan
+            selected_entry = next((entry for entry in feed.entries if entry.title != selected_option), None)
+    else:
+        st.warning("Berita tidak ditemukan.")
 
     # Tampilkan berita terkait di bawah berita utama
     st.title("Berita terkait")
