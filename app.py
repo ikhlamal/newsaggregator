@@ -73,7 +73,12 @@ def main():
     feed = feedparser.parse(rss_url)
 
     # Membuat daftar judul berita utama yang memiliki thumbnail
-    news_with_thumbnail = [entry.title for entry in feed.entries if get_news_thumbnail(entry.link)]
+    
+    try:
+        news_with_thumbnail = [entry.title for entry in feed.entries if get_news_thumbnail(entry.link)]
+    except requests.exceptions.SSLError as ssl_error:
+        print(f"Error accessing related news {link}: {ssl_error}")
+        continue  # Skip to the next iteration if an error occurs
 
     # Sidebar untuk dropdown hanya menampilkan berita utama dengan thumbnail
     selected_option = st.sidebar.selectbox("Pilih Berita Utama:", news_with_thumbnail)
