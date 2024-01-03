@@ -89,7 +89,6 @@ def main():
                     <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
                     <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
                     <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                    <p style='font-size: 12px;'>{article_text}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -119,7 +118,6 @@ def main():
                         <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
                         <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
                         <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                        <p style='font-size: 12px;'>{article_text_related}</p>
                     </div>
                     """,
                     unsafe_allow_html=True
