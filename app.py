@@ -89,13 +89,25 @@ def main():
                     <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
                     <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
                     <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                    <p style='font-size: 12px;'>{article_text}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
         else:
             # Jika thumbnail tidak ditemukan, tampilkan berita tanpa thumbnail
-            continue
+            st.markdown(
+                f"""
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{selected_entry.link}' target='_blank'>{selected_entry.title}</a></h4>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
+                    <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
+                    <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                    <p style='font-size: 12px;'>{article_text}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
     else:
         st.warning("Berita tidak ditemukan.")
 
@@ -111,6 +123,7 @@ def main():
             thumbnail_url_related = get_news_thumbnail(link)
             article_text_related = get_news_article(link)
 
+            # Tambahkan penanganan jika thumbnail tidak ditemukan
             if thumbnail_url_related:
                 st.markdown(
                     f"""
@@ -120,12 +133,16 @@ def main():
                         <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
                         <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
                         <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                        <p style='font-size: 12px;'>{article_text_related}</p>
                     </div>
                     """,
                     unsafe_allow_html=True
                 )
             else:
+                # Jika thumbnail tidak ditemukan, lanjutkan ke berita terkait berikutnya
                 continue
+    else:
+        st.warning("Berita tidak ditemukan.")
 
 if __name__ == "__main__":
     main()
