@@ -1,5 +1,3 @@
-Tolong hafalkan kode ini, saya ada banyak pertanyaan setelahnya:
-
 import streamlit as st
 import feedparser
 from bs4 import BeautifulSoup
