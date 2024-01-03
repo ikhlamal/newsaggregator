@@ -4,9 +4,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import requests
 
-import requests
-from bs4 import BeautifulSoup
-
 def get_news_thumbnail(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -28,7 +25,7 @@ def get_news_thumbnail(url):
     else:
         print(f"Error: {response.status_code}")
         return None
-        
+
 def get_news_article(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -54,7 +51,7 @@ def get_news_article(url):
     else:
         print(f"Error: {response.status_code}")
         return None
-        
+
 def format_time_difference(published_time):
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
     time_difference = datetime.utcnow() - published_datetime
@@ -64,7 +61,7 @@ def format_time_difference(published_time):
         return f"{int(time_difference.total_seconds() / 3600)} jam yang lalu"
     else:
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
-        
+
 def main():
     st.set_page_config(layout="wide")
     st.title("Headline")
@@ -72,11 +69,14 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
+    # Filter berita utama yang memiliki thumbnail
+    entries_with_thumbnail = [entry for entry in feed.entries if get_news_thumbnail(entry.link)]
+
     # Sidebar untuk dropdown
-    selected_option = st.sidebar.selectbox("Pilih Berita Utama:", [entry.title for entry in feed.entries])
+    selected_option = st.sidebar.selectbox("Pilih Berita Utama:", [entry.title for entry in entries_with_thumbnail])
 
     # Tampilkan berita yang dipilih
-    selected_entry = next((entry for entry in feed.entries if entry.title == selected_option), None)
+    selected_entry = next((entry for entry in entries_with_thumbnail if entry.title == selected_option), None)
     if selected_entry:
         thumbnail_url = get_news_thumbnail(selected_entry.link)
         article_text = get_news_article(selected_entry.link)
@@ -94,8 +94,8 @@ def main():
                 unsafe_allow_html=True
             )
         else:
-            # Jika thumbnail tidak ditemukan
-            selected_entry = next((entry for entry in feed.entries if entry.title != selected_option), None)
+            # Jika thumbnail tidak ditemukan, tampilkan pesan
+            st.warning("Thumbnail tidak ditemukan.")
     else:
         st.warning("Berita tidak ditemukan.")
 
