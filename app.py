@@ -73,7 +73,7 @@ def main():
     feed = feedparser.parse(rss_url)
 
     # Sidebar untuk dropdown
-    selected_option = st.sidebar.selectbox("Pilih Berita:", ["Berita Utama", "Berita Terkait 1", "Berita Terkait 2", "Berita Terkait 3"])
+    selected_option = st.sidebar.selectbox("Pilih Berita:", ["Berita Utama", "Berita Terkait 1", "Berita Terkait 2", "Berita Terkait 3", "Berita Terkait 4"])
 
     # Tampilkan berita yang dipilih
     if 'Berita Utama' in selected_option and feed.entries:
@@ -111,7 +111,7 @@ def main():
     elif 'Berita Terkait' in selected_option and len(feed.entries) > 1:
         # Ambil berita terkait yang dipilih
         entry = feed.entries[0]
-        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:4]
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:5]
         selected_summary = summaries[int(selected_option[-1]) - 1] if len(summaries) >= int(selected_option[-1]) else None
 
         if selected_summary:
