@@ -28,66 +28,7 @@ def get_news_thumbnail(url):
     else:
         print(f"Error: {response.status_code}")
         return None
-
-def get_news_list(rss_url, num_entries=10):
-    feed = feedparser.parse(rss_url)
-    entries = feed.entries[:num_entries]
-    return entries
-
-def display_news_sidebar(entries):
-    st.sidebar.title("Pilih Berita Utama")
-    selected_option = st.sidebar.radio("Berita Utama:", entries)
-    return selected_option
-
-def display_news_main(entry):
-    thumbnail_url = get_news_thumbnail(entry.link)
-    article_text = get_news_article(entry.link)
-    if thumbnail_url:
-        st.markdown(
-            f"""
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
-                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
-                <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                <p style='font-size: 12px;'>{article_text}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    else:
-        # Jika thumbnail tidak ditemukan, tampilkan berita tanpa thumbnail
-        st.markdown(
-            f"""
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
-                <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                <p style='font-size: 12px;'>{article_text}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-def display_related_news(entries):
-    st.markdown("<h2>Berita Terkait</h2>", unsafe_allow_html=True)
-    for idx, entry in enumerate(entries, start=1):
-        thumbnail_url_related = get_news_thumbnail(entry.link)
-        if thumbnail_url_related:
-            st.markdown(
-                f"""
-                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                    <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 200px; max-height: 150px; margin-bottom: 10px;">
-                    <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                    <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
+        
 def get_news_article(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -113,7 +54,7 @@ def get_news_article(url):
     else:
         print(f"Error: {response.status_code}")
         return None
-
+        
 def format_time_difference(published_time):
     published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
     time_difference = datetime.utcnow() - published_datetime
@@ -123,22 +64,94 @@ def format_time_difference(published_time):
         return f"{int(time_difference.total_seconds() / 3600)} jam yang lalu"
     else:
         return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
-
+        
 def main():
     st.set_page_config(layout="wide")
     st.title("Contoh Aja")
 
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
-    entries = get_news_list(rss_url)
+    feed = feedparser.parse(rss_url)
 
-    selected_option = display_news_sidebar(entries)
-    selected_entry = next(entry for entry in entries if entry.title == selected_option)
+    # Sidebar untuk dropdown
+    selected_option = st.sidebar.selectbox("Pilih Berita:", ["Berita Utama {}".format(i+1) for i in range(10)])
 
-    display_news_main(selected_entry)
+    # Tampilkan berita yang dipilih
+    selected_index = int(selected_option.split()[-1]) - 1
+    if feed.entries and 0 <= selected_index < len(feed.entries):
+        entry = feed.entries[selected_index]
+        thumbnail_url = get_news_thumbnail(entry.link)
+        article_text = get_news_article(entry.link)
+        if thumbnail_url:
+            st.markdown(
+                f"""
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                    <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
+                    <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                    <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                    <p style='font-size: 12px;'>{article_text}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        else:
+            # Jika thumbnail tidak ditemukan, tampilkan berita tanpa thumbnail
+            st.markdown(
+                f"""
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
+                    <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                    <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                    <p style='font-size: 12px;'>{article_text}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    else:
+        st.warning("Berita tidak ditemukan.")
 
-    # Ambil berita terkait dari berita utama yang dipilih
-    related_entries = selected_entry.entries[1:5] if len(selected_entry.entries) > 1 else []
-    display_related_news(related_entries)
+    # Tampilkan berita terkait di bawah berita utama
+    if feed.entries and 0 <= selected_index < len(feed.entries):
+        entry = feed.entries[selected_index]
+        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:5]
+        for i, summary in enumerate(summaries):
+            link = summary.get('href')
+            title = summary.get_text(strip=True)
+            source = summary.find_next('font').get_text(strip=True)
+
+            thumbnail_url_related = get_news_thumbnail(link)
+            article_text_related = get_news_article(link)
+
+            if thumbnail_url_related:
+                st.markdown(
+                    f"""
+                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 300px; max-height: 200px; margin-bottom: 10px;">
+                        <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
+                        <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
+                        <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
+                        <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                        <p style='font-size: 10px;'>{article_text_related}</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            else:
+                # Jika thumbnail tidak ditemukan, tampilkan berita terkait tanpa thumbnail
+                st.markdown(
+                    f"""
+                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                        <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
+                        <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
+                        <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
+                        <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
+                        <p style='font-size: 10px;'>{article_text_related}</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
 if __name__ == "__main__":
     main()
