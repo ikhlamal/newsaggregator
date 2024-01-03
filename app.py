@@ -73,22 +73,21 @@ def main():
     feed = feedparser.parse(rss_url)
 
     # Sidebar untuk dropdown
-    selected_option = st.sidebar.selectbox("Pilih Berita:", ["Berita Utama {}".format(i+1) for i in range(10)])
+    selected_option = st.sidebar.selectbox("Pilih Berita Utama:", [entry.title for entry in feed.entries])
 
     # Tampilkan berita yang dipilih
-    selected_index = int(selected_option.split()[-1]) - 1
-    if feed.entries and 0 <= selected_index < len(feed.entries):
-        entry = feed.entries[selected_index]
-        thumbnail_url = get_news_thumbnail(entry.link)
-        article_text = get_news_article(entry.link)
+    selected_entry = next((entry for entry in feed.entries if entry.title == selected_option), None)
+    if selected_entry:
+        thumbnail_url = get_news_thumbnail(selected_entry.link)
+        article_text = get_news_article(selected_entry.link)
         if thumbnail_url:
             st.markdown(
                 f"""
                 <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
                     <img src="{thumbnail_url}" alt="Thumbnail" style="max-width: 600px; max-height: 400px; margin-bottom: 10px;">
-                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                    <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{selected_entry.link}' target='_blank'>{selected_entry.title}</a></h4>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
+                    <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
                     <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
                     <p style='font-size: 12px;'>{article_text}</p>
                 </div>
@@ -100,9 +99,9 @@ def main():
             st.markdown(
                 f"""
                 <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{entry.link}' target='_blank'>{entry.title}</a></h4>
-                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(entry.published)}</p>
-                    <p style='font-size: 12px;'>Sumber: {entry.source.title}</p>
+                    <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{selected_entry.link}' target='_blank'>{selected_entry.title}</a></h4>
+                    <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
+                    <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
                     <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
                     <p style='font-size: 12px;'>{article_text}</p>
                 </div>
@@ -113,9 +112,8 @@ def main():
         st.warning("Berita tidak ditemukan.")
 
     # Tampilkan berita terkait di bawah berita utama
-    if feed.entries and 0 <= selected_index < len(feed.entries):
-        entry = feed.entries[selected_index]
-        summaries = BeautifulSoup(entry.summary, 'html.parser').find_all('a')[1:5]
+    if selected_entry:
+        summaries = BeautifulSoup(selected_entry.summary, 'html.parser').find_all('a')[1:5]
         for i, summary in enumerate(summaries):
             link = summary.get('href')
             title = summary.get_text(strip=True)
