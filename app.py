@@ -1,70 +1,3 @@
-import streamlit as st
-import feedparser
-from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
-import requests
-
-import requests
-from bs4 import BeautifulSoup
-
-def get_news_thumbnail(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        # Coba cari thumbnail menggunakan tag 'meta'
-        thumbnail_tag = soup.find('meta', property='og:image')
-        if thumbnail_tag:
-            return thumbnail_tag.get('content')
-
-        # Jika tidak ditemukan, coba cari menggunakan tag dan class lain
-        thumbnail_tag = soup.find('img', class_='imgfull') or soup.find('img', class_='your-other-class')
-        if thumbnail_tag:
-            return thumbnail_tag.get('src')
-
-        # Tambahkan tag atau class lain yang sesuai dengan struktur website tertentu
-
-        return None
-    else:
-        print(f"Error: {response.status_code}")
-        return None
-        
-def get_news_article(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-        # Cari elemen-elemen yang berisi teks artikel dari tag <div>
-        div_elements = soup.find_all('div', class_='wrap__article-detail-content post-content')
-        contentx_elements = soup.find_all('div', id='cke_pastebin')
-        cnn = soup.find_all('div', class_='detail-text')
-        detik = soup.find_all('div', class_='detail__body')
-        cnbc = soup.find_all('div', class_='detail_text')
-        republika = soup.find_all('div', class_='article-content')
-        liputan6 = soup.find_all('div', class_='read-page--content')
-        tbnews = soup.find_all('div', class_='mt-3')
-        kompas = soup.find_all('div', class_='read__content')
-
-        # Gabungkan elemen-elemen tersebut
-        all_elements = div_elements + contentx_elements + cnn + detik + cnbc + republika + liputan6 + tbnews + kompas
-
-        # Gabungkan teks dari elemen-elemen yang telah difilter
-        article_text = ' '.join(element.get_text() for element in all_elements)
-
-        return article_text
-    else:
-        print(f"Error: {response.status_code}")
-        return None
-        
-def format_time_difference(published_time):
-    published_datetime = datetime.strptime(published_time, "%a, %d %b %Y %H:%M:%S %Z")
-    time_difference = datetime.utcnow() - published_datetime
-    if time_difference < timedelta(minutes=60):
-        return f"{int(time_difference.total_seconds() / 60)} menit yang lalu"
-    elif time_difference < timedelta(hours=24):
-        return f"{int(time_difference.total_seconds() / 3600)} jam yang lalu"
-    else:
-        return f"{int(time_difference.total_seconds() / 86400)} hari yang lalu"
-        
 def main():
     st.set_page_config(layout="wide")
     st.title("Headline")
@@ -72,8 +5,11 @@ def main():
     rss_url = 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtbGtHZ0pKUkNnQVAB?hl=id&gl=ID&ceid=ID%3Aid&oc=11'
     feed = feedparser.parse(rss_url)
 
-    # Sidebar untuk dropdown
-    selected_option = st.sidebar.selectbox("Pilih Berita Utama:", [entry.title for entry in feed.entries])
+    # Membuat daftar judul berita utama yang memiliki thumbnail
+    news_with_thumbnail = [entry.title for entry in feed.entries if get_news_thumbnail(entry.link)]
+
+    # Sidebar untuk dropdown hanya menampilkan berita utama dengan thumbnail
+    selected_option = st.sidebar.selectbox("Pilih Berita Utama:", news_with_thumbnail)
 
     # Tampilkan berita yang dipilih
     selected_entry = next((entry for entry in feed.entries if entry.title == selected_option), None)
@@ -94,10 +30,7 @@ def main():
                 unsafe_allow_html=True
             )
         else:
-            # Jika thumbnail tidak ditemukan
-            selected_entry = next((entry for entry in feed.entries if entry.title != selected_option), None)
-    else:
-        st.warning("Berita tidak ditemukan.")
+            st.warning("Berita tidak memiliki thumbnail.")
 
     # Tampilkan berita terkait di bawah berita utama
     st.title("Berita terkait")
