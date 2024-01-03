@@ -4,9 +4,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import requests
 
-import requests
-from bs4 import BeautifulSoup
-
 def get_news_thumbnail(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -88,8 +85,8 @@ def main():
                     <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{selected_entry.link}' target='_blank'>{selected_entry.title}</a></h4>
                     <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
                     <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
-                    <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                    <a href='data:text/plain;charset=utf-8,{article_text}' download='teks_artikel.txt'>Download Teks Artikel</a>
+                    <p style='font-size: 14px; margin-top: 10px;'><strong><a href="#article-text" style="color: inherit; text-decoration: none;">Teks Artikel:</a></strong></p>
+                    <p id="article-text" style='font-size: 12px;'>{article_text}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -102,8 +99,8 @@ def main():
                     <h4 style='font-size: 16px; margin-bottom: 5px;'><a href='{selected_entry.link}' target='_blank'>{selected_entry.title}</a></h4>
                     <p style='font-size: 12px; margin-bottom: 5px;'>{format_time_difference(selected_entry.published)}</p>
                     <p style='font-size: 12px;'>Sumber: {selected_entry.source.title}</p>
-                    <p style='font-size: 14px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                    <a href='data:text/plain;charset=utf-8,{article_text}' download='teks_artikel.txt'>Download Teks Artikel</a>
+                    <p style='font-size: 14px; margin-top: 10px;'><strong><a href="#article-text" style="color: inherit; text-decoration: none;">Teks Artikel:</a></strong></p>
+                    <p id="article-text" style='font-size: 12px;'>{article_text}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -126,12 +123,11 @@ def main():
                 st.markdown(
                     f"""
                     <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: left; margin-bottom: 10px;">
-                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 300px; max-height: 200px; margin-bottom: 10px;">
+                        <img src="{thumbnail_url_related}" alt="Thumbnail" style="max-width: 200px; max-height: 100px; margin-bottom: 5px;">
                         <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
                         <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
                         <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
-                        <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                        <a href='data:text/plain;charset=utf-8,{article_text_related}' download='teks_artikel_related_{i}.txt'>Download Teks Artikel Terkait {i + 1}</a>
+                        <p style='font-size: 12px; margin-top: 5px;'><strong><a href="{link}" target='_blank' style="color: inherit; text-decoration: none;">Baca selengkapnya</a></strong></p>
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -144,8 +140,7 @@ def main():
                         <h4 style='font-size: 14px; margin-bottom: 5px;'><a href='{link}' target='_blank'>{title}</a></h4>
                         <p style='font-size: 10px; margin-bottom: 5px;'>x jam yang lalu</p>
                         <p style='font-size: 10px; margin-bottom: 5px;'>Sumber: {source}</p>
-                        <p style='font-size: 12px; margin-top: 10px;'><strong>Teks Artikel:</strong></p>
-                        <a href='data:text/plain;charset=utf-8,{article_text_related}' download='teks_artikel_related_{i}.txt'>Download Teks Artikel Terkait {i + 1}</a>
+                        <p style='font-size: 12px; margin-top: 5px;'><strong><a href="{link}" target='_blank' style="color: inherit; text-decoration: none;">Baca selengkapnya</a></strong></p>
                     </div>
                     """,
                     unsafe_allow_html=True
