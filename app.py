@@ -24,7 +24,6 @@ def main():
         st.session_state.current_tweet_index = 0
 
     # Menampilkan tweet saat ini
-    st.header("Tweet")
     with st.expander("Tweet Viewer", expanded=True):
         col1, col2, col3 = st.columns([1, 8, 1])
         if col1.button("⬅️") and st.session_state.current_tweet_index > 0:
