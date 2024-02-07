@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=350, height=500, scrolling=True)
+    st.components.v1.html(tweet_html, width=350, height=450, scrolling=True)
 
 def format_tweet(row):
     tweet_html = f'''
@@ -37,7 +37,7 @@ def main():
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        with st.container(height=501, border=True):
+        with st.container(height=500, border=True):
             col7, col8, col9, col10, col11, col12 = st.columns(6)
             with col7:
                 if st.session_state.current_tweet_index1 > 0:
@@ -67,7 +67,7 @@ def main():
             show_tweet(tweets2[st.session_state.current_tweet_index2])
 
     with col3:
-        with st.container(border=True):
+        with st.container(height=500, border=True):
             col7, col8, col9, col10, col11, col12 = st.columns(6)
             with col7:
                 if st.session_state.current_tweet_index3 > 0:
