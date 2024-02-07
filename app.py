@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=300, height=700)
+    st.components.v1.html(tweet_html, width=500, height=600)
 
 def main():
     st.title("Aplikasi Tweet")
