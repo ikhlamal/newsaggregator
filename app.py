@@ -26,10 +26,12 @@ def main():
     st.header("Tweet")
     with st.expander("Tweet Viewer", expanded=True):
         col1, col2, col3 = st.columns([1, 8, 1])
-        if col1.button("⬅️") and current_tweet_index > 0:
-            current_tweet_index -= 1
-        if col3.button("➡️") and current_tweet_index < len(tweets) - 1:
-            current_tweet_index += 1
+        if col1.button("⬅️"):
+            current_tweet_index = max(0, current_tweet_index - 1)
+        if col3.button("➡️"):
+            current_tweet_index = min(len(tweets) - 1, current_tweet_index + 1)
+
+        # Memperbarui tweet yang akan ditampilkan
         show_tweet(tweets[current_tweet_index])
 
 if __name__ == "__main__":
