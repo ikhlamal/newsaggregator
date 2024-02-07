@@ -33,13 +33,12 @@ def main():
     # Menampilkan tweet saat ini
     st.header("Tweet")
     with st.expander("Tweet Viewer", expanded=True):
-        with st.container():
-            show_tweet(tweets[current_tweet_index])
-            col1, col2, col3 = st.columns([1, 8, 1])
-            if col1.button("⬅️") and current_tweet_index > 0:
-                current_tweet_index -= 1
-            if col3.button("➡️") and current_tweet_index < len(tweets) - 1:
-                current_tweet_index += 1
+        show_tweet(tweets[current_tweet_index])
+        col1, col2, col3 = st.columns([1, 8, 1])
+        if col1.button("⬅️") and current_tweet_index > 0:
+            current_tweet_index -= 1
+        if col3.button("➡️") and current_tweet_index < len(tweets) - 1:
+            current_tweet_index += 1
 
 if __name__ == "__main__":
     main()
