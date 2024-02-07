@@ -7,9 +7,7 @@ def show_tweet(tweet_html):
 def format_tweet(row):
     tweet_html = f'''
         <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">{row['full_text']}</p>&mdash; {row['username']} (@{row['username']})
-        <a href={row['tweet_url']}>
-        {row['created_at']}</a></blockquote>
+        <a href={row['tweet_url']}></a></blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     '''
     return tweet_html
