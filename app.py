@@ -35,6 +35,7 @@ def main():
             current_tweet_index -= 1
         if col3.button("➡️") and current_tweet_index < len(tweets) - 1:
             current_tweet_index += 1
+        show_tweet(tweets[current_tweet_index])
 
 if __name__ == "__main__":
     main()
