@@ -53,7 +53,7 @@ def main():
                 }
                 </style>
                 """, unsafe_allow_html=True)
-            col1, col2, col3 = st.columns([1, 8, 1])
+            col7, col8, col9 = st.columns([1, 8, 1])
             if st.session_state.current_tweet_index1 > 0:
                 if st.button("⬅️", key="left1"):
                     st.session_state.current_tweet_index1 -= 1
