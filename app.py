@@ -65,9 +65,8 @@ def main():
     # Membagi layar menjadi dua kolom
     col1, col2 = st.columns(2)
     with col1:
-        with st.expander("Tweet Viewer 1", expanded=True):
+        with st.expander("", expanded=True):
             st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
-            st.subheader("Tweet Viewer 1")
             st.markdown(
                 """<style>
                 .reportview-container .main .block-container{
@@ -88,9 +87,8 @@ def main():
             show_tweet(tweets1[st.session_state.current_tweet_index1])
 
     with col2:
-        with st.expander("Tweet Viewer 2", expanded=True):
+        with st.expander("", expanded=True):
             st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
-            st.subheader("Tweet Viewer 2")
             st.markdown(
                 """<style>
                 .reportview-container .main .block-container{
