@@ -60,29 +60,40 @@ def main():
     current_tweet_index_group_1 = 0
     current_tweet_index_group_2 = 0
 
-    # Menampilkan kelompok tweet secara horizontal
-    st.header("Tweet Viewer")
+    # Menampilkan tweet saat ini
+    st.header("Tweet")
+    with st.expander("Tweet Viewer", expanded=True):
+        col1, col2, col3 = st.columns([1, 8, 1])
 
-    # Membagi layar menjadi dua kolom
-    col1, col2 = st.columns(2)
+        # Menampilkan tweet untuk kelompok 1 di kolom pertama
+        with col1:
+            st.subheader("Kelompok 1")
+            if col1.button("⬅️") and current_tweet_index_group_1 > 0:
+                current_tweet_index_group_1 -= 1
+            elif col3.button("➡️") and current_tweet_index_group_1 < len(tweets_group_1) - 1:
+                current_tweet_index_group_1 += 1
+            show_tweet(tweets_group_1[current_tweet_index_group_1])
 
-    # Menampilkan tweet untuk kelompok 1 di kolom pertama
-    with col1:
-        st.subheader("Kelompok 1")
-        if st.button("⬅️") and current_tweet_index_group_1 > 0:
-            current_tweet_index_group_1 -= 1
-        elif st.button("➡️") and current_tweet_index_group_1 < len(tweets_group_1) - 1:
-            current_tweet_index_group_1 += 1
-        show_tweet(tweets_group_1[current_tweet_index_group_1])
+            # Memperbarui tombol kanan jika diperlukan
+            if current_tweet_index_group_1 == len(tweets_group_1) - 1:
+                col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
+            else:
+                col3.button("➡️")
 
-    # Menampilkan tweet untuk kelompok 2 di kolom kedua
-    with col2:
-        st.subheader("Kelompok 2")
-        if st.button("⬅️") and current_tweet_index_group_2 > 0:
-            current_tweet_index_group_2 -= 1
-        elif st.button("➡️") and current_tweet_index_group_2 < len(tweets_group_2) - 1:
-            current_tweet_index_group_2 += 1
-        show_tweet(tweets_group_2[current_tweet_index_group_2])
+        # Menampilkan tweet untuk kelompok 2 di kolom kedua
+        with col2:
+            st.subheader("Kelompok 2")
+            if col1.button("⬅️") and current_tweet_index_group_2 > 0:
+                current_tweet_index_group_2 -= 1
+            elif col3.button("➡️") and current_tweet_index_group_2 < len(tweets_group_2) - 1:
+                current_tweet_index_group_2 += 1
+            show_tweet(tweets_group_2[current_tweet_index_group_2])
+
+            # Memperbarui tombol kanan jika diperlukan
+            if current_tweet_index_group_2 == len(tweets_group_2) - 1:
+                col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
+            else:
+                col3.button("➡️")
 
 if __name__ == "__main__":
     main()
