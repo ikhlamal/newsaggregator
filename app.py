@@ -6,7 +6,7 @@ def show_blog_post(thumbnail_url, title, source):
     st.write(f"*Sumber:* {source}")
 
 def show_tweet(tweet_url):
-    st.write(f'<iframe><blockquote class="twitter-tweet" data-media-max-width="560"><p lang="in" dir="ltr">Muncul Aksi dari Caleg Gerindra Protes Guru Besar Unair Kritik Jokowi <a href="https://t.co/YJMYvUMQrh">https://t.co/YJMYvUMQrh</a></p>&mdash; CNN Indonesia (@CNNIndonesia) <a href="https://twitter.com/CNNIndonesia/status/1754454280558485924?ref_src=twsrc%5Etfw">February 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></iframe>', unsafe_allow_html=True)
+    st.write(f'<blockquote class="twitter-tweet" data-media-max-width="560"><p lang="in" dir="ltr">Muncul Aksi dari Caleg Gerindra Protes Guru Besar Unair Kritik Jokowi <a href="https://t.co/YJMYvUMQrh">https://t.co/YJMYvUMQrh</a></p>&mdash; CNN Indonesia (@CNNIndonesia) <a href="https://twitter.com/CNNIndonesia/status/1754454280558485924?ref_src=twsrc%5Etfw">February 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>', unsafe_allow_html=True)
 
 def main():
     st.title("Aplikasi Blog dan Tweet Viewer")
