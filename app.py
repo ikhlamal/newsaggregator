@@ -19,22 +19,21 @@ def main():
         '''
     ]
 
-    # Inisialisasi index tweet saat ini
-    current_tweet_index = 0
+    # Menyimpan nilai current_tweet_index di session_state
+    if 'current_tweet_index' not in st.session_state:
+        st.session_state.current_tweet_index = 0
 
     # Menampilkan tweet saat ini
     st.header("Tweet")
     with st.expander("Tweet Viewer", expanded=True):
         col1, col2, col3 = st.columns([1, 8, 1])
-        if col1.button("⬅️") and current_tweet_index > 0:
-            current_tweet_index -= 1
-        elif col3.button("➡️") and current_tweet_index < len(tweets) - 1:
-            current_tweet_index += 1
-
-        st.session_state['current_tweet_index'] = current_tweet_index
+        if col1.button("⬅️") and st.session_state.current_tweet_index > 0:
+            st.session_state.current_tweet_index -= 1
+        elif col3.button("➡️") and st.session_state.current_tweet_index < len(tweets) - 1:
+            st.session_state.current_tweet_index += 1
 
         # Menampilkan tweet yang baru setelah klik tombol
-        show_tweet(tweets[current_tweet_index])
+        show_tweet(tweets[st.session_state.current_tweet_index])
 
 if __name__ == "__main__":
     main()
