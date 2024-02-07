@@ -81,12 +81,22 @@ def main():
 
     # Menampilkan kelompok tweet
     st.header("Tweet")
-    col1, col2, col3 = st.columns(3)
-    for tweets in tweets_group:
-        for tweet in tweets:
-            with col1:
-                show_tweet(tweet)
-                col1.empty()
+    with st.expander("Tweet Viewer", expanded=True):
+        for tweets in tweets_group:
+            col1, col2, col3 = st.columns(3)
+            current_tweet_index = 0
+
+            if col1.button("⬅️") and current_tweet_index > 0:
+                current_tweet_index -= 1
+            elif col3.button("➡️") and current_tweet_index < len(tweets) - 1:
+                current_tweet_index += 1
+
+            show_tweet(tweets[current_tweet_index])
+
+            if current_tweet_index == len(tweets) - 1:
+                col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
+            else:
+                col3.button("➡️")
 
 if __name__ == "__main__":
     main()
