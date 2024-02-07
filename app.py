@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=500, height=650)
+    st.components.v1.html(tweet_html, width=500, height=400)
 
 def main():
     st.title("Aplikasi Tweet Viewer")
@@ -81,24 +81,32 @@ def main():
 
     # Menampilkan kelompok tweet
     st.header("Tweet")
+    col1, col2, col3 = st.columns(3)  # Membagi ruang tampilan menjadi 3 kolom
     for i, tweets in enumerate(tweets_group):
-        st.subheader(f"Kelompok {i+1}")
-        with st.expander(f"Tweet Viewer {i+1}", expanded=True):
-            col1, col2, col3 = st.columns([1, 8, 1])
+        col = None
+        if i % 3 == 0:
+            col = col1
+        elif i % 3 == 1:
+            col = col2
+        else:
+            col = col3
+
+        col.subheader(f"Kelompok {i+1}")
+        with col.expander(f"Tweet Viewer {i+1}", expanded=True):
+            current_tweet_index = 0
+
             if 'current_tweet_index' not in st.session_state:
                 st.session_state.current_tweet_index = 0
 
-            if col1.button("⬅️") and st.session_state.current_tweet_index > 0:
+            if col.button("⬅️") and st.session_state.current_tweet_index > 0:
                 st.session_state.current_tweet_index -= 1
-            elif col3.button("➡️") and st.session_state.current_tweet_index < len(tweets) - 1:
+            elif col.button("➡️") and st.session_state.current_tweet_index < len(tweets) - 1:
                 st.session_state.current_tweet_index += 1
 
             show_tweet(tweets[st.session_state.current_tweet_index])
 
             if st.session_state.current_tweet_index == len(tweets) - 1:
-                col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
-            else:
-                col3.button("➡️")
+                col.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
 
 if __name__ == "__main__":
     main()
