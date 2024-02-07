@@ -28,7 +28,7 @@ def main():
         col1, col2, col3 = st.columns([1, 8, 1])
         if col1.button("⬅️") and current_tweet_index > 0:
             current_tweet_index -= 1
-        if col3.button("➡️") and current_tweet_index < len(tweets) - 1:
+        elif col3.button("➡️") and current_tweet_index < len(tweets) - 1:
             current_tweet_index += 1
 
         st.session_state['current_tweet_index'] = current_tweet_index
