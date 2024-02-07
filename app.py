@@ -43,8 +43,6 @@ def main():
                 if st.session_state.current_tweet_index1 > 0:
                     if st.button("⬅️", key="left1"):
                         st.session_state.current_tweet_index1 -= 1
-            with col9 and col10:
-                st.write("Next/Prev")
             with col12:
                 if st.session_state.current_tweet_index1 < len(tweets1) - 1:
                     if st.button("➡️", key="right1"):
