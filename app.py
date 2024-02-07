@@ -37,7 +37,7 @@ def main():
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        with st.container(border=True):
+        with st.container(height=499, border=True):
             col7, col8, col9, col10, col11, col12 = st.columns(6)
             with col7:
                 if st.session_state.current_tweet_index1 > 0:
