@@ -15,11 +15,24 @@ def main():
         January 1, 2024</a></blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         ''',
-        # Data tweet 2 dan 3...
+        '''
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <p lang="in" dir="ltr">Tweet 2</p>&mdash; User2 (@user2) 
+        <a href="https://twitter.com/user2/status/2?ref_src=twsrc%5Etfw">
+        January 2, 2024</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        ''',
+        '''
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <p lang="in" dir="ltr">Tweet 3</p>&mdash; User3 (@user3) 
+        <a href="https://twitter.com/user3/status/3?ref_src=twsrc%5Etfw">
+        January 3, 2024</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        '''
     ]
 
     tweets2 = [
-         '''
+        '''
         <blockquote class="twitter-tweet" data-media-max-width="560">
         <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
         <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
@@ -43,7 +56,7 @@ def main():
     ]
 
     tweets3 = [
-               '''
+        '''
         <blockquote class="twitter-tweet" data-media-max-width="560">
         <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
         <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
@@ -67,7 +80,7 @@ def main():
     ]
 
     tweets4 = [
-               '''
+        '''
         <blockquote class="twitter-tweet" data-media-max-width="560">
         <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
         <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
@@ -106,7 +119,7 @@ def main():
     # Membagi layar menjadi dua baris dua kolom
     col1, col2, col3, col4 = st.columns(4)
 
-    with col1_1:
+    with col1:
         with st.expander("Tweet Viewer 1", expanded=True):
             st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
             st.markdown(
@@ -128,7 +141,7 @@ def main():
             # Menampilkan tweet yang baru setelah klik tombol
             show_tweet(tweets1[st.session_state.current_tweet_index1])
 
-    with col1_2:
+    with col2:
         with st.expander("Tweet Viewer 2", expanded=True):
             st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
             st.markdown(
