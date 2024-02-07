@@ -67,7 +67,7 @@ def main():
             show_tweet(tweets2[st.session_state.current_tweet_index2])
 
     with col3:
-        with st.container(height=500, border=True):
+        with st.container(border=True):
             col7, col8, col9, col10, col11, col12 = st.columns(6)
             with col7:
                 if st.session_state.current_tweet_index3 > 0:
