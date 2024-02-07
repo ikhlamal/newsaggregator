@@ -63,8 +63,9 @@ def main():
             st.session_state.current_tweet_index1 = 0
     
         # Menampilkan tweet saat ini
-        with st.expander("Tweet Viewer", expanded=True):
-            col1, col2, col3 = st.columns([1, 8, 1])
+        with st.expander("Tweet Viewer 1", expanded=True):
+            container = st.container()
+            col1, col2, col3 = container.columns([1, 8, 1])
             if col1.button("⬅️1", key="left1") and st.session_state.current_tweet_index1 > 0:
                 st.session_state.current_tweet_index1 -= 1
             elif col3.button("➡️1", key="right1") and st.session_state.current_tweet_index1 < len(tweets1) - 1:
@@ -84,8 +85,9 @@ def main():
             st.session_state.current_tweet_index2 = 0
     
         # Menampilkan tweet saat ini
-        with st.expander("Tweet Viewer", expanded=True):
-            col1, col2, col3 = st.columns([1, 8, 1])
+        with st.expander("Tweet Viewer 2", expanded=True):
+            container = st.container()
+            col1, col2, col3 = container.columns([1, 8, 1])
             if col1.button("⬅️2", key="left2") and st.session_state.current_tweet_index2 > 0:
                 st.session_state.current_tweet_index2 -= 1
             elif col3.button("➡️2", key="right2") and st.session_state.current_tweet_index2 < len(tweets2) - 1:
