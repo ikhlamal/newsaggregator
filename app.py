@@ -37,16 +37,16 @@ def main():
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        col7, col8, col9 = st.columns(3)
-        with col7:
-            if st.session_state.current_tweet_index1 > 0:
-                if st.button("⬅️", key="left1"):
-                    st.session_state.current_tweet_index1 -= 1
-        with col9:
-            if st.session_state.current_tweet_index1 < len(tweets1) - 1:
-                if st.button("➡️", key="right1"):
-                    st.session_state.current_tweet_index1 += 1
         with st.expander("", expanded=True):
+            col7, col8, col9 = st.columns(3)
+            with col7:
+                if st.session_state.current_tweet_index1 > 0:
+                    if st.button("⬅️", key="left1"):
+                        st.session_state.current_tweet_index1 -= 1
+            with col9:
+                if st.session_state.current_tweet_index1 < len(tweets1) - 1:
+                    if st.button("➡️", key="right1"):
+                        st.session_state.current_tweet_index1 += 1
             st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
             st.markdown(
                 """<style>
