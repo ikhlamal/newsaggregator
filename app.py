@@ -6,7 +6,7 @@ def show_blog_post(thumbnail_url, title, source):
     st.write(f"*Sumber:* {source}")
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=500, height=400)
+    st.components.v1.html(tweet_html, width=500, height=1400)
 
 def main():
     st.title("Aplikasi Blog dan Tweet Viewer")
