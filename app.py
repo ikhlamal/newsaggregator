@@ -4,6 +4,7 @@ def show_tweet(tweet_html):
     st.components.v1.html(tweet_html, width=500, height=650)
 
 def main():
+    st.set_page_config(layout="wide")
     st.title("Aplikasi Tweet Viewer")
 
     # List tweet
