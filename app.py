@@ -60,23 +60,27 @@ def main():
     current_tweet_index_group_1 = 0
     current_tweet_index_group_2 = 0
 
-    # Menampilkan tweet untuk kelompok 1
-    st.header("Kelompok 1")
-    with st.expander("Tweet Viewer 1", expanded=True):
-        col1_1, col2_1, col3_1 = st.columns([1, 8, 1])
-        if col1_1.button("⬅️") and current_tweet_index_group_1 > 0:
+    # Menampilkan kelompok tweet secara horizontal
+    st.header("Tweet Viewer")
+
+    # Membagi layar menjadi dua kolom
+    col1, col2 = st.columns(2)
+
+    # Menampilkan tweet untuk kelompok 1 di kolom pertama
+    with col1:
+        st.subheader("Kelompok 1")
+        if st.button("⬅️") and current_tweet_index_group_1 > 0:
             current_tweet_index_group_1 -= 1
-        elif col3_1.button("➡️") and current_tweet_index_group_1 < len(tweets_group_1) - 1:
+        elif st.button("➡️") and current_tweet_index_group_1 < len(tweets_group_1) - 1:
             current_tweet_index_group_1 += 1
         show_tweet(tweets_group_1[current_tweet_index_group_1])
 
-    # Menampilkan tweet untuk kelompok 2
-    st.header("Kelompok 2")
-    with st.expander("Tweet Viewer 2", expanded=True):
-        col1_2, col2_2, col3_2 = st.columns([1, 8, 1])
-        if col1_2.button("⬅️") and current_tweet_index_group_2 > 0:
+    # Menampilkan tweet untuk kelompok 2 di kolom kedua
+    with col2:
+        st.subheader("Kelompok 2")
+        if st.button("⬅️") and current_tweet_index_group_2 > 0:
             current_tweet_index_group_2 -= 1
-        elif col3_2.button("➡️") and current_tweet_index_group_2 < len(tweets_group_2) - 1:
+        elif st.button("➡️") and current_tweet_index_group_2 < len(tweets_group_2) - 1:
             current_tweet_index_group_2 += 1
         show_tweet(tweets_group_2[current_tweet_index_group_2])
 
