@@ -77,7 +77,7 @@ def main():
             if st.session_state.current_tweet_index1 == len(tweets1) - 1:
                 col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
             else:
-                col3.button("➡️1", key="right1")
+                col3.button("➡️1_" + str(st.session_state.current_tweet_index1), key="right1_" + str(st.session_state.current_tweet_index1))
     with col2:
         # Menyimpan nilai current_tweet_index di session_state
         if 'current_tweet_index2' not in st.session_state:
@@ -98,7 +98,7 @@ def main():
             if st.session_state.current_tweet_index2 == len(tweets2) - 1:
                 col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
             else:
-                col3.button("➡️2", key="right2")
+                col3.button("➡️2_" + str(st.session_state.current_tweet_index2), key="right2_" + str(st.session_state.current_tweet_index2))
 
 if __name__ == "__main__":
     main()
