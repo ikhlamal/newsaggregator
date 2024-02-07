@@ -67,20 +67,13 @@ def main():
             show_tweet(tweets2[st.session_state.current_tweet_index2])
 
     with col3:
-        with st.expander("", expanded=True):
-            st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
-            st.markdown(
-                """<style>
-                .reportview-container .main .block-container{
-                    padding: 1rem;
-                    border-radius: 10px;
-                    border: 20px solid #008080;
-                }
-                </style>
-                """, unsafe_allow_html=True)
-            if st.session_state.current_tweet_index3 > 0:
-                if st.button("⬅️", key="left3"):
-                    st.session_state.current_tweet_index3 -= 1
+        with st.container(height=500, border=True):
+            col7, col8, col9, col10, col11, col12 = st.columns(6)
+            with col7:
+                if st.session_state.current_tweet_index3 > 0:
+                    if st.button("⬅️", key="left3"):
+                        st.session_state.current_tweet_index3 -= 1
+            with col 8:
             if st.session_state.current_tweet_index3 < len(tweets3) - 1:
                 if st.button("➡️", key="right3"):
                     st.session_state.current_tweet_index3 += 1
