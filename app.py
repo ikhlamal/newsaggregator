@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=500, height=650)
+    st.components.v1.html(tweet_html, width=350, height=650)
 
 def format_tweet(row):
     tweet_html = f'''
-        <blockquote class="twitter-tweet" data-media-max-width="500">
+        <blockquote class="twitter-tweet" data-media-max-width="350">
         <a href={row['tweet_url']}></a></blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     '''
