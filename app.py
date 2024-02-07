@@ -74,9 +74,9 @@ def main():
                     if st.button("⬅️", key="left3"):
                         st.session_state.current_tweet_index3 -= 1
             with col12:
-            if st.session_state.current_tweet_index3 < len(tweets3) - 1:
-                if st.button("➡️", key="right3"):
-                    st.session_state.current_tweet_index3 += 1
+                if st.session_state.current_tweet_index3 < len(tweets3) - 1:
+                    if st.button("➡️", key="right3"):
+                        st.session_state.current_tweet_index3 += 1
 
             # Menampilkan tweet yang baru setelah klik tombol
             show_tweet(tweets3[st.session_state.current_tweet_index3])
