@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=500, height=650)
+    st.components.v1.html(tweet_html, width=450, height=650)
 
 def main():
     st.set_page_config(layout="wide")
