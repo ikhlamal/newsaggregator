@@ -65,28 +65,50 @@ def main():
     # Membagi layar menjadi dua kolom
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("Tweet Viewer 1")
-        if st.session_state.current_tweet_index1 > 0:
-            if st.button("⬅️", key="left1"):
-                st.session_state.current_tweet_index1 -= 1
-        if st.session_state.current_tweet_index1 < len(tweets1) - 1:
-            if st.button("➡️", key="right1"):
-                st.session_state.current_tweet_index1 += 1
+        with st.expander("Tweet Viewer 1", expanded=True):
+            st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
+            st.subheader("Tweet Viewer 1")
+            st.markdown(
+                """<style>
+                .reportview-container .main .block-container{
+                    padding: 1rem;
+                    border-radius: 10px;
+                    border: 2px solid #008080;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+            if st.session_state.current_tweet_index1 > 0:
+                if st.button("⬅️", key="left1"):
+                    st.session_state.current_tweet_index1 -= 1
+            if st.session_state.current_tweet_index1 < len(tweets1) - 1:
+                if st.button("➡️", key="right1"):
+                    st.session_state.current_tweet_index1 += 1
 
-        # Menampilkan tweet yang baru setelah klik tombol
-        show_tweet(tweets1[st.session_state.current_tweet_index1])
+            # Menampilkan tweet yang baru setelah klik tombol
+            show_tweet(tweets1[st.session_state.current_tweet_index1])
 
     with col2:
-        st.subheader("Tweet Viewer 2")
-        if st.session_state.current_tweet_index2 > 0:
-            if st.button("⬅️", key="left2"):
-                st.session_state.current_tweet_index2 -= 1
-        if st.session_state.current_tweet_index2 < len(tweets2) - 1:
-            if st.button("➡️", key="right2"):
-                st.session_state.current_tweet_index2 += 1
+        with st.expander("Tweet Viewer 2", expanded=True):
+            st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
+            st.subheader("Tweet Viewer 2")
+            st.markdown(
+                """<style>
+                .reportview-container .main .block-container{
+                    padding: 1rem;
+                    border-radius: 10px;
+                    border: 2px solid #008080;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+            if st.session_state.current_tweet_index2 > 0:
+                if st.button("⬅️", key="left2"):
+                    st.session_state.current_tweet_index2 -= 1
+            if st.session_state.current_tweet_index2 < len(tweets2) - 1:
+                if st.button("➡️", key="right2"):
+                    st.session_state.current_tweet_index2 += 1
 
-        # Menampilkan tweet yang baru setelah klik tombol
-        show_tweet(tweets2[st.session_state.current_tweet_index2])
+            # Menampilkan tweet yang baru setelah klik tombol
+            show_tweet(tweets2[st.session_state.current_tweet_index2])
 
 if __name__ == "__main__":
     main()
