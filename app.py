@@ -4,7 +4,7 @@ def show_tweet(tweet_html):
     st.components.v1.html(tweet_html, width=500, height=400)
 
 def main():
-    st.title("Aplikasi Tweet Viewer")
+    st.title("Aplikasi Tweet")
 
     # List tweet
     tweets = [
