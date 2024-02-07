@@ -32,7 +32,7 @@ def main():
 
     # Menampilkan tweet saat ini
     st.header("Tweet")
-    with st.expander("Tweet Viewer", expanded=True):
+    with st.expander("", expanded=True):
         show_tweet(tweets[current_tweet_index])
         col1, col2, col3 = st.columns([1, 8, 1])
         if col1.button("⬅️") and current_tweet_index > 0:
