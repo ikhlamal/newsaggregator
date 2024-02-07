@@ -14,7 +14,6 @@ def format_tweet(row):
 
 def main():
     st.set_page_config(layout="wide")
-    st.title("Aplikasi Tweet Viewer")
     df1 = pd.read_csv("csv1.csv")
     df2 = pd.read_csv("csv2.csv")
     df3 = pd.read_csv("csv3.csv")
@@ -43,7 +42,7 @@ def main():
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        with st.expander("Tweet Viewer 1", expanded=True):
+        with st.expander("", expanded=True):
             st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
             st.markdown(
                 """<style>
@@ -65,7 +64,7 @@ def main():
             show_tweet(tweets1[st.session_state.current_tweet_index1])
 
     with col2:
-        with st.expander("Tweet Viewer 2", expanded=True):
+        with st.expander("", expanded=True):
             st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
             st.markdown(
                 """<style>
@@ -87,7 +86,7 @@ def main():
             show_tweet(tweets2[st.session_state.current_tweet_index2])
 
     with col3:
-        with st.expander("Tweet Viewer 3", expanded=True):
+        with st.expander("", expanded=True):
             st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
             st.markdown(
                 """<style>
@@ -109,7 +108,7 @@ def main():
             show_tweet(tweets3[st.session_state.current_tweet_index3])
 
     with col4:
-        with st.expander("Tweet Viewer 4", expanded=True):
+        with st.expander("", expanded=True):
             st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
             st.markdown(
                 """<style>
