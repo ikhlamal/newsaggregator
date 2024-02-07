@@ -53,14 +53,17 @@ def main():
                 }
                 </style>
                 """, unsafe_allow_html=True)
-            st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:row;}</style>',unsafe_allow_html=True)
+            st.markdown('<div style="display: flex; flex-direction: row;">', unsafe_allow_html=True)
+        
             if st.session_state.current_tweet_index1 > 0:
                 if st.button("⬅️", key="left1"):
                     st.session_state.current_tweet_index1 -= 1
+        
             if st.session_state.current_tweet_index1 < len(tweets1) - 1:
                 if st.button("➡️", key="right1"):
                     st.session_state.current_tweet_index1 += 1
-
+        
+            st.markdown('</div>', unsafe_allow_html=True)
 
             # Menampilkan tweet yang baru setelah klik tombol
             show_tweet(tweets1[st.session_state.current_tweet_index1])
