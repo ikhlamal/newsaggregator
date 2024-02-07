@@ -24,6 +24,7 @@ def main():
         st.session_state.current_tweet_index = 0
 
     # Menampilkan tweet saat ini
+    st.header("Tweet")
     with st.expander("Tweet Viewer", expanded=True):
         col1, col2, col3 = st.columns([1, 8, 1])
         if col1.button("⬅️") and st.session_state.current_tweet_index > 0:
@@ -33,6 +34,12 @@ def main():
 
         # Menampilkan tweet yang baru setelah klik tombol
         show_tweet(tweets[st.session_state.current_tweet_index])
+
+        # Memperbarui tombol kanan jika diperlukan
+        if st.session_state.current_tweet_index == len(tweets) - 1:
+            col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
+        else:
+            col3.button("➡️")
 
 if __name__ == "__main__":
     main()
