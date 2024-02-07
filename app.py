@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html)#, #width=350, height=700)
+    st.components.v1.html(tweet_html, width=350, height=700)
 
 def format_tweet(row):
     tweet_html = f'''
