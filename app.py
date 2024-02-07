@@ -17,13 +17,11 @@ def main():
     df1 = pd.read_csv("csv1.csv")
     df2 = pd.read_csv("csv2.csv")
     df3 = pd.read_csv("csv3.csv")
-    df4 = pd.read_csv("csv4.csv")
 
     # List tweet
     tweets1 = [format_tweet(row) for index, row in df1.iterrows()]
     tweets2 = [format_tweet(row) for index, row in df2.iterrows()]
     tweets3 = [format_tweet(row) for index, row in df3.iterrows()]
-    tweets4 = [format_tweet(row) for index, row in df4.iterrows()]
 
     # Menyimpan nilai current_tweet_index di session_state
     if 'current_tweet_index1' not in st.session_state:
@@ -35,11 +33,8 @@ def main():
     if 'current_tweet_index3' not in st.session_state:
         st.session_state.current_tweet_index3 = 0
 
-    if 'current_tweet_index4' not in st.session_state:
-        st.session_state.current_tweet_index4 = 0
-
     # Membagi layar menjadi dua baris dua kolom
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         col7, col8, col9 = st.columns(3)
@@ -109,28 +104,6 @@ def main():
 
             # Menampilkan tweet yang baru setelah klik tombol
             show_tweet(tweets3[st.session_state.current_tweet_index3])
-
-    with col4:
-        with st.expander("", expanded=True):
-            st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
-            st.markdown(
-                """<style>
-                .reportview-container .main .block-container{
-                    padding: 1rem;
-                    border-radius: 10px;
-                    border: 20px solid #008080;
-                }
-                </style>
-                """, unsafe_allow_html=True)
-            if st.session_state.current_tweet_index4 > 0:
-                if st.button("⬅️", key="left4"):
-                    st.session_state.current_tweet_index4 -= 1
-            if st.session_state.current_tweet_index4 < len(tweets4) - 1:
-                if st.button("➡️", key="right4"):
-                    st.session_state.current_tweet_index4 += 1
-
-            # Menampilkan tweet yang baru setelah klik tombol
-            show_tweet(tweets4[st.session_state.current_tweet_index4])
 
 if __name__ == "__main__":
     main()
