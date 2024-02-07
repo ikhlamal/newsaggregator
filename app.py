@@ -7,7 +7,7 @@ def main():
     st.title("Aplikasi Tweet Viewer")
 
     # List tweet
-    tweets = [
+    tweets1 = [
         '''
         <blockquote class="twitter-tweet" data-media-max-width="560">
         <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
@@ -59,46 +59,46 @@ def main():
     col1, col2 = st.columns(2)
     with col1:
         # Menyimpan nilai current_tweet_index di session_state
-        if 'current_tweet_index' not in st.session_state:
-            st.session_state.current_tweet_index = 0
+        if 'current_tweet_index1' not in st.session_state:
+            st.session_state.current_tweet_index1 = 0
     
         # Menampilkan tweet saat ini
         with st.expander("Tweet Viewer", expanded=True):
             col1, col2, col3 = st.columns([1, 8, 1])
-            if col1.button("⬅️") and st.session_state.current_tweet_index > 0:
-                st.session_state.current_tweet_index -= 1
-            elif col3.button("➡️") and st.session_state.current_tweet_index < len(tweets) - 1:
-                st.session_state.current_tweet_index += 1
+            if col1.button("⬅️1", key="left1") and st.session_state.current_tweet_index1 > 0:
+                st.session_state.current_tweet_index1 -= 1
+            elif col3.button("➡️1", key="right1") and st.session_state.current_tweet_index1 < len(tweets1) - 1:
+                st.session_state.current_tweet_index1 += 1
     
             # Menampilkan tweet yang baru setelah klik tombol
-            show_tweet(tweets[st.session_state.current_tweet_index])
+            show_tweet(tweets1[st.session_state.current_tweet_index1])
     
             # Memperbarui tombol kanan jika diperlukan
-            if st.session_state.current_tweet_index == len(tweets) - 1:
+            if st.session_state.current_tweet_index1 == len(tweets1) - 1:
                 col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
             else:
-                col3.button("➡️")
+                col3.button("➡️1", key="right1")
     with col2:
         # Menyimpan nilai current_tweet_index di session_state
-        if 'current_tweet_index' not in st.session_state:
-            st.session_state.current_tweet_index = 0
+        if 'current_tweet_index2' not in st.session_state:
+            st.session_state.current_tweet_index2 = 0
     
         # Menampilkan tweet saat ini
         with st.expander("Tweet Viewer", expanded=True):
             col1, col2, col3 = st.columns([1, 8, 1])
-            if col1.button("⬅️") and st.session_state.current_tweet_index > 0:
-                st.session_state.current_tweet_index -= 1
-            elif col3.button("➡️") and st.session_state.current_tweet_index < len(tweets) - 1:
-                st.session_state.current_tweet_index += 1
+            if col1.button("⬅️2", key="left2") and st.session_state.current_tweet_index2 > 0:
+                st.session_state.current_tweet_index2 -= 1
+            elif col3.button("➡️2", key="right2") and st.session_state.current_tweet_index2 < len(tweets2) - 1:
+                st.session_state.current_tweet_index2 += 1
     
             # Menampilkan tweet yang baru setelah klik tombol
-            show_tweet(tweets2[st.session_state.current_tweet_index])
+            show_tweet(tweets2[st.session_state.current_tweet_index2])
     
             # Memperbarui tombol kanan jika diperlukan
-            if st.session_state.current_tweet_index == len(tweets) - 1:
+            if st.session_state.current_tweet_index2 == len(tweets2) - 1:
                 col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
             else:
-                col3.button("➡️")
+                col3.button("➡️2", key="right2")
 
 if __name__ == "__main__":
     main()
