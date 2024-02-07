@@ -73,7 +73,7 @@ def main():
                 .reportview-container .main .block-container{
                     padding: 1rem;
                     border-radius: 10px;
-                    border: 2px solid #008080;
+                    border: 20px solid #008080;
                 }
                 </style>
                 """, unsafe_allow_html=True)
@@ -96,7 +96,7 @@ def main():
                 .reportview-container .main .block-container{
                     padding: 1rem;
                     border-radius: 10px;
-                    border: 2px solid #008080;
+                    border: 20px solid #008080;
                 }
                 </style>
                 """, unsafe_allow_html=True)
