@@ -1,108 +1,32 @@
 import streamlit as st
+import pandas as pd
 
 def show_tweet(tweet_html):
     st.components.v1.html(tweet_html, width=250, height=650)
 
+def format_tweet(row):
+    tweet_html = f'''
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <p lang="in" dir="ltr">{row['full_text']}</p>&mdash; {row['username']} (@{row['username']})
+        <a href={row['tweet_url']}>
+        {row['created_at']}</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    '''
+    return tweet_html
+
 def main():
     st.set_page_config(layout="wide")
     st.title("Aplikasi Tweet Viewer")
+    df1 = pd.read_csv("csv1.csv")
+    df2 = pd.read_csv("csv2.csv")
+    df3 = pd.read_csv("csv3.csv")
+    df4 = pd.read_csv("csv4.csv")
 
     # List tweet
-    tweets1 = [
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
-        <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
-        January 1, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        ''',
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 2</p>&mdash; User2 (@user2) 
-        <a href="https://twitter.com/user2/status/2?ref_src=twsrc%5Etfw">
-        January 2, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        ''',
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 3</p>&mdash; User3 (@user3) 
-        <a href="https://twitter.com/user3/status/3?ref_src=twsrc%5Etfw">
-        January 3, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        '''
-    ]
-
-    tweets2 = [
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
-        <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
-        January 1, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        ''',
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 2</p>&mdash; User2 (@user2) 
-        <a href="https://twitter.com/user2/status/2?ref_src=twsrc%5Etfw">
-        January 2, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        ''',
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 3</p>&mdash; User3 (@user3) 
-        <a href="https://twitter.com/user3/status/3?ref_src=twsrc%5Etfw">
-        January 3, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        '''
-    ]
-
-    tweets3 = [
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
-        <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
-        January 1, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        ''',
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 2</p>&mdash; User2 (@user2) 
-        <a href="https://twitter.com/user2/status/2?ref_src=twsrc%5Etfw">
-        January 2, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        ''',
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 3</p>&mdash; User3 (@user3) 
-        <a href="https://twitter.com/user3/status/3?ref_src=twsrc%5Etfw">
-        January 3, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        '''
-    ]
-
-    tweets4 = [
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
-        <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
-        January 1, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        ''',
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 2</p>&mdash; User2 (@user2) 
-        <a href="https://twitter.com/user2/status/2?ref_src=twsrc%5Etfw">
-        January 2, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        ''',
-        '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 3</p>&mdash; User3 (@user3) 
-        <a href="https://twitter.com/user3/status/3?ref_src=twsrc%5Etfw">
-        January 3, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        '''
-    ]
+    tweets1 = [format_tweet(row) for index, row in df1.iterrows()]
+    tweets2 = [format_tweet(row) for index, row in df2.iterrows()]
+    tweets3 = [format_tweet(row) for index, row in df3.iterrows()]
+    tweets4 = [format_tweet(row) for index, row in df4.iterrows()]
 
     # Menyimpan nilai current_tweet_index di session_state
     if 'current_tweet_index1' not in st.session_state:
