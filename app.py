@@ -38,12 +38,12 @@ def main():
 
     with col1:
         with st.container(height=500, border=True):
-            col7, col8, col9, col10, col11, col12, col13 = st.columns(7)
+            col7, col8, col9, col10, col11, col12 = st.columns(6)
             with col7:
                 if st.session_state.current_tweet_index1 > 0:
                     if st.button("⬅️", key="left1"):
                         st.session_state.current_tweet_index1 -= 1
-            with col13:
+            with col12:
                 if st.session_state.current_tweet_index1 < len(tweets1) - 1:
                     if st.button("➡️", key="right1"):
                         st.session_state.current_tweet_index1 += 1
