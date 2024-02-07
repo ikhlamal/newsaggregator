@@ -53,15 +53,17 @@ def main():
                 }
                 </style>
                 """, unsafe_allow_html=True)
-                col7, col8 = st.columns(2)
-                with col7:
+            if st.session_state.current_tweet_index1 > 0 or st.session_state.current_tweet_index1 < len(tweets1) - 1:
+                col1, col2 = st.columns(2)
+                with col1:
                     if st.session_state.current_tweet_index1 > 0:
                         if st.button("⬅️", key="left1"):
                             st.session_state.current_tweet_index1 -= 1
-                with col8:
+                with col2:
                     if st.session_state.current_tweet_index1 < len(tweets1) - 1:
                         if st.button("➡️", key="right1"):
                             st.session_state.current_tweet_index1 += 1
+
 
             # Menampilkan tweet yang baru setelah klik tombol
             show_tweet(tweets1[st.session_state.current_tweet_index1])
