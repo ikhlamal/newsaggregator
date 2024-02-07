@@ -6,97 +6,79 @@ def show_tweet(tweet_html):
 def main():
     st.title("Aplikasi Tweet Viewer")
 
-    # List tweet
-    tweets_group = [
-        [ # Kelompok 1
-            '''
-            <blockquote class="twitter-tweet" data-media-max-width="560">
-            <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
-            <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
-            January 1, 2024</a></blockquote>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            ''',
-            '''
-            <blockquote class="twitter-tweet" data-media-max-width="560">
-            <p lang="in" dir="ltr">Tweet 2</p>&mdash; User2 (@user2) 
-            <a href="https://twitter.com/user2/status/2?ref_src=twsrc%5Etfw">
-            January 2, 2024</a></blockquote>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            ''',
-            '''
-            <blockquote class="twitter-tweet" data-media-max-width="560">
-            <p lang="in" dir="ltr">Tweet 3</p>&mdash; User3 (@user3) 
-            <a href="https://twitter.com/user3/status/3?ref_src=twsrc%5Etfw">
-            January 3, 2024</a></blockquote>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            '''
-        ],
-        [ # Kelompok 2
-            '''
-            <blockquote class="twitter-tweet" data-media-max-width="560">
-            <p lang="in" dir="ltr">Tweet 4</p>&mdash; User4 (@user4) 
-            <a href="https://twitter.com/user4/status/4?ref_src=twsrc%5Etfw">
-            January 4, 2024</a></blockquote>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            ''',
-            '''
-            <blockquote class="twitter-tweet" data-media-max-width="560">
-            <p lang="in" dir="ltr">Tweet 5</p>&mdash; User5 (@user5) 
-            <a href="https://twitter.com/user5/status/5?ref_src=twsrc%5Etfw">
-            January 5, 2024</a></blockquote>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            ''',
-            '''
-            <blockquote class="twitter-tweet" data-media-max-width="560">
-            <p lang="in" dir="ltr">Tweet 6</p>&mdash; User6 (@user6) 
-            <a href="https://twitter.com/user6/status/6?ref_src=twsrc%5Etfw">
-            January 6, 2024</a></blockquote>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            '''
-        ],
-        [ # Kelompok 3
-            '''
-            <blockquote class="twitter-tweet" data-media-max-width="560">
-            <p lang="in" dir="ltr">Tweet 7</p>&mdash; User7 (@user7) 
-            <a href="https://twitter.com/user7/status/7?ref_src=twsrc%5Etfw">
-            January 7, 2024</a></blockquote>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            ''',
-            '''
-            <blockquote class="twitter-tweet" data-media-max-width="560">
-            <p lang="in" dir="ltr">Tweet 8</p>&mdash; User8 (@user8) 
-            <a href="https://twitter.com/user8/status/8?ref_src=twsrc%5Etfw">
-            January 8, 2024</a></blockquote>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            ''',
-            '''
-            <blockquote class="twitter-tweet" data-media-max-width="560">
-            <p lang="in" dir="ltr">Tweet 9</p>&mdash; User9 (@user9) 
-            <a href="https://twitter.com/user9/status/9?ref_src=twsrc%5Etfw">
-            January 9, 2024</a></blockquote>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            '''
-        ]
+    # List tweet untuk kelompok 1
+    tweets_group_1 = [
+        '''
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <p lang="in" dir="ltr">Tweet 1A</p>&mdash; User1 (@user1) 
+        <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
+        January 1, 2024</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        ''',
+        '''
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <p lang="in" dir="ltr">Tweet 2A</p>&mdash; User2 (@user2) 
+        <a href="https://twitter.com/user2/status/2?ref_src=twsrc%5Etfw">
+        January 2, 2024</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        ''',
+        '''
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <p lang="in" dir="ltr">Tweet 3A</p>&mdash; User3 (@user3) 
+        <a href="https://twitter.com/user3/status/3?ref_src=twsrc%5Etfw">
+        January 3, 2024</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        '''
     ]
 
-    # Menampilkan kelompok tweet
-    st.header("Tweet")
-    with st.expander("Tweet Viewer", expanded=True):
-        for tweets in tweets_group:
-            col1, col2, col3 = st.columns(3)
-            current_tweet_index = 0
+    # List tweet untuk kelompok 2
+    tweets_group_2 = [
+        '''
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <p lang="in" dir="ltr">Tweet 1B</p>&mdash; User4 (@user4) 
+        <a href="https://twitter.com/user4/status/4?ref_src=twsrc%5Etfw">
+        January 4, 2024</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        ''',
+        '''
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <p lang="in" dir="ltr">Tweet 2B</p>&mdash; User5 (@user5) 
+        <a href="https://twitter.com/user5/status/5?ref_src=twsrc%5Etfw">
+        January 5, 2024</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        ''',
+        '''
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <p lang="in" dir="ltr">Tweet 3B</p>&mdash; User6 (@user6) 
+        <a href="https://twitter.com/user6/status/6?ref_src=twsrc%5Etfw">
+        January 6, 2024</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        '''
+    ]
 
-            if col1.button("⬅️") and current_tweet_index > 0:
-                current_tweet_index -= 1
-            elif col3.button("➡️") and current_tweet_index < len(tweets) - 1:
-                current_tweet_index += 1
+    # Inisialisasi index tweet saat ini untuk masing-masing kelompok
+    current_tweet_index_group_1 = 0
+    current_tweet_index_group_2 = 0
 
-            show_tweet(tweets[current_tweet_index])
+    # Menampilkan tweet untuk kelompok 1
+    st.header("Kelompok 1")
+    with st.expander("Tweet Viewer 1", expanded=True):
+        col1_1, col2_1, col3_1 = st.columns([1, 8, 1])
+        if col1_1.button("⬅️") and current_tweet_index_group_1 > 0:
+            current_tweet_index_group_1 -= 1
+        elif col3_1.button("➡️") and current_tweet_index_group_1 < len(tweets_group_1) - 1:
+            current_tweet_index_group_1 += 1
+        show_tweet(tweets_group_1[current_tweet_index_group_1])
 
-            if current_tweet_index == len(tweets) - 1:
-                col3.empty()  # Menghapus tombol kanan jika sudah mencapai tweet terakhir
-            else:
-                col3.button("➡️")
+    # Menampilkan tweet untuk kelompok 2
+    st.header("Kelompok 2")
+    with st.expander("Tweet Viewer 2", expanded=True):
+        col1_2, col2_2, col3_2 = st.columns([1, 8, 1])
+        if col1_2.button("⬅️") and current_tweet_index_group_2 > 0:
+            current_tweet_index_group_2 -= 1
+        elif col3_2.button("➡️") and current_tweet_index_group_2 < len(tweets_group_2) - 1:
+            current_tweet_index_group_2 += 1
+        show_tweet(tweets_group_2[current_tweet_index_group_2])
 
 if __name__ == "__main__":
     main()
