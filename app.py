@@ -6,7 +6,7 @@ def show_tweet(tweet_html):
 
 def format_tweet(row):
     tweet_html = f'''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
+        <blockquote class="twitter-tweet" data-media-max-width="250">
         <a href={row['tweet_url']}></a></blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     '''
