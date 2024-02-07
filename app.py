@@ -52,23 +52,16 @@ def main():
             show_tweet(tweets1[st.session_state.current_tweet_index1])
 
     with col2:
-        with st.expander("", expanded=True):
-            st.markdown('<style>div.Widget.row-widget.stRadio>div{flex-direction:column;}</style>',unsafe_allow_html=True)
-            st.markdown(
-                """<style>
-                .reportview-container .main .block-container{
-                    padding: 1rem;
-                    border-radius: 10px;
-                    border: 20px solid #008080;
-                }
-                </style>
-                """, unsafe_allow_html=True)
-            if st.session_state.current_tweet_index2 > 0:
-                if st.button("⬅️", key="left2"):
-                    st.session_state.current_tweet_index2 -= 1
-            if st.session_state.current_tweet_index2 < len(tweets2) - 1:
-                if st.button("➡️", key="right2"):
-                    st.session_state.current_tweet_index2 += 1
+        with st.container(height=500, border=True):
+            col7, col8, col9, col10, col11, col12 = st.columns(6)
+            with col7:
+                if st.session_state.current_tweet_index2 > 0:
+                    if st.button("⬅️", key="left2"):
+                        st.session_state.current_tweet_index2 -= 1
+            with col12:
+                if st.session_state.current_tweet_index2 < len(tweets2) - 1:
+                    if st.button("➡️", key="right2"):
+                        st.session_state.current_tweet_index2 += 1
 
             # Menampilkan tweet yang baru setelah klik tombol
             show_tweet(tweets2[st.session_state.current_tweet_index2])
