@@ -9,11 +9,7 @@ def main():
     # List tweet
     tweets = [
         '''
-        <blockquote class="twitter-tweet" data-media-max-width="560">
-        <p lang="in" dir="ltr">Tweet 1</p>&mdash; User1 (@user1) 
-        <a href="https://twitter.com/user1/status/1?ref_src=twsrc%5Etfw">
-        January 1, 2024</a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <blockquote class="twitter-tweet"><p lang="in" dir="ltr">Muncul Aksi dari Caleg Gerindra Protes Guru Besar Unair Kritik Jokowi <a href="https://t.co/YJMYvUMQrh">https://t.co/YJMYvUMQrh</a></p>&mdash; CNN Indonesia (@CNNIndonesia) <a href="https://twitter.com/CNNIndonesia/status/1754454280558485924?ref_src=twsrc%5Etfw">February 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         ''',
         '''
         <blockquote class="twitter-tweet" data-media-max-width="560">
