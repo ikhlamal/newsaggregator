@@ -73,7 +73,7 @@ def main():
                 if st.session_state.current_tweet_index3 > 0:
                     if st.button("⬅️", key="left3"):
                         st.session_state.current_tweet_index3 -= 1
-            with col 8:
+            with col12:
             if st.session_state.current_tweet_index3 < len(tweets3) - 1:
                 if st.button("➡️", key="right3"):
                     st.session_state.current_tweet_index3 += 1
