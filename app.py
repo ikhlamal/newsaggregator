@@ -30,16 +30,25 @@ def main():
     # Inisialisasi index tweet saat ini
     current_tweet_index = 0
 
-    # Menampilkan tweet saat ini dengan border
+    # Menampilkan tweet saat ini
     st.header("Tweet")
-    with st.markdown('<div style="border: 2px solid #e6e6e6; padding: 10px;">', unsafe_allow_html=True):
+
+    # Membuat border untuk mengelompokkan tweet dan tombol
+    tweet_container = st.container()
+
+    with tweet_container:
+        st.write('Tweet yang Sedang Ditampilkan:')
         show_tweet(tweets[current_tweet_index])
 
-        # Tombol untuk mengganti tweet
-        col1, col2, col3 = st.columns([1, 8, 1])
+    # Tombol untuk mengganti tweet
+    button_container = st.container()
+
+    with button_container:
+        st.write('Pindah Tweet:')
+        col1, col2 = st.columns([0.1, 1])
         if col1.button("⬅️") and current_tweet_index > 0:
             current_tweet_index -= 1
-        if col3.button("➡️") and current_tweet_index < len(tweets) - 1:
+        if col2.button("➡️") and current_tweet_index < len(tweets) - 1:
             current_tweet_index += 1
 
 if __name__ == "__main__":
