@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=350, height=400, scrolling=True)
+    st.components.v1.html(tweet_html, width=350, height=405, scrolling=True)
 
 def format_tweet(row):
     tweet_html = f'''
@@ -49,7 +49,7 @@ def main():
                     # List tweet
                     tweets = [format_tweet(row) for index, row in df.iterrows()]
 
-                    with st.container(height=500, border=True):
+                    with st.container(height=550, border=True):
                         col7, _, _, _, _, col12 = st.columns([1] * 6)
                         with col7:
                             if st.session_state[f'current_tweet_index{index+1}'] > 0:
