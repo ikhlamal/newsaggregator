@@ -62,7 +62,7 @@ def main():
 
                         # Menampilkan tweet yang baru setelah klik tombol
                         show_tweet(tweets[st.session_state[f'current_tweet_index{index+1}']])
-                        st.write(len(df))
+                        st.write("Total Tweet: ", len(df))
 
 if __name__ == "__main__":
     main()
