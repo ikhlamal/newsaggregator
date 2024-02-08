@@ -31,35 +31,37 @@ def main():
         if key not in st.session_state:
             st.session_state[key] = 0
 
+    num_cols = min(len(existing_csv_files), 3)
+
     # Membagi layar menjadi dua baris dua kolom
-    num_cols = 3
-    col_width = 12 // num_cols
-    cols = st.columns(num_cols)
+    for i in range(0, len(existing_csv_files), num_cols):
+        cols = st.columns(num_cols)
+        for j in range(num_cols):
+            index = i + j
+            if index < len(existing_csv_files):
+                with cols[j]:
+                    csv_file = existing_csv_files[index]
+                    df = pd.read_csv(csv_file)
+                    if df.empty:
+                        st.error(f"File CSV '{csv_file}' kosong.")
+                        continue
 
-    for i, csv_file in enumerate(existing_csv_files):
-        df = pd.read_csv(csv_file)
+                    # List tweet
+                    tweets = [format_tweet(row) for index, row in df.iterrows()]
 
-        if df.empty:
-            st.error(f"File CSV '{csv_file}' kosong.")
-            continue
+                    with st.container(height=500, border=True):
+                        col7, _, _, _, _, col12 = st.columns([1] * 6)
+                        with col7:
+                            if st.session_state[f'current_tweet_index{index+1}'] > 0:
+                                if st.button("⬅️", key=f"left{index+1}"):
+                                    st.session_state[f'current_tweet_index{index+1}'] -= 1
+                        with col12:
+                            if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
+                                if st.button("➡️", key=f"right{index+1}"):
+                                    st.session_state[f'current_tweet_index{index+1}'] += 1
 
-        # List tweet
-        tweets = [format_tweet(row) for index, row in df.iterrows()]
-
-        with cols[i]:
-            with st.container(height=500, border=True):
-                col7, _, _, _, _, col12 = st.columns([1] * 6)
-                with col7:
-                    if st.session_state[f'current_tweet_index{i+1}'] > 0:
-                        if st.button("⬅️", key=f"left{i+1}"):
-                            st.session_state[f'current_tweet_index{i+1}'] -= 1
-                with col12:
-                    if st.session_state[f'current_tweet_index{i+1}'] < len(tweets) - 1:
-                        if st.button("➡️", key=f"right{i+1}"):
-                            st.session_state[f'current_tweet_index{i+1}'] += 1
-
-                # Menampilkan tweet yang baru setelah klik tombol
-                show_tweet(tweets[st.session_state[f'current_tweet_index{i+1}']])
+                        # Menampilkan tweet yang baru setelah klik tombol
+                        show_tweet(tweets[st.session_state[f'current_tweet_index{index+1}']])
 
 if __name__ == "__main__":
     main()
