@@ -34,19 +34,19 @@ def main():
     # Membagi layar menjadi dua baris dua kolom
     num_cols = 3
     col_width = 12 // num_cols
-    cols = [st.columns(num_cols) for _ in range(len(existing_csv_files))]
+    cols = st.columns(num_cols)
 
     for i, csv_file in enumerate(existing_csv_files):
         df = pd.read_csv(csv_file)
 
         if df.empty:
-            cols[i][0].error(f"File CSV '{csv_file}' kosong.")
+            st.error(f"File CSV '{csv_file}' kosong.")
             continue
 
         # List tweet
         tweets = [format_tweet(row) for index, row in df.iterrows()]
 
-        with cols[i][0]:
+        with cols[i]:
             with st.container(height=500, border=True):
                 col7, _, _, _, _, col12 = st.columns([1] * 6)
                 with col7:
