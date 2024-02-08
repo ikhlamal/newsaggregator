@@ -45,10 +45,12 @@ def main():
                         if st.button("➡️", key=key_right):
                             current_tweet_indexes[f'current_tweet_index{i+1}'] += 1
 
-                # Menampilkan tweet yang baru setelah klik tombol
                 current_index = current_tweet_indexes[f'current_tweet_index{i+1}']
                 if current_index < len(tweet_list):
+                    # Menampilkan tweet yang baru setelah klik tombol
                     show_tweet(tweet_list[current_index])
+                else:
+                    st.warning("Tweet tidak ditemukan.")
 
 if __name__ == "__main__":
     main()
