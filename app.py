@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=350, height=405, scrolling=True)
+    st.components.v1.html(tweet_html, width=350, height=400, scrolling=True)
 
 def format_tweet(row):
     tweet_html = f'''
