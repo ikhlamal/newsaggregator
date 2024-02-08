@@ -46,7 +46,9 @@ def main():
                             current_tweet_indexes[f'current_tweet_index{i+1}'] += 1
 
                 # Menampilkan tweet yang baru setelah klik tombol
-                show_tweet(tweet_list[current_tweet_indexes[f'current_tweet_index{i+1}']])
+                current_index = current_tweet_indexes[f'current_tweet_index{i+1}']
+                if current_index < len(tweet_list):
+                    show_tweet(tweet_list[current_index])
 
 if __name__ == "__main__":
     main()
