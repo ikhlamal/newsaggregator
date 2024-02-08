@@ -43,7 +43,7 @@ def main():
                     csv_file = existing_csv_files[index]
                     df = pd.read_csv(csv_file)
                     if df.empty:
-                        st.error(f"File CSV '{csv_file}' kosong.")
+                        st.error(f"Tweet dari berita ke-'{index}' kosong.")
                         continue
 
                     # List tweet
