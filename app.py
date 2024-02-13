@@ -31,7 +31,7 @@ def main():
         key = f'current_tweet_index{i+1}'
         if key not in st.session_state:
             st.session_state[key] = 0
-    with st.expander("Reaksi Gibran soal Klaim Ganjar Menang Pilpres di Luar Negeri versi Exit Poll"):
+    with st.expander("Dandhy Laksono Klaim Tak Desain Rilis Dirty Vote di Masa Tenang"):
         num_cols = min(len(existing_csv_files), 2)
     
         # Membagi layar menjadi dua baris dua kolom
@@ -51,7 +51,6 @@ def main():
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
     
                         with st.container(height=600, border=True):
-                            st.success("Mendukung")
                             col7, _, col9, _, col11 = st.columns([1] * 5)
                             with col7:
                                 if st.session_state[f'current_tweet_index{index+1}'] > 0:
@@ -59,6 +58,8 @@ def main():
                                         st.session_state[f'current_tweet_index{index+1}'] -= 1
                                 else:
                                     st.button("⬅️", key=f"left{index+1}")
+                            with col9:
+                                st.write("😇")
                             with col11:
                                 if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                                     if st.button("➡️", key=f"right{index+1}"):
