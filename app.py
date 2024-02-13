@@ -59,21 +59,7 @@ def main():
                                 else:
                                     st.button("⬅️", key=f"left{index+1}")
                             with col9:
-                                ukuran_font = 2  # Misalnya, ukuran font 24px
-
-                                # Gunakan st.markdown() untuk menambahkan tag <style> CSS
-                                st.markdown(
-                                    f"""
-                                    <style>
-                                        /* Atur ukuran font untuk body */
-                                        body {{
-                                            font-size: {ukuran_font}px;
-                                        }}
-                                    </style>
-                                    """,
-                                    unsafe_allow_html=True
-                                )
-                                st.write("Mendukung")
+                                st.caption("Mendukung")
                             with col11:
                                 if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                                     if st.button("➡️", key=f"right{index+1}"):
