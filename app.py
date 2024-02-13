@@ -53,11 +53,11 @@ def main():
                         with st.container(height=600, border=True):
                             col7, _, _, _, _, col12 = st.columns([1] * 6)
                             with col7:
-                                if st.session_state[f'current_tweet_index{index+1}'] > 0:
+                                # if st.session_state[f'current_tweet_index{index+1}'] > 0:
                                     if st.button("⬅️", key=f"left{index+1}"):
                                         st.session_state[f'current_tweet_index{index+1}'] -= 1
                             with col12:
-                                if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
+                                # if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                                     if st.button("➡️", key=f"right{index+1}"):
                                         st.session_state[f'current_tweet_index{index+1}'] += 1
 
