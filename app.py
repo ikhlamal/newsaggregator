@@ -5,11 +5,11 @@ import urllib.parse
 
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=530, height=530, scrolling=True)
+    st.components.v1.html(tweet_html, width=230, height=230, scrolling=True)
 
 def format_tweet(row):
     tweet_html = f'''
-        <blockquote class="twitter-tweet" data-media-max-width="500">
+        <blockquote class="twitter-tweet" data-media-max-width="230">
         <a href={row['tweet_url']}></a></blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     '''
