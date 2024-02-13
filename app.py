@@ -60,9 +60,9 @@ def main():
                                     st.button("⬅️", key=f"left{index+1}")
                             with col9:
                                 if index == 0:
-                                    st.write("🙂: ", len(df))
+                                    st.write("🙂:", len(df))
                                 elif index == 1:
-                                    st.write("😡: ", len(df))      
+                                    st.write("😡:", len(df))      
                             with col11:
                                 if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                                     if st.button("➡️", key=f"right{index+1}"):
@@ -72,7 +72,6 @@ def main():
 
                             # Menampilkan tweet yang baru setelah klik tombol
                             show_tweet(tweets[st.session_state[f'current_tweet_index{index+1}']])
-                            st.write("Total Tweet: ", len(df))
 
 if __name__ == "__main__":
     main()
