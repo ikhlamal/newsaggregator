@@ -16,7 +16,7 @@ def format_tweet(row):
     return tweet_html
 
 def main():
-    st.set_page_config(layout="wide")
+    # st.set_page_config(layout="wide")
     csv_files = ["csv1.csv", "csv2.csv"]
     
     # Filter CSV files that exist
