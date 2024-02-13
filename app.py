@@ -15,8 +15,7 @@ def format_tweet(row):
 
 def main():
     st.set_page_config(layout="wide")
-    csv_files = ["csv1.csv", "csv2.csv", "csv3.csv", "csv4.csv", "csv5.csv", "csv6.csv", 
-                 "csv7.csv", "csv8.csv", "csv9.csv", "csv10.csv", "csv11.csv", "csv12.csv"]
+    csv_files = ["csv1.csv", "csv2.csv"]
     
     # Filter CSV files that exist
     existing_csv_files = [csv_file for csv_file in csv_files if os.path.exists(csv_file)]
