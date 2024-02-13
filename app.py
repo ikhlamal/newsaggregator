@@ -5,11 +5,18 @@ import os
 def show_tweet(tweet_html):
     st.components.v1.html(tweet_html, width=500, height=405, scrolling=True)
 
+# def format_tweet(row):
+#     tweet_html = f'''
+#         <blockquote class="twitter-tweet" data-media-max-width="500">
+#         <a href={row['tweet_url']}></a></blockquote>
+#         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#     '''
+#     return tweet_html
+
 def format_tweet(row):
     tweet_html = f'''
-        <blockquote class="twitter-tweet" data-media-max-width="500">
-        <a href={row['tweet_url']}></a></blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <iframe border=0 frameborder=0 height=250 width=550 
+        src="https://twitframe.com/show?url=https%3A%2F%2Ftwitter.com%2Fjack%2Fstatus%2F20"></iframe>
     '''
     return tweet_html
 
