@@ -7,22 +7,11 @@ import urllib.parse
 def show_tweet(tweet_html):
     st.components.v1.html(tweet_html, width=500, height=405, scrolling=True)
 
-# def format_tweet(row):
-#     tweet_html = f'''
-#         <blockquote class="twitter-tweet" data-media-max-width="500">
-#         <a href={row['tweet_url']}></a></blockquote>
-#         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-#     '''
-#     return tweet_html
-
 def format_tweet(row):
-    tweet_url = row['tweet_url']  # Ambil URL tweet dari DataFrame
-    escaped_tweet_url = urllib.parse.quote(tweet_url, safe='')  # Escape URL tweet
-    iframe_url = f"https://twitframe.com/show?url={escaped_tweet_url}"  # Buat URL untuk iframe
-    
-    # Buat HTML untuk iframe dengan menggunakan URL yang sudah disiapkan
     tweet_html = f'''
-        <blockquote class="twitter-tweet"><p lang="in" dir="ltr">Terima kasih mas dandy</p>&mdash; Alhamdulillah (@Alhamdu76819407) <a href="https://twitter.com/Alhamdu76819407/status/1757169899854864748?ref_src=twsrc%5Etfw">February 12, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <blockquote class="twitter-tweet" data-media-max-width="500">
+        <a href={row['tweet_url']}></a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     '''
     return tweet_html
 
