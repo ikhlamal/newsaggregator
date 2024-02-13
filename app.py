@@ -67,7 +67,7 @@ def main():
                                     """,
                                     unsafe_allow_html=True
                                 )
-                            with col12:
+                            with col11:
                                 if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                                     if st.button("➡️", key=f"right{index+1}"):
                                         st.session_state[f'current_tweet_index{index+1}'] += 1
