@@ -53,7 +53,7 @@ def main():
                         with st.container(height=600, border=True):
                             st.markdown(
                                 """
-                                <div style="text-align: center; font-size: 20px;">
+                                <div style="text-align: center; font-size: 2px;">
                                     <p>Supporting</p>
                                 </div>
                                 """,
