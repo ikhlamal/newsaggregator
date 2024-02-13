@@ -51,14 +51,6 @@ def main():
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
     
                         with st.container(height=600, border=True):
-                            col7, _, col9, _, col11 = st.columns([1] * 5)
-                            with col7:
-                                if st.session_state[f'current_tweet_index{index+1}'] > 0:
-                                    if st.button("⬅️", key=f"left{index+1}"):
-                                        st.session_state[f'current_tweet_index{index+1}'] -= 1
-                                else:
-                                    st.button("⬅️", key=f"left{index+1}")
-                            with col9:
                                 st.markdown(
                                     """
                                     <div style="text-align: center; font-size: 20px;">
@@ -67,6 +59,13 @@ def main():
                                     """,
                                     unsafe_allow_html=True
                                 )
+                            col7, _, col9, _, col11 = st.columns([1] * 5)
+                            with col7:
+                                if st.session_state[f'current_tweet_index{index+1}'] > 0:
+                                    if st.button("⬅️", key=f"left{index+1}"):
+                                        st.session_state[f'current_tweet_index{index+1}'] -= 1
+                                else:
+                                    st.button("⬅️", key=f"left{index+1}")
                             with col11:
                                 if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                                     if st.button("➡️", key=f"right{index+1}"):
