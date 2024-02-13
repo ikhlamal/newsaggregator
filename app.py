@@ -54,8 +54,7 @@ def main():
                             st.markdown(
                                 """
                                 <div style="text-align: center;">
-                                    <h1>Teks ini akan menjadi rata tengah.</h1>
-                                    <p>Ini adalah paragraf yang juga akan menjadi rata tengah.</p>
+                                    <p>Supporting</p>
                                 </div>
                                 """,
                                 unsafe_allow_html=True
