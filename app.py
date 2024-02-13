@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import os
+import urllib.parse
+
 
 def show_tweet(tweet_html):
     st.components.v1.html(tweet_html, width=500, height=405, scrolling=True)
