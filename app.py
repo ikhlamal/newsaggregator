@@ -14,9 +14,14 @@ def show_tweet(tweet_html):
 #     return tweet_html
 
 def format_tweet(row):
+    tweet_url = row['tweet_url']  # Ambil URL tweet dari DataFrame
+    escaped_tweet_url = urllib.parse.quote(tweet_url, safe='')  # Escape URL tweet
+    iframe_url = f"https://twitframe.com/show?url={escaped_tweet_url}"  # Buat URL untuk iframe
+    
+    # Buat HTML untuk iframe dengan menggunakan URL yang sudah disiapkan
     tweet_html = f'''
-        <iframe border=0 frameborder=0 height=250 width=550 
-        src="https://twitframe.com/show?url=https%3A%2F%2Ftwitter.com%2Fjack%2Fstatus%2F20"></iframe>
+        <iframe border=0 frameborder=0 height=250 width=450 
+        src="{iframe_url}"></iframe>
     '''
     return tweet_html
 
