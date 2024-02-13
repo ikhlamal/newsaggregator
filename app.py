@@ -51,14 +51,11 @@ def main():
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
     
                         with st.container(height=600, border=True):
-                            st.success(
-                                """
-                                <div style="text-align: center; font-size: 2px;">
-                                    <p>Supporting</p>
-                                </div>
-                                """,
+                            st.markdown(
+                                "<style> .centered-text { text-align: center; } </style>", 
                                 unsafe_allow_html=True
                             )
+                            st.success("<div class='centered-text'>Tulisan Tengah</div>")
                             col7, _, col9, _, col11 = st.columns([1] * 5)
                             with col7:
                                 if st.session_state[f'current_tweet_index{index+1}'] > 0:
