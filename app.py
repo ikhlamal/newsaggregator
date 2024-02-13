@@ -31,7 +31,7 @@ def main():
         if key not in st.session_state:
             st.session_state[key] = 0
 
-    num_cols = min(len(existing_csv_files), 2)
+    num_cols = min(len(existing_csv_files), 4)
 
     # Membagi layar menjadi dua baris dua kolom
     for i in range(0, len(existing_csv_files), num_cols):
