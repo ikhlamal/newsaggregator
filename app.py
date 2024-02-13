@@ -3,11 +3,11 @@ import pandas as pd
 import os
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=600, height=405, scrolling=True)
+    st.components.v1.html(tweet_html, width=500, height=405, scrolling=True)
 
 def format_tweet(row):
     tweet_html = f'''
-        <blockquote class="twitter-tweet" data-media-max-width="600">
+        <blockquote class="twitter-tweet" data-media-max-width="500">
         <a href={row['tweet_url']}></a></blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     '''
