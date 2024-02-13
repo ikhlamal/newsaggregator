@@ -31,7 +31,7 @@ def main():
         key = f'current_tweet_index{i+1}'
         if key not in st.session_state:
             st.session_state[key] = 0
-    with st.expander("Dandhy Laksono Klaim Tak Desain Rilis Dirty Vote di Masa Tenang :red[   Populer]", expanded=False):
+    with st.expander("Dandhy Laksono Klaim Tak Desain Rilis Dirty Vote di Masa Tenang         :red[Populer]", expanded=False):
         num_cols = min(len(existing_csv_files), 2)
     
         # Membagi layar menjadi dua baris dua kolom
