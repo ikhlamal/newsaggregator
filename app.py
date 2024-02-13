@@ -51,7 +51,15 @@ def main():
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
     
                         with st.container(height=600, border=True):
-                            st.write("Mendukung")
+                            st.markdown(
+                                """
+                                <div style="text-align: center;">
+                                    <h1>Teks ini akan menjadi rata tengah.</h1>
+                                    <p>Ini adalah paragraf yang juga akan menjadi rata tengah.</p>
+                                </div>
+                                """,
+                                unsafe_allow_html=True
+                            )
                             col7, _, _, _, _, col12 = st.columns([1] * 6)
                             with col7:
                                 if st.session_state[f'current_tweet_index{index+1}'] > 0:
