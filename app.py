@@ -51,7 +51,7 @@ def main():
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
     
                         with st.container(height=600, border=True):
-                            st.markdown(
+                            st.success(
                                 """
                                 <div style="text-align: center; font-size: 2px;">
                                     <p>Supporting</p>
