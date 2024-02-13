@@ -49,9 +49,9 @@ def main():
     
                         # List tweet
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
-                        st.write("Mendukung")
     
                         with st.container(height=600, border=True):
+                            st.write("Mendukung")
                             col7, _, _, _, _, col12 = st.columns([1] * 6)
                             with col7:
                                 if st.session_state[f'current_tweet_index{index+1}'] > 0:
