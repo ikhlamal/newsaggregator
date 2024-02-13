@@ -49,18 +49,17 @@ def main():
     
                         # List tweet
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
+                        st.write("Mendukung")
     
                         with st.container(height=600, border=True):
-                            col7, _, col9, _, col11 = st.columns([1] * 5)
+                            col7, _, _, _, _, col12 = st.columns([1] * 5)
                             with col7:
                                 if st.session_state[f'current_tweet_index{index+1}'] > 0:
                                     if st.button("⬅️", key=f"left{index+1}"):
                                         st.session_state[f'current_tweet_index{index+1}'] -= 1
                                 else:
                                     st.button("⬅️", key=f"left{index+1}")
-                            with col9:
-                                st.caption("Mendukung")
-                            with col11:
+                            with col12:
                                 if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                                     if st.button("➡️", key=f"right{index+1}"):
                                         st.session_state[f'current_tweet_index{index+1}'] += 1
