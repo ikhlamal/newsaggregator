@@ -22,8 +22,7 @@ def format_tweet(row):
     
     # Buat HTML untuk iframe dengan menggunakan URL yang sudah disiapkan
     tweet_html = f'''
-        <iframe border=0 frameborder=0 height=250 width=450 
-        src="{iframe_url}"></iframe>
+        <blockquote class="twitter-tweet"><p lang="in" dir="ltr">Terima kasih mas dandy</p>&mdash; Alhamdulillah (@Alhamdu76819407) <a href="https://twitter.com/Alhamdu76819407/status/1757169899854864748?ref_src=twsrc%5Etfw">February 12, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     '''
     return tweet_html
 
