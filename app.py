@@ -29,7 +29,7 @@ def main():
         key = f'current_tweet_index{i+1}'
         if key not in st.session_state:
             st.session_state[key] = 0
-    with st.expander("See explanation"):
+    with st.expander("Reaksi Gibran soal Klaim Ganjar Menang Pilpres di Luar Negeri versi Exit Poll"):
         num_cols = min(len(existing_csv_files), 2)
     
         # Membagi layar menjadi dua baris dua kolom
