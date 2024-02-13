@@ -61,7 +61,7 @@ def main():
                             with col9:
                                 st.markdown(
                                     """
-                                    <div style="text-align: center; font-size: 8px;">
+                                    <div style="text-align: center; font-size: 208px;">
                                         <p>Supporting</p>
                                     </div>
                                     """,
