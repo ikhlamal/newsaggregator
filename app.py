@@ -50,7 +50,7 @@ def main():
                         # List tweet
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
     
-                        with st.container(height=550, border=True):
+                        with st.container(height=600, border=True):
                             col7, _, _, _, _, col12 = st.columns([1] * 6)
                             with col7:
                                 if st.session_state[f'current_tweet_index{index+1}'] > 0:
