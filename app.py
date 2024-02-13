@@ -63,6 +63,7 @@ def main():
                                     st.write("🙂🙂")
                                 elif index == 1:
                                     st.write("😡😡")
+                                    
                             with col11:
                                 if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                                     if st.button("➡️", key=f"right{index+1}"):
