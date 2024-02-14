@@ -51,7 +51,7 @@ def main():
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
     
                         with st.container(height=650, border=True):
-                            col7, col8 = st.columns([1] * 3)
+                            col7, col8 = st.columns([1] * 2)
                             with col7:
                                 if st.session_state[f'current_tweet_index{index+1}'] > 0:
                                     if st.button("⬅️", key=f"left{index+1}"):
