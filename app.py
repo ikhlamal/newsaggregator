@@ -51,25 +51,23 @@ def main():
                         tweets = [format_tweet(row) for index, row in df.iterrows()]
     
                         with st.container(height=650, border=True):
-                            col7, _, col9, _, col11 = st.columns([1] * 5)
+                            col7, _, col9 = st.columns([1] * 3)
                             with col7:
                                 if st.session_state[f'current_tweet_index{index+1}'] > 0:
                                     if st.button("⬅️", key=f"left{index+1}"):
                                         st.session_state[f'current_tweet_index{index+1}'] -= 1
                                 else:
-                                    st.button("⬅️", key=f"left{index+1}")
-                            with col9:
-                                if index == 0:
-                                    st.write("🙂:", len(df))
-                                elif index == 1:
-                                    st.write("😡:", len(df))      
-                            with col11:
+                                    st.button("⬅️", key=f"left{index+1}")     
                                 if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                                     if st.button("➡️", key=f"right{index+1}"):
                                         st.session_state[f'current_tweet_index{index+1}'] += 1
                                 else:
                                      st.button("➡️", key=f"right{index+1}")
-
+                            with col9:
+                                if index == 0:
+                                    st.write("🙂:", len(df))
+                                elif index == 1:
+                                    st.write("😡:", len(df)) 
                             # Menampilkan tweet yang baru setelah klik tombol
                             show_tweet(tweets[st.session_state[f'current_tweet_index{index+1}']])
 
