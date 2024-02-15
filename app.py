@@ -103,10 +103,11 @@ def main():
         return
 
     # Menyimpan nilai current_tweet_index di session_state
-    for i in range(len(existing_csv_files)):
-        key = f'current_tweet_index{i+1}'
-        if key not in st.session_state:
-            st.session_state[key] = 0
+    for csv_file in existing_csv_files:
+        for j in range(1, 3):  # 2 pasangan CSV
+            key = f'current_tweet_index{csv_file}{j}'
+            if key not in st.session_state:
+                st.session_state[key] = 0
 
     # Judul dan jumlah tweet untuk setiap pasangan CSV
     titles_and_counts = [
