@@ -128,15 +128,11 @@ def main():
             with st.container(height=650, border=True):
                 col7, col8, col9 = st.columns([1] * 3)
                 with col7:
-                    for j in range(num_cols):
-                        index = i + j
-                        if index < len(existing_csv_files):
-                            csv_file = existing_csv_files[index]
-                            if st.session_state[f'current_tweet_index{index+1}'] > 0:
-                                if st.button("⬅️", key=f"left{index+1}"):
-                                    st.session_state[f'current_tweet_index{index+1}'] -= 1
-                            else:
-                                st.button("⬅️", key=f"left{index+1}")
+                    if st.session_state[f'current_tweet_index{index+1}'] > 0:
+                        if st.button("⬅️", key=f"left{index+1}"):
+                            st.session_state[f'current_tweet_index{index+1}'] -= 1
+                    else:
+                        st.button("⬅️", key=f"left{index+1}")
                 with col8:
                     if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                         if st.button("➡️", key=f"right{index+1}"):
@@ -153,4 +149,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
