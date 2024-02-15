@@ -32,16 +32,16 @@
 #         if key not in st.session_state:
 #             st.session_state[key] = 0
 #     with st.expander("***:red[Populer]*** \u2014 Pendukung Minta Prabowo dan Titiek Soeharto Rujuk, Ekspresi Didit Disorot", expanded=False):
-#         num_cols = min(len(existing_csv_files), 2)
+        # num_cols = min(len(existing_csv_files), 2)
     
-#         # Membagi layar menjadi dua baris dua kolom
-#         for i in range(0, len(existing_csv_files), num_cols):
-#             cols = st.columns(num_cols)
-#             for j in range(num_cols):
-#                 index = i + j
-#                 if index < len(existing_csv_files):
-#                     with cols[j]:
-#                         csv_file = existing_csv_files[index]
+        # # Membagi layar menjadi dua baris dua kolom
+        # for i in range(0, len(existing_csv_files), num_cols):
+        #     cols = st.columns(num_cols)
+        #     for j in range(num_cols):
+        #         index = i + j
+        #         if index < len(existing_csv_files):
+        #             with cols[j]:
+        #                 csv_file = existing_csv_files[index]
 #                         df = pd.read_csv(csv_file)
 #                         if df.empty:
 #                             st.error(f"Tweet dari berita ke-{index+1} kosong.")
@@ -128,11 +128,15 @@ def main():
             with st.container(height=650, border=True):
                 col7, col8, col9 = st.columns([1] * 3)
                 with col7:
-                    if st.session_state[f'current_tweet_index{index+1}'] > 0:
-                        if st.button("⬅️", key=f"left{index+1}"):
-                            st.session_state[f'current_tweet_index{index+1}'] -= 1
-                    else:
-                        st.button("⬅️", key=f"left{index+1}")
+                    for j in range(num_cols):
+                        index = i + j
+                        if index < len(existing_csv_files):
+                            csv_file = existing_csv_files[index]
+                            if st.session_state[f'current_tweet_index{index+1}'] > 0:
+                                if st.button("⬅️", key=f"left{index+1}"):
+                                    st.session_state[f'current_tweet_index{index+1}'] -= 1
+                            else:
+                                st.button("⬅️", key=f"left{index+1}")
                 with col8:
                     if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
                         if st.button("➡️", key=f"right{index+1}"):
@@ -149,3 +153,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
