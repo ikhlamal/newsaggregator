@@ -111,8 +111,7 @@ def main():
     # Judul dan jumlah tweet untuk setiap pasangan CSV
     titles_and_counts = [
         ("***:red[Populer]*** \u2014 Pendukung Minta Prabowo dan Titiek Soeharto Rujuk, Ekspresi Didit Disorot", ["csv1.csv", "csv2.csv"]),
-        ("***:red[Populer]*** \u2014 Judul CSV3", ["csv3.csv", "csv4.csv"]),
-        ("***:red[Populer]*** \u2014 Judul CSV5", ["csv5.csv", "csv6.csv"]) # Ganti judul dan nama file sesuai dengan kebutuhan Anda
+        ("***:red[Populer]*** \u2014 Judul CSV3", ["csv5.csv", "csv6.csv"])
     ]
 
     for title, csv_pair in titles_and_counts:
