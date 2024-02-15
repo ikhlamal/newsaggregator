@@ -145,9 +145,9 @@ def main():
                             else:
                                 st.button("➡️", key=f"right{j+1}")
                         with col9:
-                                if index == 0:
+                                if j == 0:
                                     st.write("🙂:", len(df))
-                                elif index == 1:
+                                elif j == 1:
                                     st.write("😡:", len(df)) 
                         # Menampilkan tweet yang baru setelah klik tombol
                         show_tweet(tweets[st.session_state[f'current_tweet_index{j+1}']])
