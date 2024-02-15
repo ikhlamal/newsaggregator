@@ -125,8 +125,9 @@ def main():
                 with cols[j]:
                     df = pd.read_csv(csv_file)
                     if df.empty:
-                        st.error(f"Tweet tidak ditemukan.")
-                        continue
+                        with st.container(height=650, border=True):
+                            st.error(f"Tweet tidak ditemukan.")
+                            continue
 
                     # List tweet
                     tweets = [format_tweet(row) for index, row in df.iterrows()]
