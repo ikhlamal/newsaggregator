@@ -93,7 +93,7 @@ def format_tweet(row):
 
 def main():
     st.set_page_config(layout="centered")
-    csv_files = ["csv1.csv", "csv2.csv", "csv3.csv", "csv4.csv", "csv5.csv", "csv6.csv"]
+    csv_files = ["csv1.csv", "csv2.csv", "csv3.csv", "csv4.csv"]
     
     # Filter CSV files that exist
     existing_csv_files = [csv_file for csv_file in csv_files if os.path.exists(csv_file)]
@@ -111,7 +111,7 @@ def main():
     # Judul dan jumlah tweet untuk setiap pasangan CSV
     titles_and_counts = [
         ("***:red[Populer]*** \u2014 Pendukung Minta Prabowo dan Titiek Soeharto Rujuk, Ekspresi Didit Disorot", ["csv1.csv", "csv2.csv"]),
-        ("***:red[Populer]*** \u2014 Judul CSV3", ["csv5.csv", "csv6.csv"])
+        ("***:red[Populer]*** \u2014 Judul CSV3", ["csv3.csv", "csv4.csv"])  # Ganti judul dan nama file sesuai dengan kebutuhan Anda
     ]
 
     for title, csv_pair in titles_and_counts:
@@ -145,13 +145,9 @@ def main():
                             else:
                                 st.button("➡️", key=f"right{csv_file}{j+1}")
                         with col9:
-                                if j == 0:
-                                    st.write("🙂:", len(df))
-                                elif j == 1:
-                                    st.write("😡:", len(df)) 
+                            st.write("😡:", len(df)) if j % 2 == 0 else st.write("🙂:", len(df))
                         # Menampilkan tweet yang baru setelah klik tombol
-                        show_tweet(tweets[st.session_state[f'current_tweet_index{j+1}']])
+                        show_tweet(tweets[st.session_state[f'current_tweet_index{csv_file}{j+1}']])
 
 if __name__ == "__main__":
     main()
-
