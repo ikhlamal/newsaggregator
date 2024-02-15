@@ -108,44 +108,47 @@ def main():
         if key not in st.session_state:
             st.session_state[key] = 0
 
-    # List judul untuk setiap CSV
-    judul_csv = [
-        "***:red[Populer]*** \u2014 Pendukung Minta Prabowo dan Titiek Soeharto Rujuk, Ekspresi Didit Disorot",
-        "***:red[Terkini]*** \u2014 Rizieq Shihab Diadili Secara Virtual, Sidang dengan Tersangka Besar Sempat Tertunda"
+    # Judul dan jumlah tweet untuk setiap pasangan CSV
+    titles_and_counts = [
+        ("***:red[Populer]*** \u2014 Pendukung Minta Prabowo dan Titiek Soeharto Rujuk, Ekspresi Didit Disorot", ["csv1.csv", "csv2.csv"]),
+        ("***:red[Populer]*** \u2014 Judul CSV3", ["csv3.csv", "csv4.csv"])  # Ganti judul dan nama file sesuai dengan kebutuhan Anda
     ]
 
-    # Loop untuk menampilkan setiap CSV dengan judul yang sesuai
-    for judul, csv_file in zip(judul_csv, existing_csv_files):
-        with st.expander(judul, expanded=False):
-            df = pd.read_csv(csv_file)
-            if df.empty:
-                st.error(f"Tweet dari berita di '{csv_file}' kosong.")
-                continue
+    for title, csv_pair in titles_and_counts:
+        with st.expander(title, expanded=False):
+            num_cols = len(csv_pair)
+    
+            # Membagi layar menjadi baris dan kolom sesuai dengan jumlah file CSV
+            cols = st.columns(num_cols)
+            for j, csv_file in enumerate(csv_pair):
+                with cols[j]:
+                    df = pd.read_csv(csv_file)
+                    if df.empty:
+                        st.error(f"Tweet dari file {csv_file} kosong.")
+                        continue
 
-            # List tweet
-            tweets = [format_tweet(row) for index, row in df.iterrows()]
+                    # List tweet
+                    tweets = [format_tweet(row) for index, row in df.iterrows()]
 
-            with st.container(height=650, border=True):
-                col7, col8, col9 = st.columns([1] * 3)
-                with col7:
-                    if st.session_state[f'current_tweet_index{index+1}'] > 0:
-                        if st.button("⬅️", key=f"left{index+1}"):
-                            st.session_state[f'current_tweet_index{index+1}'] -= 1
-                    else:
-                        st.button("⬅️", key=f"left{index+1}")
-                with col8:
-                    if st.session_state[f'current_tweet_index{index+1}'] < len(tweets) - 1:
-                        if st.button("➡️", key=f"right{index+1}"):
-                            st.session_state[f'current_tweet_index{index+1}'] += 1
-                    else:
-                         st.button("➡️", key=f"right{index+1}")
-                with col9:
-                    if index == 0:
-                        st.write("🙂:", len(df))
-                    elif index == 1:
-                        st.write("😡:", len(df)) 
-                # Menampilkan tweet yang baru setelah klik tombol
-                show_tweet(tweets[st.session_state[f'current_tweet_index{index+1}']])
+                    with st.container(height=650, border=True):
+                        col7, col8, col9 = st.columns([1] * 3)
+                        with col7:
+                            if st.session_state[f'current_tweet_index{j+1}'] > 0:
+                                if st.button("⬅️", key=f"left{j+1}"):
+                                    st.session_state[f'current_tweet_index{j+1}'] -= 1
+                            else:
+                                st.button("⬅️", key=f"left{j+1}")
+                        with col8:
+                            if st.session_state[f'current_tweet_index{j+1}'] < len(tweets) - 1:
+                                if st.button("➡️", key=f"right{j+1}"):
+                                    st.session_state[f'current_tweet_index{j+1}'] += 1
+                            else:
+                                st.button("➡️", key=f"right{j+1}")
+                        with col9:
+                            st.write("😡:", len(df)) if j % 2 == 0 else st.write("🙂:", len(df))
+                        # Menampilkan tweet yang baru setelah klik tombol
+                        show_tweet(tweets[st.session_state[f'current_tweet_index{j+1}']])
 
 if __name__ == "__main__":
     main()
+
