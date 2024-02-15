@@ -93,7 +93,7 @@ def format_tweet(row):
 
 def main():
     st.set_page_config(layout="centered")
-    csv_files = ["csv1.csv", "csv2.csv", "csv3.csv", "csv4.csv"]
+    csv_files = ["csv1.csv", "csv2.csv", "csv3.csv", "csv4.csv", "csv5.csv", "csv6.csv"]
     
     # Filter CSV files that exist
     existing_csv_files = [csv_file for csv_file in csv_files if os.path.exists(csv_file)]
