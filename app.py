@@ -146,7 +146,10 @@ def main():
                             else:
                                 st.button("➡️", key=f"right{csv_file}{j+1}")
                         with col9:
-                            st.write("😡:", len(df)) if j % 2 == 0 else st.write("🙂:", len(df))
+                            if j == 0:
+                                st.write("🙂:", len(df))
+                            elif j == 1:
+                                st.write("😡:", len(df)) 
                         # Menampilkan tweet yang baru setelah klik tombol
                         show_tweet(tweets[st.session_state[f'current_tweet_index{csv_file}{j+1}']])
 
