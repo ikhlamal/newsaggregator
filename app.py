@@ -126,6 +126,24 @@ def main():
                     df = pd.read_csv(csv_file)
                     if df.empty:
                         with st.container(height=650, border=True):
+                            col7, col8, col9 = st.columns([1] * 3)
+                            with col7:
+                                if st.session_state[f'current_tweet_index{csv_file}{j+1}'] > 0:
+                                    if st.button("⬅️", key=f"left{csv_file}{j+1}"):
+                                        st.session_state[f'current_tweet_index{csv_file}{j+1}'] -= 1
+                                else:
+                                    st.button("⬅️", key=f"left{csv_file}{j+1}")
+                            with col8:
+                                if st.session_state[f'current_tweet_index{csv_file}{j+1}'] < len(tweets) - 1:
+                                    if st.button("➡️", key=f"right{csv_file}{j+1}"):
+                                        st.session_state[f'current_tweet_index{csv_file}{j+1}'] += 1
+                                else:
+                                    st.button("➡️", key=f"right{csv_file}{j+1}")
+                            with col9:
+                                if j == 0:
+                                    st.write("🙂:", len(df))
+                                elif j == 1:
+                                    st.write("😡:", len(df)) 
                             st.error(f"Tweet tidak ditemukan.")
                             continue
 
