@@ -112,7 +112,7 @@ def main():
     # Judul dan jumlah tweet untuk setiap pasangan CSV
     titles_and_counts = [
         ("***:red[Populer]*** \u2014 Pendukung Minta Prabowo dan Titiek Soeharto Rujuk, Ekspresi Didit Disorot", ["csv1.csv", "csv2.csv"]),
-        ("***:red[Populer]*** \u2014 Judul CSV3", ["csv5.csv", "csv6.csv"])  # Ganti judul dan nama file sesuai dengan kebutuhan Anda
+        ("Jokowi Respons Kabar Rencana Bertemu Megawati Dijembatani Sultan DIY", ["csv3.csv", "csv4.csv"])  # Ganti judul dan nama file sesuai dengan kebutuhan Anda
     ]
 
     for title, csv_pair in titles_and_counts:
@@ -125,7 +125,7 @@ def main():
                 with cols[j]:
                     df = pd.read_csv(csv_file)
                     if df.empty:
-                        st.error(f"Tweet dari file {csv_file} kosong.")
+                        st.error(f"Tweet tidak ditemukan.")
                         continue
 
                     # List tweet
