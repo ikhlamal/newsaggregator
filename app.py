@@ -69,9 +69,9 @@ def main():
                                     st.button("➡️", key=f"right{csv_file}{j+1}")
                             with col9:
                                 if j == 0:
-                                    st.write("🙂:", len(df))
+                                    st.write("👍:", len(df))
                                 elif j == 1:
-                                    st.write("😡:", len(df)) 
+                                    st.write("👎:", len(df)) 
                             st.error(f"Tweet tidak ditemukan.")
                             continue
 
