@@ -53,7 +53,7 @@ def main():
                 with cols[j]:
                     df = pd.read_csv(csv_file)
                     if df.empty:
-                        with st.container(height=450, border=True):
+                        with st.container(height=500, border=True):
                             col7, col8, col9 = st.columns([1] * 3)
                             with col7:
                                 if st.session_state[f'current_tweet_index{csv_file}{j+1}'] > 0:
