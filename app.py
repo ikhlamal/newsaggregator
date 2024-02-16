@@ -4,7 +4,7 @@ import os
 import urllib.parse
 
 def show_tweet(tweet_html):
-    st.components.v1.html(tweet_html, width=300, height=550, scrolling=True)
+    st.components.v1.html(tweet_html, width=300, height=350, scrolling=True)
 
 def format_tweet(row):
     tweet_html = f'''
