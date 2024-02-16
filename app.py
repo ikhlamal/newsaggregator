@@ -8,7 +8,7 @@ def show_tweet(tweet_html):
 
 def format_tweet(row):
     tweet_html = f'''
-        <blockquote class="twitter-tweet" data-media-max-width="300" conversation="none">
+        <blockquote class="twitter-tweet" data-media-max-width="300" data-conversation="none">
         <a href={row['tweet_url']}></a></blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     '''
