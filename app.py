@@ -7,14 +7,10 @@ def show_tweet(tweet_html):
     st.components.v1.html(tweet_html, width=300, height=400, scrolling=True)
 
 def format_tweet(row):
-    # tweet_html = f'''
-    #     <blockquote class="twitter-tweet" data-media-max-width="300" data-conversation="none" data-theme="dark">
-    #     <a href={row['tweet_url']}></a></blockquote>
-    #     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    # '''
     tweet_html = f'''
         <blockquote class="twitter-tweet" data-media-max-width="300" data-conversation="none" data-theme="dark">
         <a href={row['tweet_url']}></a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     '''
     return tweet_html
 
